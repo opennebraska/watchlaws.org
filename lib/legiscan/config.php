@@ -26,11 +26,11 @@
 ;;   dsn = "sqlsrv:Server=localhost,1433;Database=legiscan_api"
 ;;
 [database]
-dsn = "mysql:host=mysql;port=3306;dbname=lawmaking4all_laravel"
+dsn = "mysql:host=${HOST};port=${PORT};dbname=${NAME}"
 ;; User name used to connect to database
-db_user = sail
+db_user = "${USER}"
 ;; Password for db_user to connect with database
-db_pass = password
+db_pass = "${PASS}"
 
 ;; Massage reserved date 0000-00-00 to relaxed NULL value for non MySQL databases
 ;; Set to 1 for PostgresSQL and MS SQL Server
@@ -123,7 +123,7 @@ prefer_pdf = 0
 ;; Replicate all bills from the ls_monitor table
 ;update_type = monitored
 ;; Fully replicate all bills from the states[] list
-;update_type = state
+update_type = state
 ;; Import bills based on national searches[] list and relevance scores
 ;update_type = search
 ;; Import bills running searches[] list against each states[] list
@@ -151,6 +151,7 @@ relevance = 50
 ;states[] = CA
 ;states[] = US
 states[] = NE
+states[] = SD
 
 ;; Years to synchronize via dataset update method from legiscan-bulk.php
 ;; Add multiple lines for each year as needed, CURRENT will be replaced
