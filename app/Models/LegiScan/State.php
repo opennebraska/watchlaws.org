@@ -1,22 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\LegiScan;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LegiScanState extends Model
+class State extends Model
 {
     use HasFactory;
 
-    #region Properties
-
-    /** The table associated with the model */
     protected $table = 'ls_state';
-
-    /** The primary key associated with the table */
     protected $primaryKey = 'state_id';
-
-    #endregion
-
 }
