@@ -70,6 +70,7 @@ return [
     */
 
     'links' => [
+        base_path('lib/legiscan/config.php') => base_path('_legiscan.config.php'),
         public_path('storage') => storage_path('app/public'),
     ],
 

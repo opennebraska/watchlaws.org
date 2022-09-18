@@ -1,3 +1,4 @@
 cache/api/**/
 cache/doc/**/
 log
+#config.php
