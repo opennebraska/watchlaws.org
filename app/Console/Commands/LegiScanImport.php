@@ -45,6 +45,7 @@ class LegiScanImport extends Command
 
         $command .= ' php';
         // $command .= ' -d display_errors 0';
+        // $command .= ' -d error_reporting 5';  // Same as (E_ERROR | E_PARSE); see https://www.php.net/manual/en/errorfunc.constants.php
         $command .= ' ' . $script_filepath;
         $command .= ' --bulk';
         $command .= ' --import';
