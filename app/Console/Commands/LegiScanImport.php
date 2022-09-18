@@ -28,15 +28,21 @@ class LegiScanImport extends Command
      */
     public function handle()
     {
+        // RUN THIS COMMAND USING "SAIL" (WHEN IN LOCAL MODE) !!!!!!!!!!!!
+
         $script_filepath = base_path('lib/legiscan/legiscan-bulk.php');
 
         $command = '';
 
-        $command .= ' HOST='.config('database.connections.mysql.host');  // FOR DEVELOPMENT, RUN USING SAIL
+        $command .= ' HOST='.config('database.connections.mysql.host');
         $command .= ' PORT='.config('database.connections.mysql.port');
         $command .= ' NAME='.config('database.connections.mysql.database');
         $command .= ' USER='.config('database.connections.mysql.username');
         $command .= ' PASS='.config('database.connections.mysql.password');
+
+        $command .= ' LEGISCAN_API_KEY='.config('legiscan.api_key');
+        $command .= ' MAIL_FROM_ADDRESS='.config('mail.from.address');
+
         $command .= ' php';
         // $command .= ' -d display_errors 0';
         $command .= ' ' . $script_filepath;
