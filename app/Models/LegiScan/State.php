@@ -11,4 +11,10 @@ class State extends Model
 
     protected $table = 'ls_state';
     protected $primaryKey = 'state_id';
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class, 'state_id');
+    }
+
 }

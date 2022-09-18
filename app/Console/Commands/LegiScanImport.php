@@ -32,13 +32,13 @@ class LegiScanImport extends Command
 
         $command = '';
 
-        $command .= ' HOST='.config('database.connections.mysql.host');
+        $command .= ' HOST='.config('database.connections.mysql.host');  // FOR DEVELOPMENT, RUN USING SAIL
         $command .= ' PORT='.config('database.connections.mysql.port');
         $command .= ' NAME='.config('database.connections.mysql.database');
         $command .= ' USER='.config('database.connections.mysql.username');
         $command .= ' PASS='.config('database.connections.mysql.password');
         $command .= ' php';
-        $command .= ' -d display_errors 0';
+        // $command .= ' -d display_errors 0';
         $command .= ' ' . $script_filepath;
         $command .= ' --bulk';
         $command .= ' --import';

@@ -148,12 +148,61 @@ relevance = 50
 ;;
 ;; NOTE: strongly recommended to seed with datasets to save onboarding requests
 ;;
+;states[] = AK
+;states[] = AL
+;states[] = AR
+;states[] = AZ
 ;states[] = CA
-;states[] = US
+;states[] = CO
+;states[] = CT
+;states[] = DC
+;states[] = DE
+;states[] = FL
+;states[] = GA
+;states[] = HI
+;states[] = IA
+;states[] = ID
+;states[] = IL
+;states[] = IN
+;states[] = KS
+;states[] = KY
+;states[] = LA
+;states[] = MA
+;states[] = MD
+;states[] = ME
+;states[] = MI
+;states[] = MN
+;states[] = MO
+;states[] = MS
+;states[] = MT
+;states[] = NC
+;states[] = ND
 states[] = NE
+;states[] = NH
+;states[] = NJ
+;states[] = NM
+;states[] = NV
+;states[] = NY
+;states[] = OH
+;states[] = OK
+;states[] = OR
+;states[] = PA
+;states[] = RI
+;states[] = SC
 states[] = SD
+;states[] = TN
+;states[] = TX
+states[] = US
+;states[] = UT
+;states[] = VA
+;states[] = VT
+;states[] = WA
+;states[] = WI
+;states[] = WV
+;states[] = WY
 
-;; Years to synchronize via dataset update method from legiscan-bulk.php
+
+;; Years to synchronize via dataset update method from l>egiscan-bulk.php
 ;; Add multiple lines for each year as needed, CURRENT will be replaced
 ;; with the current calendar year, ALL will expand to all available years
 years[] = CURRENT

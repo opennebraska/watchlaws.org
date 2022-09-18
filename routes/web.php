@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Pages\HomeController;
+use App\Http\Controllers\Pages\StateHomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/state/{state}', [StateHomeController::class, 'index'])->name('state.home.index');
