@@ -4,10 +4,19 @@
         <p>There are {{ number_format($bill_count) }} bills.</p>
 
     </div>
-    <div class="mb-2">
+    <div class="mb-2 flex">
+        <div class="flex-grow">
 
-        <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1" placeholder="Search..." />
+            <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1" placeholder="Search..." />
 
+        </div>
+        @if ($has_filters)
+            <div>
+
+                <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">Reset filters</a>
+
+            </div>
+        @endif
     </div>
 
     <x-table class="table-auto">
@@ -74,14 +83,18 @@
                     </x-table.cell>
                     <x-table.cell class="px-2 py-2">
 
-                            @if ($bill->title != $bill->description)
-                                <div class="text-black font-semibold">
-                                    {{ $bill->title }}
-                                </div>
-                            @endif
+                            <div class="max-h-32 line-clamp-5">
 
-                            <div class="text-gray-500">
-                                {{ $bill->description }}
+                                @if ($bill->title != $bill->description)
+                                    <div class="text-black font-semibold">
+                                        {{ $bill->title }}
+                                    </div>
+                                @endif
+
+                                <div class="text-gray-500">
+                                    {{ $bill->description }}
+                                </div>
+
                             </div>
 
                     </x-table.cell>

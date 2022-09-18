@@ -51,6 +51,19 @@ class BillTable extends Component
             $this->applyFilters($this->query()->orderByDesc('status_date'))
         );
 
-        return view('livewire.bill-table', compact('bills', 'bill_count'));
+        $has_filters = $this->hasFilters();
+
+        return view('livewire.bill-table', compact('bills', 'bill_count', 'has_filters'));
+    }
+
+    public function hasFilters()
+    {
+        return !empty($this->search);
+    }
+
+    public function resetFilters()
+    {
+        $this->reset('search');
+        $this->resetPage();
     }
 }
