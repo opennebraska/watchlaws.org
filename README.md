@@ -1,64 +1,79 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# WatchLaws.org
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+We want to help nonprofits:
 
-## About Laravel
+- work with other nonprofits and everyday citizens, 
+- to quickly identify the bills being proposed that are important to them.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+We also want to help everyday citizens:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- understand the lawmaking process in their state,
+- and learn about the bills being proposed in their state.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<br />
 
-## Learning Laravel
+# The Need
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice.
 
-## Laravel Sponsors
+This is a lot for nonprofits to manage.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+In addition, most citizens don't jump into something on the first day. They need to learn why they should care about something, and what steps they need to take well in advance.
 
-### Premium Partners
+Everyday citizens and nonprofits need a way to gather around laws being proposed well in advance of when their engagement is needed.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<br />
 
-## Contributing
+# Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Requirements:
 
-## Code of Conduct
+- .env *... a copy of the environment file for development*
+- PHP *... on a Mac, install brew first, then run: `brew install php`*
+- [Docker](https://www.docker.com/)
+- [Composer](https://getcomposer.org/)
+- [Node](https://nodejs.org/en/)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Suggested:
 
-## Security Vulnerabilities
+- [VS Code](https://code.visualstudio.com/) or [PhpStorm](https://www.jetbrains.com/phpstorm/)
+- [TablePlus](https://tableplus.com/)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Steps:
 
-## License
+1. Clone the repo and change into directory
+   
+2. Install Composer dependencies\
+   `composer install`
+   
+3. Install Node dependencies\
+   `npm install`
+   
+4. Copy `.env` file into main directory
+   
+5. Generate app key\
+   `php artisan key:generate`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. Build and run sail\
+   `./vendor/bin/sail up -d`
+
+7. Link the storage directory\
+   `./vendor/bin/sail artisan storage:link`
+
+8. Create database in Docker container *... see `.env` file for connection info*
+
+9.  Run the database migration:\
+   `./vendor/bin/sail artisan migrate`
+
+9. Configure the states for bulk import\
+   `~/_legiscan.config.php`
+
+10. Import some records from legiscan\
+    `./vendor/bin/sail artisan legiscan:import`
+
+11. Go to your localhost (127.0.0.1) in a browser
+    
+12. When finished, stop the container\
+    `./vendor/bin/sail stop`
