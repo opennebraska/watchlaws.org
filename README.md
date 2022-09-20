@@ -10,21 +10,23 @@ We also want to help everyday citizens:
 - understand the lawmaking process in their state,
 - and learn about the bills being proposed in their state.
 
-<br />
-
 # The Need
 
-Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy.
+Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy. It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice.
 
-It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice.
+This is a lot for nonprofits to manage. In addition, most citizens don't jump into something on the first day. They need to learn why they should care about something, and what steps they need to take well in advance. Everyday citizens and nonprofits need a way to gather around laws being proposed well in advance of when their involvement is needed.
 
-This is a lot for nonprofits to manage.
+# Technology
 
-In addition, most citizens don't jump into something on the first day. They need to learn why they should care about something, and what steps they need to take well in advance.
+The legislative data is imported from [LegiScan](https://legiscan.com/) using their API Client.
 
-Everyday citizens and nonprofits need a way to gather around laws being proposed well in advance of when their engagement is needed.
+This system is using the TALL stack:
 
-<br />
+- [Tailwind](https://tailwindcss.com/) (CSS)
+- [Alpine](https://alpinejs.dev/) (JS)
+- [Livewire](https://laravel-livewire.com/)
+- [Laravel](https://laravel.com/) (PHP)
+
 
 # Installation
 
