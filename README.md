@@ -4,7 +4,7 @@ The goal is to help nonprofits:
 
 - work with other nonprofits and everyday citizens, 
 - to quickly identify the bills being proposed that are important to them,
-- and a way to activate their members and everyday citizens.
+- and a way to engage their members and everyday citizens to get involved.
 
 Also, the goal is to help everyday citizens:
 
