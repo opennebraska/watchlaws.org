@@ -14,9 +14,11 @@ Also, the goal is to help everyday citizens:
 
 # The Need
 
-Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy. It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice.
+Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy. It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice. This is a lot for nonprofits to manage. 
 
-This is a lot for nonprofits to manage. In addition, most citizens don't jump into something on the first day. They need to learn why they should care about something, and what steps they need to take well in advance. Everyday citizens and nonprofits need a way to gather around laws being proposed well in advance of when their involvement is needed.
+In addition, most citizens don't jump into something on the first day. They need to learn why they should care about something, and what steps they need to take well in advance. 
+
+Everyday citizens and nonprofits need a way to gather around laws being proposed well in advance of when their involvement is needed.
 
 # Technology
 
