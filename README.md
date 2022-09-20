@@ -1,14 +1,16 @@
 # WatchLaws.org
 
-We want to help nonprofits:
+The goals is to help nonprofits:
 
 - work with other nonprofits and everyday citizens, 
-- to quickly identify the bills being proposed that are important to them.
+- to quickly identify the bills being proposed that are important to them,
+- and a way to engage everyday citizens.
 
-We also want to help everyday citizens:
+Also, the goal is to help everyday citizens:
 
 - understand the lawmaking process in their state,
-- and learn about the critical times to be engaged as a citizen.
+- learn about the critical times to be engaged as a citizen,
+- and find and monitor the bills that are important to them.
 
 # The Need
 
