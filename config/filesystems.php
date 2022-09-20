@@ -71,6 +71,7 @@ return [
 
     'links' => [
         base_path('lib/legiscan/config.php') => base_path('_legiscan.config.php'),
+        base_path('lib/legiscan/schema-mysql.sql') => base_path('_legiscan.mysql.sql'),
         public_path('storage') => storage_path('app/public'),
     ],
 
