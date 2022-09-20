@@ -8,7 +8,7 @@ We want to help nonprofits:
 We also want to help everyday citizens:
 
 - understand the lawmaking process in their state,
-- and learn about the bills being proposed in their state.
+- and learn about the critical times to be engaged as a citizen.
 
 # The Need
 
