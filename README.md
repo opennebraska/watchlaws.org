@@ -1,6 +1,6 @@
 # WatchLaws.org
 
-The goals is to help nonprofits:
+The goal is to help nonprofits:
 
 - work with other nonprofits and everyday citizens, 
 - to quickly identify the bills being proposed that are important to them,
