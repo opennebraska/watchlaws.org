@@ -1,6 +1,8 @@
 
 _legiscan.config.php
 
+/lib/legiscan/schema-sqlite.sql
+
 /node_modules
 /public/build
 /public/hot
