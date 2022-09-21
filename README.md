@@ -103,14 +103,20 @@ Steps:
 
 # Running the server
 
-Start the server:\
-`./vendor/bin/sail up -d`
+Start the server:
 
-Stop the server:\
-`./vendor/bin/sail stop`
+    ./vendor/bin/sail up -d    # Starts the containers in the background
+    npm run dev                # Starts the development watcher
 
-Stop the server and remove all data (to start fresh):\
-`./vendor/bin/sail down -v`
+Stop the server:
+
+    Ctrl+C                     # To stop the development watcher
+    ./vendor/bin/sail stop     # To stop the containers (running in the background)
+
+
+Stop the server and remove the volumes (to start fresh):
+
+    ./vendor/bin/sail down -v
 
 # Using LegiScan
 
