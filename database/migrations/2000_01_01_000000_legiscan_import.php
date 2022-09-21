@@ -15,9 +15,7 @@ return new class extends Migration
      */
     public function up()
     {
-        $file_path = env('APP_ENV') == 'testing'
-                   ? 'lib/legiscan/schema-sqlite.sql'
-                   : 'lib/legiscan/schema-mysql.sql';
+        $file_path = env('APP_ENV') == 'testing' ? 'legiscan.sqlite.sql' : 'lib/legiscan/schema-mysql.sql';
 
         DB::unprepared(file_get_contents(base_path($file_path)));
     }
