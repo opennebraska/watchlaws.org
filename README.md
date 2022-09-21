@@ -55,8 +55,8 @@ Steps:
 2. Install Composer dependencies\
    `composer install`
    
-3. Install Node dependencies\
-   `npm install`
+3. Install Node dependencies and run the Vite build\
+   `npm install && npm run build`
    
 4. Copy the environment file\
    `cp .env.example .env`
@@ -93,7 +93,11 @@ Steps:
 12. Import the legislative data\
     `./vendor/bin/sail artisan legiscan:import`
 
-13. The local site is ready to view at:&nbsp; `http://127.0.0.1`
+13. The local site is ready to view at:&nbsp; `http://127.0.0.1`. 
+
+    If you want your browser to be refreshed automatically, whenever you make changes to the files, then run: `npm run dev`.
+    
+    If you want to build the assets for production, then run: `npm run build`.
 
 # Running the server
 
