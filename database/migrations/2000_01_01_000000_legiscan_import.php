@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,7 +15,11 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::unprepared(file_get_contents(base_path('lib/legiscan/schema-mysql.sql')));
+        $file_path = env('APP_ENV') == 'testing'
+                   ? 'lib/legiscan/schema-sqlite.sql'
+                   : 'lib/legiscan/schema-mysql.sql';
+
+        DB::unprepared(file_get_contents(base_path($file_path)));
     }
 
     /**

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('ls_bill_vote_detail', function (Blueprint $table) {
 
-            $table->string('composite_id')->virtualAs('concat(roll_call_id,"-",people_id)')->index();
+            $table->string('composite_id')->virtualAs('roll_call_id || "-" || people_id')->index();
 
         });
     }

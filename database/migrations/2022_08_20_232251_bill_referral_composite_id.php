@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('ls_bill_referral', function (Blueprint $table) {
 
-            $table->string('composite_id')->virtualAs('concat(bill_id,"-",referral_step)')->index();
+            $table->string('composite_id')->virtualAs('bill_id || "-" || referral_step')->index();
 
         });
     }

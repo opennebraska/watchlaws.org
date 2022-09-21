@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('ls_bill_history', function (Blueprint $table) {
 
-            $table->string('composite_id')->virtualAs('concat(bill_id,"-",history_step)')->index();
+            $table->string('composite_id')->virtualAs('bill_id || "-" || history_step')->index();
 
         });
     }
