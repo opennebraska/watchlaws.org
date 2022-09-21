@@ -93,11 +93,13 @@ Steps:
 12. Import the legislative data\
     `./vendor/bin/sail artisan legiscan:import`
 
-13. The local site is ready to view at:&nbsp; `http://127.0.0.1`. 
+13. The local site is ready to view at:&nbsp; `http://127.0.0.1`.\
+    Any email sent out is trapped at `http://127.0.0.1:8025`.
 
-    If you want your browser to be refreshed automatically, whenever you make changes to the files, then run: `npm run dev`.
-    
-    If you want to build the assets for production, then run: `npm run build`.
+    > NOTE:\
+    > If you want your browser to be refreshed automatically, whenever you make changes to the files, then run: `npm run dev`.
+    >
+    > If you want to build the assets for production, then run: `npm run build`.
 
 # Running the server
 
