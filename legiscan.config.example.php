@@ -180,7 +180,7 @@ relevance = 50
 ;states[] = MT
 ;states[] = NC
 ;states[] = ND
-;states[] = NE
+states[] = NE
 ;states[] = NH
 ;states[] = NJ
 ;states[] = NM
@@ -192,7 +192,7 @@ relevance = 50
 ;states[] = PA
 ;states[] = RI
 ;states[] = SC
-;states[] = SD
+states[] = SD
 ;states[] = TN
 ;states[] = TX
 ;states[] = UT
@@ -207,7 +207,7 @@ relevance = 50
 ;; Years to synchronize via dataset update method from l>egiscan-bulk.php
 ;; Add multiple lines for each year as needed, CURRENT will be replaced
 ;; with the current calendar year, ALL will expand to all available years
-;years[] = CURRENT
+years[] = CURRENT
 ;years[] = 2021
 ;years[] = 2020
 ;years[] = 2019
