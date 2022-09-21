@@ -14,7 +14,7 @@ Also, the goal is to help everyday citizens:
 
 # The Need
 
-Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy. It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice. This is a lot to ask everyday citizens who are dealing with many issues in their day-to-day lives. 
+Many nonprofits want their members to call their representative, or speak at an open hearing at the state capital, but it's not easy. It takes time to educate members on certain laws being proposed, and why they should care about them. Then, for an open hearing, the catch is you have to know exactly WHEN and WHERE to do be, and many times you are given only a week's notice. This is a lot for nonprofits to manage. 
 
 In addition, most citizens don't jump into something on the first day. They need to learn why they should care about something, and what steps they need to take well in advance. 
 
@@ -36,8 +36,9 @@ This system is using the TALL stack:
 
 Requirements:
 
+- [LegiScan](https://legiscan.com/user/register) account *... to get an API key*
 - .env *... a copy of the environment file for development*
-- PHP *... on a Mac, install brew first, then run: `brew install php`*
+- PHP *... on a Mac, install **brew** first, then run: `brew install php`*
 - [Docker](https://www.docker.com/)
 - [Composer](https://getcomposer.org/)
 - [Node](https://nodejs.org/en/)
@@ -49,7 +50,7 @@ Suggested:
 
 Steps:
 
-1. Clone the repo and change into directory
+1. Clone this repo and change into directory
    
 2. Install Composer dependencies\
    `composer install`
@@ -57,29 +58,62 @@ Steps:
 3. Install Node dependencies\
    `npm install`
    
-4. Copy `.env` file into main directory
-   
+4. Copy the environment file\
+   `cp .env.example .env`
+
 5. Generate app key\
    `php artisan key:generate`
 
-6. Build and run sail\
+6. Add your LegisCan key to the `.env` file
+
+7. Copy the Legiscan config file\
+   `cp legiscan.config.example.php legiscan.config.php`
+
+8. Uncomment the states and years in the `legiscan.config.app` file
+
+    ```
+    ...
+    states[] = NE
+    ;states[] = NH
+    ...
+    years[] = CURRENT
+    ;years[] = 2021    
+    ...
+    ```
+
+9. Build and run sail\
    `./vendor/bin/sail up -d`
 
-7. Link the storage directory\
+10. Link the storage directory\
    `./vendor/bin/sail artisan storage:link`
 
-8. Create database in Docker container *... see `.env` file for connection info*
-
-9.  Run the database migration:\
+11. Run the database migration\
    `./vendor/bin/sail artisan migrate`
 
-9. Configure the states for bulk import\
-   `~/_legiscan.config.php`
-
-10. Import some records from legiscan\
+12. Import the legislative data\
     `./vendor/bin/sail artisan legiscan:import`
 
-11. Go to your localhost (127.0.0.1) in a browser
-    
-12. When finished, stop the container\
-    `./vendor/bin/sail stop`
+13. The local site is ready to view at:&nbsp; `http://127.0.0.1`
+
+# Running the server
+
+Start the server:\
+`./vendor/bin/sail up -d`
+
+Stop the server:\
+`./vendor/bin/sail stop`
+
+Stop the server and remove all data (to start fresh):\
+`./vendor/bin/sail down -v`
+
+# Using LegiScan
+
+Import the legislative data at anytime, using:\
+`./vendor/bin/sail artisan legiscan:import`
+
+*See the [LegisCan API Client documentation](https://api.legiscan.com/dl/) for more information.*
+
+# Testing
+
+Run PHPUnit inside the container:\
+`./vendor/bin/sail phpunit`
