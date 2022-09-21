@@ -1,4 +1,10 @@
 cache/api/**/
+!cache/api/.gitkeep
+
 cache/doc/**/
-log
+!cache/doc/.gitkeep
+
+log/*
+!log/.gitkeep
+
 config.php
