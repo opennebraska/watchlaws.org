@@ -64,12 +64,12 @@ Steps:
 5. Generate app key\
    `php artisan key:generate`
 
-6. Add your LegisCan key to the `.env` file
+6. Add your LegiScan key to the `.env` file
 
-7. Copy the Legiscan config file\
+7. Copy the LegiScan config file\
    `cp legiscan.config.example.php legiscan.config.php`
 
-8. Uncomment the states and years in the `legiscan.config.app` file
+8. Uncomment the states and years in the `legiscan.config.php` file
 
     ```
     ...
