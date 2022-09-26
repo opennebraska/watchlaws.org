@@ -2,18 +2,41 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bill extends Model
 {
     use HasFactory;
 
     protected $table = 'ls_bill';
+    
     protected $primaryKey = 'bill_id';
+
+    public $timestamps = false;
+
     protected $casts = [
         'created' => 'datetime',
         'updated' => 'datetime',
+    ];
+
+    protected $fillable = [
+        'bill_id',
+        'state_id',
+        'session_id',
+        'body_id',
+        'current_body_id',
+        'bill_type_id',
+        'bill_number',
+        'status_id',
+        'bill_number',
+        'status_date',
+        'title',
+        'description',
+        'pending_committee_id',
+        'legiscan_url',
+        'state_url',
+        'change_hash',
     ];
 
     public function state()
