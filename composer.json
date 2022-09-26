@@ -16,10 +16,12 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "friendsofphp/php-cs-fixer": "^3.11",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "phpmd/phpmd": "^2.13",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
@@ -48,7 +50,16 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "cs": "vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php --using-cache=no -v --ansi",
+        "cs-fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --using-cache=no -v --ansi",
+        "phpmd": "vendor/bin/phpmd app text phpmd.xml",
+        "phpmd-report": "vendor/bin/phpmd app html phpmd.xml --reportfile phpmd/index.html --ignore-violations-on-exit && open phpmd/index.html",
+        "test": "vendor/bin/phpunit --colors -dmemory_limit=-1",
+        "coverage-text": "vendor/bin/phpunit -dmemory_limit=-1 --coverage-text --colors=never",
+        "coverage-clover": "vendor/bin/phpunit -dmemory_limit=-1 --coverage-clover=coverage.xml",
+        "coverage-full": "vendor/bin/phpunit -dmemory_limit=-1 --coverage-html coverage && open coverage/index.html",
+        "ci-preflight": "composer test && composer phpmd && composer cs"
     },
     "extra": {
         "laravel": {
