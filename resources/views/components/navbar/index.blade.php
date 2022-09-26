@@ -21,7 +21,7 @@
     <div class="w-full flex-grow lg:flex6 lg:items-center lg:w-auto hidden lg:block pt-6 lg:pt-0" id="nav-content">
         <ul class="list-reset lg:flex justify-end flex-1 items-center">
 
-            {{ $links }}
+            {{ $links ?? '' }}
 
         </ul>
     </div>

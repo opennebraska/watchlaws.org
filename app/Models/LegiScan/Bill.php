@@ -59,10 +59,10 @@ class Bill extends Model
     {
         return $this->belongsTo(Type::class, 'bill_type_id');
     }
-    // public function status()
-    // {
-    //     return $this->belongsTo()
-    // }
+    public function status()
+    {
+        return $this->belongsTo(Progress::class, 'status_id');
+    }
     public function pending_committee()
     {
         return $this->belongsTo(Committee::class, 'pending_committee_id');
