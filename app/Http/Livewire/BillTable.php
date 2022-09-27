@@ -36,8 +36,9 @@ class BillTable extends Component
             ->when($this->search,
                 fn($query) => $query
                     ->where(
-                        fn($query) => $query
-                            ->where('title', 'like', '%'.$this->search.'%')
+                        fn($subquery) => $subquery
+                            ->where('bill_number', 'like', '%'.$this->search.'%')
+                            ->orWhere('title', 'like', '%'.$this->search.'%')
                             ->orWhere('description', 'like', '%'.$this->search.'%')
                 )
             )
