@@ -1,5 +1,6 @@
 
 legiscan.config.php
+.env.testing
 
 /node_modules
 #/public/build
