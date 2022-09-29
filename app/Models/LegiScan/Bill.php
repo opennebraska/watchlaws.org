@@ -9,8 +9,10 @@ class Bill extends Model
 {
     use HasFactory;
 
+    #region Variables
+
     protected $table = 'ls_bill';
-    
+
     protected $primaryKey = 'bill_id';
 
     public $timestamps = false;
@@ -39,6 +41,11 @@ class Bill extends Model
         'change_hash',
     ];
 
+    #endregion
+
+    #region Relationships
+
+    // Foreign key references
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
@@ -68,7 +75,7 @@ class Bill extends Model
         return $this->belongsTo(Committee::class, 'pending_committee_id');
     }
 
-
+    // One-to-many references
     public function ammendments()
     {
         return $this->hasMany(BillAmendment::class, 'bill_id');
@@ -121,4 +128,79 @@ class Bill extends Model
     {
         return $this->hasMany(BillVote::class, 'bill_id');
     }
+
+    #endregion
+
+    #region Foreign model assignment attributes
+
+    public function setStateAttribute(State|int $state)
+    {
+        $state = is_int($state) ? State::find($state) : $state;
+
+        $this->state_id = is_int($state) ? $state : $state->getKey();
+        $this->setRelation('state', $state);
+    }
+
+    public function setSessionAttribute(Session|int $session)
+    {
+        $session = is_int($session) ? Session::find($session) : $session;
+
+        $this->session_id = $session->getKey();
+        $this->setRelation('session', $session);
+    }
+
+    public function setBodyAttribute(Body|int $body)
+    {
+        $body = is_int($body) ? Body::find($body) : $body;
+
+        $this->body_id = $body->getKey();
+        $this->setRelation('body', $body);
+    }
+
+    public function setCurrentBodyAttribute(Body|int $current_body)
+    {
+        $current_body = is_int($current_body) ? Body::find($current_body) : $current_body;
+
+        $this->body_id = $current_body->getKey();
+        $this->setRelation('current_body', $current_body);
+    }
+
+    public function setBillTypeAttribute(Type|int $bill_type)
+    {
+        $bill_type = is_int($bill_type) ? Type::find($bill_type) : $bill_type;
+
+        $this->body_id = $bill_type->getKey();
+        $this->setRelation('bill_type', $bill_type);
+    }
+
+    public function setStatusAttribute(Progress|int $status)
+    {
+        $status = is_int($status) ? Progress::find($status) : $status;
+
+        $this->body_id = $status->getKey();
+        $this->setRelation('progress', $status);
+    }
+
+    public function setPendingCommitteeAttribute(Committee|int $pending_committee)
+    {
+        $pending_committee = is_int($pending_committee) ? Committee::find($pending_committee) : $pending_committee;
+
+        $this->body_id = $pending_committee->getKey();
+        $this->setRelation('pending_committee', $pending_committee);
+    }
+
+    #endregion
+
+    #region Simplify naming attributes
+
+    public function getNumberAttribute()
+    {
+        return $this->bill_number;
+    }
+    public function setNumberAttribute($number)
+    {
+        $this->bill_number = $number;
+    }
+
+    #endregion
 }
