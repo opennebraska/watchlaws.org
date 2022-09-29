@@ -13,7 +13,7 @@ class StateTest extends TestCase
     {
         $state = State::factory()->create();
         Bill::factory()->create([
-            'state_id'    => $state->state_id,
+            'state' => $state,
             'description' => 'A saucy little piece of legislation.',
         ]);
 
