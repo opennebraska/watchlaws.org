@@ -2,58 +2,101 @@
 
 namespace App\Console\Commands;
 
+use App\Models\LegiScan\State;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LegiScanImport extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'legiscan:import';
+    protected $signature = 'legiscan:import {--d|debug}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Regularly scheduled LegiScan import command';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
+    protected string $separator = '--------------------------------';
+
     public function handle()
     {
-        // RUN THIS COMMAND USING "SAIL" (WHEN IN LOCAL MODE) !!!!!!!!!!!!
+        $start = now();
 
-        $script_filepath = base_path('lib/legiscan/legiscan-bulk.php');
+        $this->importLegiscanData()
+            ->translateStates();
 
-        $command = '';
+        $this->info('');
+        $this->info(
+            'Finished in ' . now()->diff($start)->format('%I:%S')
+        );
+        $this->info('');
+    }
 
-        $command .= ' HOST='.config('database.connections.mysql.host');
-        $command .= ' PORT='.config('database.connections.mysql.port');
-        $command .= ' NAME='.config('database.connections.mysql.database');
-        $command .= ' USER='.config('database.connections.mysql.username');
-        $command .= ' PASS='.config('database.connections.mysql.password');
+    protected function translateStates(): static
+    {
+        $this->info('Translating State Data');
 
-        $command .= ' LEGISCAN_API_KEY='.config('legiscan.api_key');
-        $command .= ' MAIL_FROM_ADDRESS='.config('mail.from.address');
+        $states = DB::select('SELECT * FROM ls_state');
 
-        $command .= ' php';
-        // $command .= ' -d display_errors 0';
-        // $command .= ' -d error_reporting 5';  // Same as (E_ERROR | E_PARSE); see https://www.php.net/manual/en/errorfunc.constants.php
-        $command .= ' ' . $script_filepath;
-        $command .= ' --bulk';
-        $command .= ' --import';
-        $command .= ' --yes';
+        $progress = $this->output->createProgressBar(count($states));
 
-        // echo $command;
+        $progress->start();
+
+        foreach ($states as $state) {
+            State::updateOrCreate(
+                ['id' => $state->state_id],
+                [
+                    'id'           => $state->state_id,
+                    'name'         => $state->state_name,
+                    'abbreviation' => $state->state_abbr,
+                    'biennium'     => $state->biennium,
+                    'carry_over'   => $state->carry_over, 
+                    'capitol'      => $state->capitol,
+                    'latitude'     => $state->latitude,
+                    'longitude'    => $state->longitude,
+                ]
+            );
+
+            $progress->advance();
+        }
+
+        $progress->finish();
+
+        $this->info("\n".$this->separator);
+
+        return $this;
+    }
+
+    protected function importLegiscanData(): static
+    {
+        $mysqlConfig    = config('database.connections.mysql');
+        $apiKey         = config('legiscan.api_key');
+        $mailFrom       = config('mail.from.address');
+        $debug          = $this->option('debug') ? '-d display_errors 0 -d error_reporting 5 ' : '';
+        $scriptFilepath = base_path('lib/legiscan/legiscan-bulk.php');
+
+        $command = sprintf(
+            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s MAIL_FROM_ADDRESS=%s php %s%s --bulk --import --yes',
+            $mysqlConfig['host'],
+            $mysqlConfig['port'],
+            $mysqlConfig['database'],
+            $mysqlConfig['username'],
+            $mysqlConfig['password'],
+            $apiKey,
+            $mailFrom,
+            $debug,
+            $scriptFilepath,
+        );
+
+        $this->info('Importing LegiScan data. This may take a minute.');
+        
         exec($command);
 
         Log::info('LegiScan import completed');
+
+        $this->info('LegiScan import completed.');
+        $this->info($this->separator);
+
+        return $this;
     }
 }
