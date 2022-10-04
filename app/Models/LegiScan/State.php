@@ -9,11 +9,13 @@ class State extends Model
 {
     use HasFactory;
 
-    protected $table = 'ls_state';
-    
-    protected $primaryKey = 'state_id';
-
     public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'name',
+        'abbreviation',
+    ];
 
     public function bills()
     {
