@@ -12,6 +12,8 @@ return new class extends Migration
             $table->unsignedInteger('id');
             $table->string('name');
             $table->string('abbreviation');
+            $table->string('biennium');
+            $table->string('carry_over');
             $table->string('capitol');
             $table->string('latitude');
             $table->string('longitude');

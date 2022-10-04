@@ -19,6 +19,8 @@ class StateFactory extends Factory
             'id' => (State::all()->max('id') ?? 0) + 1,
             'name' => $this->faker->state,
             'abbreviation' => $this->faker->stateAbbr,
+            'biennium'     => rand(0, 1),
+            'carry_over'   => Arr::random(State::getEnum('carryOver')),
             'capitol'      => $this->faker->city,
             'latitude'     => $this->faker->latitude,
             'longitude'    => $this->faker->longitude,
