@@ -49,6 +49,9 @@ class LegiScanImport extends Command
                     'id'           => $state->state_id,
                     'name'         => $state->state_name,
                     'abbreviation' => $state->state_abbr,
+                    'capitol'      => $state->capitol,
+                    'latitude'     => $state->latitude,
+                    'longitude'    => $state->longitude,
                 ]
             );
 

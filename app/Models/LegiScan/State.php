@@ -15,6 +15,9 @@ class State extends Model
         'id',
         'name',
         'abbreviation',
+        'capitol',
+        'latitude',
+        'longitude',
     ];
 
     public function bills()
