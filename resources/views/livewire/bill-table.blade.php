@@ -82,10 +82,10 @@
                         {{-- Latest --}}
                         <span class="group relative">
                             <span class="cursor-pointer border-b border-dashed border-gray-400">
-                                {{ $bill->history_items()->orderByDesc('history_date')->first()->history_date }}
+                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_date }}
                             </span>
                             <span class="hidden group-hover:block absolute z-10 top-6 right-0 border border-gray-400 rounded-sm bg-gray-200 px-1">
-                                {{ $bill->history_items()->orderByDesc('history_date')->first()->history_action }}
+                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_action }}
                             </span>
                         </span>
 

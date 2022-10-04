@@ -29,4 +29,9 @@ class State extends Model
     {
         return $this->hasMany(Bill::class, 'state_id');
     }
+
+    public function scopeNonNational($query)
+    {
+        $query->whereNotIn('abbreviation', ['DC', 'US']);
+    }
 }

@@ -16,8 +16,8 @@ class StateFactory extends Factory
     public function definition()
     {
         return [
-            'id' => (State::all()->max('id') ?? 0) + 1,
-            'name' => $this->faker->state,
+            'id'           => (State::all()->max('id') ?? 0) + 1,
+            'name'         => $this->faker->state,
             'abbreviation' => $this->faker->stateAbbr,
             'biennium'     => rand(0, 1),
             'carry_over'   => Arr::random(State::getEnum('carryOver')),

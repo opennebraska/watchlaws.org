@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Pages;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class StateHomeController extends Controller
 {

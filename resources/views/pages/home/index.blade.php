@@ -9,7 +9,7 @@
             @foreach ($states as $state)
 
                 <div class="w-48 leading-7">
-                    <a class="underline" href="{{ route('state.home.index', compact('state')) }}">{{ $state->state_name }}</a>
+                    <a class="underline" href="{{ route('state.home.index', ['state' => $state]) }}">{{ $state->name }}</a>
                     <span class="text-gray-500">({{ number_format($state->bills->count()) }})</span>
                 </div>
 
@@ -20,12 +20,14 @@
         <div class="flex flex-wrap mt-6">
 
             <div class="w-48 leading-7">
-                <a class="underline" href="{{ route('state.home.index', ['state' => $us]) }}">{{ $us->state_name }}</a>
-                <span class="text-gray-500">({{ number_format($us->bills->count()) }})</span>
+                <a class="underline" href="{{ route('state.home.index', ['state' => $unitedStates]) }}">{{ $unitedStates->name }}</a>
+                <span class="text-gray-500">({{ number_format($unitedStates->bills->count()) }})</span>
             </div>
             <div class="w-48 leading-7">
-                <a class="underline" href="{{ route('state.home.index', ['state' => $dc]) }}">{{ $dc->state_name }}</a>
-                <span class="text-gray-500">({{ number_format($dc->bills->count()) }})</span>
+                <a class="underline" href="{{ route('state.home.index', ['state' => $districtOfColumbia]) }}">
+                    {{ $districtOfColumbia->name }}
+                </a>
+                <span class="text-gray-500">({{ number_format($districtOfColumbia->bills->count()) }})</span>
             </div>
 
         </div>
