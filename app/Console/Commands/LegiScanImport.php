@@ -50,7 +50,7 @@ class LegiScanImport extends Command
                     'name'         => $state->state_name,
                     'abbreviation' => $state->state_abbr,
                     'biennium'     => $state->biennium,
-                    'carry_over'   => $state->carry_over, 
+                    'carry_over'   => $state->carry_over,
                     'capitol'      => $state->capitol,
                     'latitude'     => $state->latitude,
                     'longitude'    => $state->longitude,
@@ -62,7 +62,7 @@ class LegiScanImport extends Command
 
         $progress->finish();
 
-        $this->info("\n".$this->separator);
+        $this->info("\n" . $this->separator);
 
         return $this;
     }
@@ -89,7 +89,7 @@ class LegiScanImport extends Command
         );
 
         $this->info('Importing LegiScan data. This may take a minute.');
-        
+
         exec($command);
 
         Log::info('LegiScan import completed');

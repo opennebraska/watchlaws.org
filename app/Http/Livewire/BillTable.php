@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use Livewire\Component;
 use App\Models\LegiScan\Bill;
 use App\Traits\Livewire\WithPerPagePagination;
-use Livewire\Component;
 
 class BillTable extends Component
 {
@@ -14,7 +14,8 @@ class BillTable extends Component
         'search' => ['initial' => null, 'as' => 'q'],
     ];
 
-    public $state_id;
+    public $stateId;
+
     public $search = null;
 
     public function updatedSearch()
@@ -25,36 +26,37 @@ class BillTable extends Component
     public function query()
     {
         return Bill::query()
-            ->when($this->state_id,
-                fn($query) => $query->where('state_id', $this->state_id)
-            )
-        ;
+            ->when(
+                $this->stateId,
+                fn ($query) => $query->where('state_id', $this->stateId)
+            );
     }
+
     public function applyFilters($query)
     {
         return $query
-            ->when($this->search,
-                fn($query) => $query
+            ->when(
+                $this->search,
+                fn ($query) => $query
                     ->where(
-                        fn($subquery) => $subquery
-                            ->where('bill_number', 'like', '%'.$this->search.'%')
-                            ->orWhere('title', 'like', '%'.$this->search.'%')
-                            ->orWhere('description', 'like', '%'.$this->search.'%')
-                )
-            )
-        ;
+                        fn ($subquery) => $subquery
+                            ->where('bill_number', 'like', '%' . $this->search . '%')
+                            ->orWhere('title', 'like', '%' . $this->search . '%')
+                            ->orWhere('description', 'like', '%' . $this->search . '%')
+                    )
+            );
     }
 
     public function render()
     {
-        $bill_count = $this->query()->count();
-        $bills = $this->applyPagination(
+        $billCount  = $this->query()->count();
+        $bills      = $this->applyPagination(
             $this->applyFilters($this->query()->orderByDesc('status_date'))
         );
 
         $has_filters = $this->hasFilters();
 
-        return view('livewire.bill-table', compact('bills', 'bill_count', 'has_filters'));
+        return view('livewire.bill-table', compact('bills', 'billCount', 'has_filters'));
     }
 
     public function hasFilters()

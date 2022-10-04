@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ImportLegiScanSchemaSeeder extends Seeder
 {
@@ -17,13 +17,13 @@ class ImportLegiScanSchemaSeeder extends Seeder
     {
         $sql_filepath = base_path('lib/legiscan/schema-mysql.sql');
 
-        $host = env('DB_HOST');
+        $host     = env('DB_HOST');
         $username = env('DB_USERNAME');
         $password = env('DB_PASSWORD');
         $database = env('DB_DATABASE');
 
         $command = '';
-        $command .= "mysql ";
+        $command .= 'mysql ';
         $command .= "-h $host ";
         $command .= "-u $username ";
         $command .= "--password=$password ";
