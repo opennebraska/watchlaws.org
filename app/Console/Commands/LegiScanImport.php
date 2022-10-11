@@ -89,8 +89,6 @@ class LegiScanImport extends Command
 
         $this->info('Importing LegiScan data. This may take a minute.');
 
-        // exec($command);
-
         while (@ ob_end_flush()) ;
 
         $process = popen($command, 'r');
