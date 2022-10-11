@@ -2,6 +2,7 @@
 
 namespace App\Models\LegiScan;
 
+use App\Models\LegiScan\Bill;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -9,12 +10,28 @@ class Session extends Model
 {
     use HasFactory;
 
-    protected $table = 'ls_session';
+    public $timestamps = false;
 
-    protected $primaryKey = 'session_id';
+    protected $fillable = [
+        'id',
+        'name',
+        'title',
+        'tag',
+        'starting_year',
+        'ending_year',
+        'prefile',
+        'sine_die',
+        'prior',
+        'special',
+    ];
 
     public function state()
     {
-        return $this->belongsTo(State::class, 'state_id');
+        return $this->belongsTo(State::class);
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
     }
 }

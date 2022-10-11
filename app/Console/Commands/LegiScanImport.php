@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  */
 class LegiScanImport extends Command
 {
-    protected $signature = 'legiscan:import {--d|debug}';
+    protected $signature = 'legiscan:import {--d|debug} {--v|verbose}';
 
     protected $description = 'Regularly scheduled LegiScan import command';
 
@@ -71,26 +71,35 @@ class LegiScanImport extends Command
     {
         $mysqlConfig    = config('database.connections.mysql');
         $apiKey         = config('legiscan.api_key');
-        $mailFrom       = config('mail.from.address');
-        $debug          = $this->option('debug') ? '-d display_errors 0 -d error_reporting 5 ' : '';
+        $debug          = $this->option('debug') ? '--debug ' : '';
+        $debug          = $this->option('verbose') ? '--verbose ' : '';
         $scriptFilepath = base_path('lib/legiscan/legiscan-bulk.php');
 
         $command = sprintf(
-            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s MAIL_FROM_ADDRESS=%s php %s%s --bulk --import --yes',
+            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s %s--bulk --import --yes',
             $mysqlConfig['host'],
             $mysqlConfig['port'],
             $mysqlConfig['database'],
             $mysqlConfig['username'],
             $mysqlConfig['password'],
             $apiKey,
-            $mailFrom,
-            $debug,
             $scriptFilepath,
+            $debug,
         );
 
         $this->info('Importing LegiScan data. This may take a minute.');
 
-        exec($command);
+        // exec($command);
+
+        while (@ ob_end_flush()) ;
+
+        $process = popen($command, 'r');
+        
+        while (!feof($process)) {
+            $this->info(fread($process, 4096));
+
+            @ flush();
+        }
 
         Log::info('LegiScan import completed');
 

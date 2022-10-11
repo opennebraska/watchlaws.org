@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('states', function (Blueprint $table) {
-            $table->unsignedInteger('id');
+            $table->unsignedBigInteger('id')->unique();
             $table->string('name');
             $table->string('abbreviation');
             $table->string('biennium');
