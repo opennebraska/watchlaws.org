@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Factory::macro('makeId', function() {
+        Factory::macro('makeId', function () {
             return ($this->model::all()->max('id') ?? 0) + 1;
         });
     }

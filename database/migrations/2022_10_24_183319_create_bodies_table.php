@@ -7,20 +7,15 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::create('bodies', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique();
 
             $table->string('name');
-            $table->string('title');
-            $table->string('tag');
-            $table->string('starting_year');
-            $table->string('ending_year');
-            $table->boolean('prefile')->default(false);
-            $table->boolean('sine_die')->default(false);
-            $table->boolean('prior')->default(false);
-            $table->boolean('special')->default(false);
-
+            $table->string('abbreviation');
+            $table->string('role');
+            $table->string('role_abbreviation');
             $table->unsignedBigInteger('state_id');
+
             $table->foreign('state_id')
                 ->references('id')
                 ->on('states');
@@ -29,6 +24,6 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('bodies');
     }
 };
