@@ -16,7 +16,7 @@ class StateFactory extends Factory
     public function definition()
     {
         return [
-            'id'           => (State::all()->max('id') ?? 0) + 1,
+            'id'           => $this->makeId(),
             'name'         => $this->faker->state,
             'abbreviation' => $this->faker->stateAbbr,
             'biennium'     => rand(0, 1),
