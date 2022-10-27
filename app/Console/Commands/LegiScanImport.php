@@ -2,17 +2,24 @@
 
 namespace App\Console\Commands;
 
+use App\Models\LegiScan\Body;
 use App\Models\LegiScan\State;
 use Illuminate\Console\Command;
+use App\Models\LegiScan\Committee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * @codeCoverageIgnore
  */
 class LegiScanImport extends Command
 {
-    protected $signature = 'legiscan:import {--d|debug} {--v|verbose}';
+    protected $signature = 'legiscan:import
+        {--d|debug : Bet debug output from the LegiScan base import}
+        {--w|wordy : Use verbose output from the LegiScan base import}
+        {--m|migrate : Do a fresh set of migrations for the database before import}
+        {--s|skip : Skip importing the base LegiScan data}';
 
     protected $description = 'Regularly scheduled LegiScan import command';
 
@@ -22,8 +29,15 @@ class LegiScanImport extends Command
     {
         $start = now();
 
+        if ($this->option('migrate')) {
+            Artisan::call('migrate:fresh --drop-views');
+            $this->info(Artisan::output());
+        }
+
         $this->importLegiscanData()
-            ->translateStates();
+            ->translateStates()
+            ->translateBodies()
+            ->translateCommittees();
 
         $this->info('');
         $this->info(
@@ -67,16 +81,85 @@ class LegiScanImport extends Command
         return $this;
     }
 
+    public function translateBodies(): static
+    {
+        $this->info('Translating Legislative Body Data');
+
+        $bodies = DB::select('SELECT * FROM ls_body');
+
+        $progress = $this->output->createProgressBar(count($bodies));
+
+        $progress->start();
+
+        foreach ($bodies as $body) {
+            Body::updateOrCreate(
+                ['id' => $body->body_id],
+                [
+                    'id'                => $body->body_id,
+                    'state_id'          => $body->state_id,
+                    'name'              => $body->body_name,
+                    'abbreviation'      => $body->body_short,
+                    'role'              => $body->body_role_name,
+                    'role_abbreviation' => $body->body_role_abbr,
+                ]
+            );
+
+            $progress->advance();
+        }
+
+        $progress->finish();
+
+        $this->info("\n" . $this->separator);
+
+        return $this;
+    }
+
+    public function translateCommittees(): static
+    {
+        $this->info('Translating Legislative Committee Data');
+
+        $committees = DB::select('SELECT * FROM ls_committee');
+
+        $progress = $this->output->createProgressBar(count($committees));
+
+        $progress->start();
+
+        foreach ($committees as $committee) {
+            Committee::updateOrCreate(
+                ['id' => $committee->committee_id],
+                [
+                    'id'      => $committee->committee_id,
+                    'name'    => $committee->committee_name,
+                    'body_id' => $committee->committee_body_id,
+                ]
+            );
+
+            $progress->advance();
+        }
+
+        $progress->finish();
+
+        $this->info("\n" . $this->separator);
+
+        return $this;
+    }
+
     protected function importLegiscanData(): static
     {
+        if ($this->option('skip')) {
+            $this->info('Skipping base import');
+
+            return $this;
+        }
+
         $mysqlConfig    = config('database.connections.mysql');
         $apiKey         = config('legiscan.api_key');
         $debug          = $this->option('debug') ? '--debug ' : '';
-        $debug          = $this->option('verbose') ? '--verbose ' : '';
+        $verbose        = $this->option('wordy') ? '--verbose ' : ' ';
         $scriptFilepath = base_path('lib/legiscan/legiscan-bulk.php');
 
         $command = sprintf(
-            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s %s--bulk --import --yes',
+            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s %s%s--bulk --import --yes',
             $mysqlConfig['host'],
             $mysqlConfig['port'],
             $mysqlConfig['database'],
@@ -85,18 +168,19 @@ class LegiScanImport extends Command
             $apiKey,
             $scriptFilepath,
             $debug,
+            $verbose
         );
 
         $this->info('Importing LegiScan data. This may take a minute.');
 
-        while (@ ob_end_flush()) ;
+        while (@ob_end_flush());
 
         $process = popen($command, 'r');
-        
+
         while (!feof($process)) {
             $this->info(fread($process, 4096));
 
-            @ flush();
+            @flush();
         }
 
         Log::info('LegiScan import completed');

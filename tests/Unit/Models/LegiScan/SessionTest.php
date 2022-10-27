@@ -36,7 +36,7 @@ class SessionTest extends TestCase
             'state_id' => $state->id,
         ]);
         Bill::factory()->create([
-            'session_id' => $session->id,
+            'session_id'  => $session->id,
             'description' => 'Banning Flamingo Permits',
         ]);
 

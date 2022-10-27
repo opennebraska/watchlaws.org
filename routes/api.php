@@ -5,7 +5,6 @@
 use Illuminate\Http\Request;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\Body;
-use App\Models\LegiScan\Role;
 use App\Models\LegiScan\Type;
 use App\Models\LegiScan\Vote;
 use App\Models\LegiScan\Party;
@@ -129,7 +128,6 @@ Route::prefix('legiscan/raw-data')->group(function () {
         People::class,
         Progress::class,
         Reason::class,
-        Role::class,
         SastType::class,
         Session::class,
         Signal::class,

@@ -24,21 +24,21 @@ class Bill extends Model
 
     protected $fillable = [
         'bill_id',
+        'bill_number',
+        'bill_number',
+        'status_date',
+        'title',
+        'description',
+        'legiscan_url',
+        'state_url',
+        'change_hash',
         'state_id',
         'session_id',
         'body_id',
         'current_body_id',
         'bill_type_id',
-        'bill_number',
         'status_id',
-        'bill_number',
-        'status_date',
-        'title',
-        'description',
         'pending_committee_id',
-        'legiscan_url',
-        'state_url',
-        'change_hash',
     ];
 
     //endregion
