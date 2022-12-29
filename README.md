@@ -67,9 +67,9 @@ Steps:
 6. Add your LegiScan key to the `.env` file
 
 7. Copy the LegiScan config file\
-   `cp legiscan.config.example.php legiscan.config.php`
+   `cp legiscan.example.ini legiscan.ini`
 
-8. Uncomment the states and years in the `legiscan.config.php` file
+8. Uncomment the states and years in the `legiscan.ini` file
 
     ```
     ...
