@@ -56,9 +56,9 @@
         "phpmd": "vendor/bin/phpmd app text phpmd.xml",
         "phpmd-report": "vendor/bin/phpmd app html phpmd.xml --reportfile phpmd/index.html --ignore-violations-on-exit && open phpmd/index.html",
         "test": "vendor/bin/phpunit --colors -dmemory_limit=-1",
-        "coverage-text": "vendor/bin/phpunit -dmemory_limit=-1 --coverage-text --colors=never",
-        "coverage-clover": "vendor/bin/phpunit -dmemory_limit=-1 --coverage-clover=coverage.xml",
-        "coverage-full": "vendor/bin/phpunit -dmemory_limit=-1 --coverage-html coverage && open coverage/index.html",
+        "coverage-text": "vendor/bin/phpunit -dmemory_limit=-1 -dpcov.directory=./ --coverage-text --colors=never",
+        "coverage-clover": "vendor/bin/phpunit -dmemory_limit=-1 -dpcov.directory=./ --coverage-clover=coverage.xml",
+        "coverage-full": "vendor/bin/phpunit -dmemory_limit=-1 -dpcov.directory=./ --coverage-html coverage && open coverage/index.html",
         "ci-preflight": "composer test && composer phpmd && composer cs"
     },
     "extra": {

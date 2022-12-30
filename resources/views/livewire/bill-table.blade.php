@@ -1,18 +1,15 @@
 <div>
 
-    <div class="mb-2 flex">
-        <div class="flex-grow">
+    <div class="mb-2">
 
-            <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1" placeholder="Search..." />
+        <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2" placeholder="Search..." />
 
-        </div>
         @if ($has_filters)
-            <div>
 
-                <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">Reset filters</a>
+            <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">reset</a>
 
-            </div>
         @endif
+
     </div>
 
     <x-table class="table-auto">
@@ -82,10 +79,10 @@
                         {{-- Latest --}}
                         <span class="group relative">
                             <span class="cursor-pointer border-b border-dashed border-gray-400">
-                                {{ $bill->history_items()->orderByDesc('history_date')->first()->history_date }}
+                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_date }}
                             </span>
                             <span class="hidden group-hover:block absolute z-10 top-6 right-0 border border-gray-400 rounded-sm bg-gray-200 px-1">
-                                {{ $bill->history_items()->orderByDesc('history_date')->first()->history_action }}
+                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_action }}
                             </span>
                         </span>
 

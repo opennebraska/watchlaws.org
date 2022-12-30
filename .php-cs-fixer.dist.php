@@ -47,8 +47,7 @@ $rules = [
     'no_short_bool_cast'                          => true,
     'no_singleline_whitespace_before_semicolons'  => true,
     'no_spaces_around_offset'                     => ['positions' => ['inside']],
-    'no_trailing_comma_in_list_call'              => true,
-    'no_trailing_comma_in_singleline_array'       => true,
+    'no_trailing_comma_in_singleline'             => true,
     'no_unneeded_control_parentheses'             => ['statements' => ['break', 'clone', 'continue', 'echo_print', 'return', 'switch_case', 'yield']],
     // https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/4159
     // 'no_unused_imports'                           => true,

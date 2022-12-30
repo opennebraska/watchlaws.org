@@ -2,6 +2,6 @@
 
 return [
 
-    'api_key' => env('LEGISCAN_API_KEY')
+    'api_key' => env('LEGISCAN_API_KEY'),
 
 ];
