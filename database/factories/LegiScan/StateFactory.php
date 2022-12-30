@@ -15,15 +15,17 @@ class StateFactory extends Factory
 
     public function definition()
     {
+        static $increment = 1;
+
         return [
-            'id'           => $this->makeId(),
-            'name'         => $this->faker->state,
-            'abbreviation' => $this->faker->stateAbbr,
-            'biennium'     => rand(0, 1),
-            'carry_over'   => Arr::random(State::getEnum('carryOver')),
-            'capitol'      => $this->faker->city,
-            'latitude'     => $this->faker->latitude,
-            'longitude'    => $this->faker->longitude,
+            'state_id' => $increment++,
+            'state_abbr' => $this->faker->stateAbbr,
+            'state_name' => $this->faker->state,
+            'biennium' => 0,
+            'carry_over' => Arr::random(['YES', 'NO']),
+            'capitol' => $this->faker->city,
+            'latitude' => $this->faker->randomFloat(),
+            'longitude' => $this->faker->randomFloat(),
         ];
     }
 }

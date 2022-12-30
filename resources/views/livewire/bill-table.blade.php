@@ -1,18 +1,15 @@
 <div>
 
-    <div class="mb-2 flex">
-        <div class="flex-grow">
+    <div class="mb-2">
 
-            <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1" placeholder="Search..." />
+        <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2" placeholder="Search..." />
 
-        </div>
         @if ($has_filters)
-            <div>
 
-                <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">Reset filters</a>
+            <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">reset</a>
 
-            </div>
         @endif
+
     </div>
 
     <x-table class="table-auto">

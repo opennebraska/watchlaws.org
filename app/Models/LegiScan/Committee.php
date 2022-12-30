@@ -2,24 +2,39 @@
 
 namespace App\Models\LegiScan;
 
-use App\Models\LegiScan\Body;
-use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\HasLegiScanShim;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Committee extends Model
 {
     use HasFactory;
+    use HasLegiScanShim;
+
+    #region Properties
+
+    protected $table = 'ls_committee';
+    protected $primaryKey = 'committee_id';
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'id',
-        'name',
-        'body_id',
-    ];
+    #endregion
+
+    #region Scopes
 
     public function body()
     {
-        return $this->belongsTo(Body::class);
+        return $this->belongsTo(Body::class, 'committee_body_id');
     }
+
+    #endregion
+
+    #region Attributes
+
+    public function getNameAttribute()
+    {
+        return $this->committee_name;
+    }
+
+    #endregion
 }

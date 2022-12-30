@@ -16,12 +16,12 @@ class SessionFactory extends Factory
     public function definition()
     {
         return [
-            'id'            => $this->makeId(),
-            'name'          => $this->faker->sentence,
-            'title'         => $this->faker->sentence,
-            'tag'           => Arr::random(['Regular Session']),
-            'starting_year' => Arr::random(range(2020, now()->format('Y'))),
-            'ending_year'   => now()->format('Y'),
+            'session_id'        => $this->makeId(),
+            'session_name'      => $this->faker->sentence,
+            'session_title'     => $this->faker->sentence,
+            'session_tag'       => Arr::random(['Regular Session']),
+            'year_start'        => Arr::random(range(2020, now()->format('Y'))),
+            'year_end'          => now()->format('Y'),
         ];
     }
 }

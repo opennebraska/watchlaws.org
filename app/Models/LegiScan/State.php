@@ -2,36 +2,22 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\Models\HasEnumProperties;
+use App\Traits\Models\HasLegiScanShim;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    use HasEnumProperties, HasFactory;
+    use HasFactory;
+    use HasLegiScanShim;
+
+    protected $table = 'ls_state';
+    protected $primaryKey = 'state_id';
 
     public $timestamps = false;
-
-    protected $fillable = [
-        'id',
-        'name',
-        'abbreviation',
-        'biennium',
-        'carry_over',
-        'capitol',
-        'latitude',
-        'longitude',
-    ];
-
-    public $enumCarryOvers = ['OE', 'EO', 'NO'];
 
     public function bills()
     {
         return $this->hasMany(Bill::class, 'state_id');
-    }
-
-    public function scopeNonNational($query)
-    {
-        $query->whereNotIn('abbreviation', ['DC', 'US']);
     }
 }

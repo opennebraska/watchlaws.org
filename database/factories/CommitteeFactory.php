@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories\LegiScan;
+namespace Database\Factories;
 
-use App\Models\LegiScan\Committee;
+use App\Models\Committee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,12 +14,9 @@ class CommitteeFactory extends Factory
 
     public function definition()
     {
-        static $increment = 1;
-
         return [
-            'committee_id' => $increment++,
-            // 'committee_body_id' => null,
-            'committee_name' => $this->faker->sentence,
+            'id'   => $this->makeId(),
+            'name' => $this->faker->sentence,
         ];
     }
 }

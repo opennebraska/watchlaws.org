@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\Models\LegiScan;
+namespace Tests\Unit\Models;
 
 use Tests\TestCase;
-use App\Models\LegiScan\Body;
-use App\Models\LegiScan\State;
+use App\Models\Body;
+use App\Models\State;
 
 class BodyTest extends TestCase
 {

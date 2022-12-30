@@ -1,8 +1,13 @@
 @extends('layouts.header-and-footer')
 @section('html_title', $state->state_name)
 @section('navbar_title')
-    <span class="text-gray-400 mr-1">How laws are made in</span> {{ $state->state_name }}
-    <img src="/media/us_states/seals/{{ $state->state_abbr }}.svg" class="max-h-12 ml-3" alt="[Seal]">
+
+    <span class="text-gray-400 mr-1">How laws are made in</span>
+    <a href="{{ route('state.home.index', compact('state')) }}" class="underline">
+        {{ $state->state_name }}
+        {{-- <img src="/media/us_states/seals/{{ $state->state_abbr }}.svg" class="max-h-12 ml-3" alt="[Seal]"> --}}
+    </a>
+
 @endsection
 @push('body')
     <x-container>

@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\LegiScan\Body;
-use App\Models\LegiScan\State;
+use App\Models\Body;
+use App\Models\Committee;
+use App\Models\State;
+
 use Illuminate\Console\Command;
-use App\Models\LegiScan\Committee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;

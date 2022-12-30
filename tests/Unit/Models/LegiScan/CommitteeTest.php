@@ -18,7 +18,7 @@ class CommitteeTest extends TestCase
         ]);
 
         $committee = Committee::factory()->create([
-            'body_id' => $body->id,
+            'committee_body_id' => $body->body_id,
         ]);
 
         $this->assertInstanceOf(

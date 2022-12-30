@@ -2,72 +2,53 @@
 
 namespace App\Models\LegiScan;
 
-use App\Models\LegiScan\State;
-use Illuminate\Database\Eloquent\Model;
-use App\Traits\Models\HasEnumProperties;
+use App\Traits\Models\HasLegiScanShim;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Body extends Model
 {
-    use HasFactory, HasEnumProperties;
+    use HasFactory;
+    use HasLegiScanShim;
+
+    #region Properties
+
+    protected $table = 'ls_body';
+    protected $primaryKey = 'body_id';
 
     public $timestamps = false;
 
-    protected $fillable = [
-         'id',
-         'state_id',
-         'name',
-         'abbreviation',
-         'role',
-         'role_abbreviation',
-    ];
+    #endregion
 
-    public $enumNames = [
-        'House of Delegates',
-        'Senate',
-        'House of Representatives',
-        'State Assembly',
-        'Legislature',
-        'Assembly',
-        'General Assembly',
-        'State Assembly',
-        'Joint Conference',
-        'City Council',
-    ];
+    #region Scopes
 
-    public $enumAbbreviations = [
-        'House',
-        'Senate',
-        'House',
-        'Assembly',
-        'Legislature',
-        'Assembly',
-        'Assembly',
-        'House',
-        'Joint',
-        'Council',
-    ];
-
-    public $enumRoles = [
-        'Delegate',
-        'Senator',
-        'Representative',
-        'Assemblymember',
-        'Joint',
-        'Councilmember',
-    ];
-
-    public $enumRoleAbbreviations = [
-        'Del',
-        'Sen',
-        'Rep',
-        'Asm',
-        'Jnt',
-        'Cnc',
-    ];
-
-    public function state()
-    {
+    public function state() {
         return $this->belongsTo(State::class, 'state_id');
     }
+    public function role() {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    #endregion
+
+    #region Attributes
+
+    public function getAbbreviationAttribute()
+    {
+        return $this->body_abbr;
+    }
+    public function getShortNameAttribute()
+    {
+        return $this->body_short;
+    }
+    public function getRoleAbbreviationAttribute()
+    {
+        return $this->body_role_abbr;
+    }
+    public function getRoleNameAttribute()
+    {
+        return $this->body_role_name;
+    }
+
+    #endregion
 }
