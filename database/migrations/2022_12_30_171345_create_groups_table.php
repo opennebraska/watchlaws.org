@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('name');
 
             $table->string('type');
-            $table->string('state_abbr');
-            $table->text('description');
+            $table->string('state_abbr')->nullable();
+            $table->text('description')->nullable();
 
             $table->foreignIdFor(User::class, 'admin_id');
 
