@@ -12,6 +12,8 @@ class UpDownVote extends Model
 
     #region Properties
 
+    protected $guarded = [];
+
     protected $casts = [
         'direction' => 'boolean',
     ];

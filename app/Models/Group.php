@@ -12,11 +12,17 @@ class Group extends Model
     use HasFactory;
     use HasEnumProperties;
 
+    #region Properties
+
+    protected $guarded = [];
+
     protected $enumType = [
         'group',
         'workspace',
         'topic'
     ];
+
+    #endregion
 
     public function __construct(array $attributes = array())
     {

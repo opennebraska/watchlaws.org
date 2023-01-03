@@ -14,17 +14,7 @@ class Bookmark extends Model
 
     #region Properties
 
-    protected $fillable = [
-        'scope_type',
-        'scope_id',
-        'bookmarkable_type',
-        'bookmarkable_id',
-        'description',
-        'pin_to_top',
-        'direction',
-        'type',
-        'created_by',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'direction' => 'boolean',
