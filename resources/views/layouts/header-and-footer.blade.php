@@ -24,17 +24,18 @@
 
                 @yield('navbar_title')
                 @sectionMissing('navbar_title')
-                    <span class="text-gray-400 mr-1">How laws are made in</span> your state
+                    {{-- <span class="text-gray-400 mr-1">How laws are made in</span> your state --}}
+                    <a href="/">WatchLaws.org</a>
                 @endif
 
             @endslot
             @slot('links')
 
-                <x-navbar.link href="/">
+                {{-- <x-navbar.link href="/">
 
                     U.S. States
 
-                </x-navbar.link>
+                </x-navbar.link> --}}
 
             @endslot
         </x-navbar>

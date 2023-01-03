@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    //region Properties
+    #region Properties
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //endregion
+    #endregion
+
+    #region Attributes
+
+    public function getFullNameAttribute()
+    {
+        return implode(' ', array_filter([$this->first_name, $this->last_name]));
+    }
+
+    #endregion
 }

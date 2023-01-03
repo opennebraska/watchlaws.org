@@ -16,8 +16,29 @@ class State extends Model
 
     public $timestamps = false;
 
+    #region Relationships
+
     public function bills()
     {
         return $this->hasMany(Bill::class, 'state_id');
     }
+    public function sessions()
+    {
+        return $this->hasMany(Session::class, 'state_id');
+    }
+
+    #endregion
+
+    #region Attributes
+
+    public function getAbbreviationAttribute()
+    {
+        return $this->state_abbr;
+    }
+    public function getNameAttribute()
+    {
+        return $this->state_name;
+    }
+
+    #endregion
 }
