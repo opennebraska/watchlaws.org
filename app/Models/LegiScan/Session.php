@@ -16,6 +16,8 @@ class Session extends Model
 
     public $timestamps = false;
 
+    #region Relationships
+
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
@@ -25,4 +27,19 @@ class Session extends Model
     {
         return $this->hasMany(Bill::class, 'session_id');
     }
+
+    #endregion
+
+    #region Attributes
+
+    public function getNameAttribute()
+    {
+        return $this->session_name;
+    }
+    public function getTitleAttribute()
+    {
+        return $this->session_title;
+    }
+
+    #endregion
 }

@@ -2,14 +2,18 @@
 
 namespace App\Models\LegiScan;
 
+use App\Models\Bookmark;
+use App\Traits\Models\HasLegiScanShim;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bill extends Model
 {
     use HasFactory;
+    use HasLegiScanShim;
 
-    //region Variables
+    #region Properties
 
     protected $table = 'ls_bill';
 
@@ -41,11 +45,12 @@ class Bill extends Model
         'pending_committee_id',
     ];
 
-    //endregion
+    #endregion
 
-    //region Relationships
+    #region Relationships
 
     // Foreign key references
+
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
@@ -82,6 +87,7 @@ class Bill extends Model
     }
 
     // One-to-many references
+
     public function ammendments()
     {
         return $this->hasMany(BillAmendment::class, 'bill_id');
@@ -146,4 +152,22 @@ class Bill extends Model
     {
         return $this->hasMany(BillVote::class, 'bill_id');
     }
+
+    # Morph relationships
+
+    public function bookmarks()
+    {
+        return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
+    #endregion
+
+    #region Methods
+
+    public function bookmark($scope)
+    {
+        return Bookmark::getForBill($this, $scope);
+    }
+
+    #endregion
 }

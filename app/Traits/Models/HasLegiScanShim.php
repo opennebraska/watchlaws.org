@@ -8,7 +8,7 @@ trait HasLegiScanShim
 
     public function getIdAttribute()
     {
-        return $this->primaryKey;
+        return $this[$this->primaryKey];
     }
 
     #endregion
