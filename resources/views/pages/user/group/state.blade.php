@@ -15,7 +15,7 @@
 
             <a href="{{ route('group.session.show', [$group, $state->abbreviation, $session->id]) }}"
                 class="underline"
-                >{{ $session->title }}</a>
+                >{{ $session->short_description }}</a>
 
         @endforeach
 

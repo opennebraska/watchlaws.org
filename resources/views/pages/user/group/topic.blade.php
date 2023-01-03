@@ -6,7 +6,7 @@
 
 @endphp
 @extends('layouts.user-header-and-footer')
-@section('html_title', $topic->name.' | '.$workspace->name.' | '.$session->title.' | '.$state->name.' | '.$root->name)
+@section('html_title', $topic->name.' | '.$workspace->name.' | '.$session->short_description.' | '.$state->name.' | '.$root->name)
 @push('body')
     <x-container>
 
@@ -14,7 +14,7 @@
         <ul class="mb-5">
             <li><a href="{{ route('group.show', $root) }}" class="underline">{{ $root->name }}</a></li>
             <li><a href="{{ route('group.state.show', [$root, $state->abbreviation]) }}" class="underline">{{ $state->name }}</a></li>
-            <li><a href="{{ route('group.session.show', [$root, $state->abbreviation, $session]) }}" class="underline">{{ $session->title }}</a></li>
+            <li><a href="{{ route('group.session.show', [$root, $state->abbreviation, $session]) }}" class="underline">{{ $session->short_description }}</a></li>
             <li><a href="{{ route('group.session.show', [$workspace, $state->abbreviation, $session]) }}" class="underline">{{ $workspace->name }}</a></li>
             <li>{{ $topic->name }}</li>
         </ul>

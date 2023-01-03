@@ -32,6 +32,17 @@ class Session extends Model
 
     #region Attributes
 
+    public function getShortDescriptionAttribute()
+    {
+        // Format: Name (Year[-ToYear])[ - Non-regular]
+
+        $result = '';
+        $result .= $this->name;
+        $result .= ' ('.implode('-', array_unique([$this->year_start, $this->year_end])).')';
+        $result .= $this->tagline == 'Regular Session' ? '' : ' - '.$this->tagline;
+
+        return $result;
+    }
     public function getNameAttribute()
     {
         return $this->session_name;
@@ -39,6 +50,10 @@ class Session extends Model
     public function getTitleAttribute()
     {
         return $this->session_title;
+    }
+    public function getTaglineAttribute()
+    {
+        return $this->session_tag;
     }
 
     #endregion

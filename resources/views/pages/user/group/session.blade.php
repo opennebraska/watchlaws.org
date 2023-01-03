@@ -1,5 +1,5 @@
 @extends('layouts.user-header-and-footer')
-@section('html_title', $session->title.' | '.$state->name.' | '.$group->name)
+@section('html_title', $session->short_description.' | '.$state->name.' | '.$group->name)
 @push('body')
     <x-container>
 
@@ -7,7 +7,7 @@
         <ul class="mb-5">
             <li><a href="{{ route('group.show', $group) }}" class="underline">{{ $group->name }}</a></li>
             <li><a href="{{ route('group.state.show', [$group, $state->abbreviation]) }}" class="underline">{{ $state->name }}</a></li>
-            <li>{{ $session->title }}</li>
+            <li>{{ $session->short_description }}</li>
         </ul>
 
         {{-- Workspaces --}}
