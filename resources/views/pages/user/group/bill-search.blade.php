@@ -5,7 +5,7 @@
     $topic = $group;
 
 @endphp@extends('layouts.user-header-and-footer')
-{{-- @section('html_title', '') --}}
+@section('html_title', 'Bill Search')
 @push('body')
     <x-container>
 

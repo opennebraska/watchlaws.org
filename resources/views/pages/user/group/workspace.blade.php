@@ -1,5 +1,5 @@
 @extends('layouts.user-header-and-footer')
-{{-- @section('html_title', '') --}}
+@section('html_title', $group->name.' | '.$session->title.' | '.$state->name.' | '.$group->parent->name)
 @push('body')
     <x-container>
 

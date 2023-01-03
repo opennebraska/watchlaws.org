@@ -1,5 +1,5 @@
 @extends('layouts.user-header-and-footer')
-{{-- @section('html_title', '') --}}
+@section('html_title', 'User home')
 @push('body')
     <x-container>
 

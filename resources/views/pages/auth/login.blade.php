@@ -1,4 +1,5 @@
 @extends('layouts.header-and-footer')
+@section('html_title', 'Login')
 @push('body')
     <x-container>
 

@@ -6,7 +6,7 @@
 
 @endphp
 @extends('layouts.user-header-and-footer')
-{{-- @section('html_title', '') --}}
+@section('html_title', $topic->name.' | '.$workspace->name.' | '.$session->title.' | '.$state->name.' | '.$root->name)
 @push('body')
     <x-container>
 

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@yield('html_title') - How laws are made</title>
+        <title>@yield('html_title') - WatchLaws.org</title>
         @yield('base_header_top')
         @yield('base_header_css')
         @yield('base_header_js')
