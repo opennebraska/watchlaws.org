@@ -130,6 +130,21 @@
                             </div>
                         </div>
 
+                        {{-- Authors --}}
+                        <div class="mt-1 text-xs text-gray-600">
+                            @foreach ($bill->sponsors as $sponsor)
+
+                                <div>
+                                    {{ $sponsor->person->name }}
+                                    @if ($sponsor->person->party)
+                                        ({{ $sponsor->person->party->name }})
+                                    @endif
+                                    <span class="text-gray-400">- {{ $sponsor->type->description }}</span>
+                                </div>
+
+                            @endforeach
+                        </div>
+
                         {{-- Info --}}
                         <div class="mt-1 mb-2 text-xs">
 
@@ -138,11 +153,15 @@
 
                             <span class="text-gray-500">{{ $bill->body->short_name }} {{ $bill->type->name }}</span>
 
-                            @if ($bill->pendingCommittee->name ?? false)
+                            @if ($bill->pending_committee->name ?? false)
                                 <span class="ml-1 pl-2 pr-2.5 py-0.5 bg-gray-200 text-gray-500">{{ $bill->pendingCommittee->name ?? '' }}</span>
                             @endif
 
-                            @if ($bill->body->id != $bill->currentBody->id)
+                            @foreach ($bill->referrals as $referral)
+                                <span class="ml-1 pl-2 pr-2.5 py-0.5 shadow border border-gray-300 bg-gray-100 text-gray-500">{{ $referral->committee->name ?? '' }}</span>
+                            @endforeach
+
+                            @if ($bill->body && $bill->current_body && $bill->body->id != $bill->current_body->id)
                                 <span class="ml-1 pl-2 pr-2.5 py-0.5 bg-yellow-100 text-gray-500">Went to the {{ $bill->currentBody->short_name }}</span>
                             @endif
 
