@@ -34,12 +34,11 @@ class Session extends Model
 
     public function getShortDescriptionAttribute()
     {
-        // Format: Name (Year[-ToYear])[ - Non-regular]
+        // Format: Name (Year[-ToYear])
 
         $result = '';
         $result .= $this->name;
         $result .= ' ('.implode('-', array_unique([$this->year_start, $this->year_end])).')';
-        $result .= $this->tagline == 'Regular Session' ? '' : ' - '.$this->tagline;
 
         return $result;
     }

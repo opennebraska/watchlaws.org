@@ -41,6 +41,10 @@ class Body extends Model
     {
         return $this->body_short;
     }
+    public function getNameAttribute()
+    {
+        return $this->body_name;
+    }
     public function getRoleAbbreviationAttribute()
     {
         return $this->body_role_abbr;

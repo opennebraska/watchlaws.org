@@ -5,15 +5,15 @@ namespace App\Models\LegiScan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Type extends Model
+class Role extends Model
 {
     use HasFactory;
 
     #region Properties
 
-    protected $table = 'ls_type';
+    protected $table = 'ls_role';
 
-    protected $primaryKey = 'bill_type_id';
+    protected $primaryKey = 'role_id';
 
     #endregion
 
@@ -21,12 +21,11 @@ class Type extends Model
 
     public function getNameAttribute()
     {
-        return $this->bill_type_name;
+        return $this->role_name;
     }
-
     public function getAbbreviationAttribute()
     {
-        return $this->bill_type_abbr;
+        return $this->role_abbreviation;
     }
 
     #endregion

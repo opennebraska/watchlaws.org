@@ -11,11 +11,13 @@
 
         {{-- Sessions --}}
         <h2 class="mb-1 font-semibold text-lg">Sessions</h2>
-        @foreach ($state->sessions as $session)
+        @foreach ($state->sessions()->orderByDesc('year_end')->orderByDesc('year_start')->get() as $session)
 
-            <a href="{{ route('group.session.show', [$group, $state->abbreviation, $session->id]) }}"
-                class="underline"
-                >{{ $session->short_description }}</a>
+            <div>
+                <a href="{{ route('group.session.show', [$group, $state->abbreviation, $session->id]) }}"
+                    class="underline"
+                    >{{ $session->short_description }}</a>
+            </div>
 
         @endforeach
 

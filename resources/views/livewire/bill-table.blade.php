@@ -14,7 +14,10 @@
 
     <x-table class="table-auto">
         @slot('header')
-            <x-table.header class="text-left text-sm">
+            <x-table.header>
+
+            </x-table.header>
+            <x-table.header>
 
             </x-table.header>
             <x-table.header class="text-left text-sm">
@@ -33,6 +36,17 @@
 
                 @endphp
                 <x-table.row class="border-b {{ $is_bookmarked ? 'bg-green-100' : '' }} {{ $is_hidden ? 'bg-gray-200' : '' }}">
+                    <x-table.cell class="whitespace-nowrap text-center">
+
+                        {{-- State seal --}}
+                        @if (\File::exists(public_path('/media/us_states/seals/'.$bill->state->abbreviation.'.svg')))
+                            <img src="/media/us_states/seals/{{ $bill->state->abbreviation }}.svg" alt="" class="h-12 max-w-none inline-block" />
+                        @endif
+                        <div class="leading-none">
+                            <span class="text-xs text-gray-400">{{ $bill->state->abbreviation }}</span>
+                        </div>
+
+                    </x-table.cell>
                     <x-table.cell class="whitespace-nowrap">
 
                         {{-- Options --}}
@@ -89,54 +103,71 @@
                     <x-table.cell class="w-full max-w-0">
 
                         {{-- Summary --}}
-
-                        <span class="group relative">
-                            <span class="line-clamp-3">
+                        <div class="group relative">
+                            <div class="line-clamp-2">
 
                                 @if ($bill->title != $bill->description)
                                     <div class="text-black font-semibold truncate">
-                                        <a href="{{ $bill->state_url }}" class="underline">{{ $bill->bill_number }}</a> &ndash;
                                         {{ $bill->title }}
                                     </div>
                                 @endif
-                                <div>
-                                    @if ($bill->title == $bill->description)
-                                        <a href="{{ $bill->state_url }}" class="font-semibold underline">{{ $bill->bill_number }}</a> &ndash;
-                                    @endif
-                                    <span class="text-gray-500">{{ $bill->description }}</span>
+                                <div class=" text-gray-700">
+                                    {{ $bill->description }}
                                 </div>
 
-                            </span>
-                            <span class="hidden group-hover:block absolute z-20 top-full right-0 border border-gray-400 rounded-sm bg-gray-200 px-1 max-w-md">
+                            </div>
+                            <div class="hidden group-hover:block absolute z-20 top-full right-0 border border-gray-400 rounded-sm bg-gray-200 px-1 max-w-md">
 
                                 @if ($bill->title != $bill->description)
                                     <div class="text-black font-semibold">
                                         {{ $bill->title }}
                                     </div>
                                 @endif
-                                <div class="text-gray-500">
+                                <div class="text-gray-700">
                                     {{ $bill->description }}
                                 </div>
 
-                            </span>
-                        </span>
+                            </div>
+                        </div>
+
+                        {{-- Info --}}
+                        <div class="mt-1 mb-2 text-xs">
+
+                            <a href="{{ $bill->state_url }}" class="underline"
+                                ><span class="text-gray-400">{{ $bill->number }}</span></a>
+
+                            <span class="text-gray-500">{{ $bill->body->short_name }} {{ $bill->type->name }}</span>
+
+                            @if ($bill->pendingCommittee->name ?? false)
+                                <span class="ml-1 pl-2 pr-2.5 py-0.5 bg-gray-200 text-gray-500">{{ $bill->pendingCommittee->name ?? '' }}</span>
+                            @endif
+
+                            @if ($bill->body->id != $bill->currentBody->id)
+                                <span class="ml-1 pl-2 pr-2.5 py-0.5 bg-yellow-100 text-gray-500">Went to the {{ $bill->currentBody->short_name }}</span>
+                            @endif
+
+                        </div>
 
                     </x-table.cell>
-                    <x-table.cell class="whitespace-nowrap text-sm">
+                    <x-table.cell class="whitespace-nowrap">
 
-                        {{-- Latest --}}
-                        <div>
-                            {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_date }}
-                        </div>
+                        <div class="text-sm text-gray-700">
 
-                        {{-- Action --}}
-                        <div class="truncate max-w-xs">
-                            {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_action }}
-                        </div>
+                            {{-- Latest --}}
+                            <div>
+                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_date ?? '' }}
+                            </div>
 
-                        {{-- Status --}}
-                        <div>
-                            {{ $bill->status->progress_desc }}
+                            {{-- Action --}}
+                            <div class="truncate max-w-xs">
+                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_action ?? '' }}
+                            </div>
+
+                            {{-- Status --}}
+                            <div>
+                                {{ $bill->status->progress_desc ?? '' }}
+                            </div>
+
                         </div>
 
                     </x-table.cell>

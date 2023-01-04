@@ -71,7 +71,7 @@ class Bill extends Model
         return $this->belongsTo(Body::class, 'current_body_id');
     }
 
-    public function billType()
+    public function type()
     {
         return $this->belongsTo(Type::class, 'bill_type_id');
     }
@@ -158,6 +158,15 @@ class Bill extends Model
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
+    #endregion
+
+    #region Attributes
+
+    public function getNumberAttribute()
+    {
+        return $this->bill_number;
     }
 
     #endregion
