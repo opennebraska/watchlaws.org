@@ -3,6 +3,14 @@ legiscan.ini
 legiscan.config.php
 .env.testing
 
+lib/legiscan/cache/api/**/
+!lib/legiscan/cache/api/.gitkeep
+lib/legiscan/cache/doc/**/
+!lib/legiscan/cache/doc/.gitkeep
+lib/legiscan/log/*
+!lib/legiscan/log/.gitkeep
+lib/legiscan/config.php
+
 /node_modules
 #/public/build
 /public/hot

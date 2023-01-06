@@ -1506,7 +1506,7 @@ class LegiScan_Pull
 
 			// See if something drastic happened
 			if ($this->response === false)
-				throw new APIException('Could not get response from LegiScan API server');
+				throw new APIException('Could not get response from LegiScan API server (cURL ' . curl_errno($ch) . ': ' . curl_error($ch) . ')');
 
 			// Fresh data so update cache
 			$update_cache = true;	
@@ -3077,7 +3077,10 @@ class LegiScan_Process
 					foreach ($bill_old['sponsors'] as $og_idx => $og)
 					{
 						if ($person['people_id'] == $og['people_id'])
+						{
 							$exists = true;
+							break;
+						}
 					}
 
 					if (!$exists)
@@ -3508,6 +3511,22 @@ class LegiScan_Process
 						$stmt->bindValue(':bill_id', $bill['bill_id'], PDO::PARAM_INT);
 						$stmt->bindValue(':subject_id', $subject['subject_id'], PDO::PARAM_INT);
 						$stmt->execute();
+
+						$subject_exists_id = $this->checkExists('subject', $subject['subject_id']);
+						if (!$subject_exists_id)
+						{
+							$sql = "INSERT INTO ls_subject (
+										subject_id, state_id, subject_name
+									) VALUES (
+										:subject_id, :state_id, :subject_name
+									)";
+
+							$stmt = $this->db->prepare($sql);
+							$stmt->bindValue(':subject_id', $subject['subject_id'], PDO::PARAM_INT);
+							$stmt->bindValue(':state_id', $bill['state_id'], PDO::PARAM_INT);
+							$stmt->bindValue(':subject_name', $subject['subject_name'], PDO::PARAM_STR);
+							$stmt->execute();
+						}
 					}
 				}
 				foreach ($bill_old['subjects'] as $old_subject)
