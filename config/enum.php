@@ -88,7 +88,7 @@ return [
         'WI' => 'Wisconsin',
         'WY' => 'Wyoming',
         'DC' => 'Washington D.C.',
-        'US' => 'US Congress',
+        'US' => 'U.S. Congress',
     ],
 
 ];

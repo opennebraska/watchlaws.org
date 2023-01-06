@@ -20,17 +20,31 @@
         <h1 class="mb-4 font-bold text-lg">{{ $topic->name }}</h1>
 
         {{-- State --}}
-        <h2 class="mb-1 font-semibold">State</h2>
-        <div>
-            @if ($topic->default_state)
+        <h2 class="mb-1 font-semibold">Legislature</h2>
+
+        @if ($topic->default_state)
+
+            <div class="mb-1">
                 <a href="{{ route('group.state.show', [$topic, $topic->default_state->abbreviation]) }}" class="underline"
                     >{{ $topic->default_state->name }}</a>
-                (<a href="{{ route('group.state.index', $topic) }}" class="underline">change</a>)
-            @else
-                <a href="{{ route('group.state.index', $topic) }}" class="underline">Pick a state</a>
+                    (<a href="{{ route('group.state.index', $topic) }}" class="underline">change</a>)
+            </div>
+            @if ($topic->default_state->abbreviation != 'US')
+                <div>
+                    <a href="{{ route('group.state.show', [$topic, 'US']) }}" class="underline">{{ config('enum.legiscan_states.US') }}</a>
+                </div>
             @endif
-        </div>
 
+        @else
+
+            <div class="mb-1">
+                <a href="{{ route('group.state.index', $topic) }}" class="underline">Pick a state</a>
+            </div>
+            <div>
+                <a href="{{ route('group.state.show', [$topic, 'US']) }}" class="underline">{{ config('enum.legiscan_states.US') }}</a>
+            </div>
+
+        @endif
 
 
     </x-container>
