@@ -14,12 +14,9 @@ use Illuminate\Support\Facades\Artisan;
 /**
  * @codeCoverageIgnore
  */
-class LegiScanImport extends Command
+class LegiScanDaemon extends Command
 {
-    protected $signature = 'legiscan:import
-        {--d|debug : Bet debug output from the LegiScan base import}
-        {--w|wordy : Use verbose output from the LegiScan base import}
-        {--m|migrate : Do a fresh set of migrations for the database before import}
+    protected $signature = 'legiscan:daemon
         {--s|skip : Skip importing the base LegiScan data}';
 
     protected $description = 'Regularly scheduled LegiScan import command';
@@ -30,12 +27,7 @@ class LegiScanImport extends Command
     {
         $start = now();
 
-        if ($this->option('migrate')) {
-            Artisan::call('migrate:fresh --drop-views');
-            $this->info(Artisan::output());
-        }
-
-        $this->importLegiscanData()
+        $this->importLegiScanData()
             ->translateStates()
             ->translateBodies()
             ->translateCommittees();
@@ -145,22 +137,19 @@ class LegiScanImport extends Command
         return $this;
     }
 
-    protected function importLegiscanData(): static
+    protected function importLegiScanData(): static
     {
         if ($this->option('skip')) {
             $this->info('Skipping base import');
-
             return $this;
         }
 
+        // Prepare command
         $mysqlConfig    = config('database.connections.mysql');
         $apiKey         = config('legiscan.api_key');
-        $debug          = $this->option('debug') ? '--debug ' : '';
-        $verbose        = $this->option('wordy') ? '--verbose ' : ' ';
-        $scriptFilepath = base_path('lib/legiscan/legiscan-bulk.php');
-
+        $scriptFilepath = base_path('lib/legiscan/legiscand.php');
         $command = sprintf(
-            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s %s%s--bulk --import --yes',
+            'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s',
             $mysqlConfig['host'],
             $mysqlConfig['port'],
             $mysqlConfig['database'],
@@ -168,27 +157,21 @@ class LegiScanImport extends Command
             $mysqlConfig['password'],
             $apiKey,
             $scriptFilepath,
-            $debug,
-            $verbose
         );
 
+        // Run command
         $this->info('Importing LegiScan data. This may take a minute.');
-
         while (@ob_end_flush());
-
         $process = popen($command, 'r');
-
         while (!feof($process)) {
             $this->info(fread($process, 4096));
-
             @flush();
         }
-
         Log::info('LegiScan import completed');
-
         $this->info('LegiScan import completed.');
-        $this->info($this->separator);
 
+        // Display separator before returning
+        $this->info($this->separator);
         return $this;
     }
 }
