@@ -8,13 +8,17 @@
             <li>{{ $group->name }}</li>
         </ul>
 
-        {{-- State --}}
-        <h2 class="mb-1 font-semibold text-lg">States</h2>
-        @foreach (config('enum.legiscan_states') as $state => $label)
+        <h1 class="mb-4 font-bold text-lg">{{ $group->name }}</h1>
 
-            <a href="{{ route('group.state.show', [$group, $state]) }}"
-                class="w-48 inline-block underline"
-                >{{ $label }}</a>
+        {{-- Workspaces --}}
+        <h2 class="mb-1 font-semibold">Workspaces</h2>
+        @foreach ($group->children()->workspaces()->get() as $workspace)
+
+            <div class="pb-1">
+                <a href="{{ route('group.show', [$workspace]) }}"
+                    class="underline"
+                    >{{ $workspace->name }}</a>
+            </div>
 
         @endforeach
 

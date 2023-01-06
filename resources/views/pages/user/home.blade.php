@@ -3,8 +3,10 @@
 @push('body')
     <x-container>
 
+        <h1 class="mb-4 font-bold text-lg">{{ auth()->user()->full_name }}</h1>
+
         {{-- Display groups --}}
-        <h2 class="mb-1 font-semibold text-lg">Groups</h2>
+        <h2 class="mb-1 font-semibold">Groups</h2>
         @foreach ($groups as $group)
 
             <div class="pb-1">

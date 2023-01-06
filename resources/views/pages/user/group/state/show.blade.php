@@ -1,3 +1,10 @@
+@php
+
+    $root = $group->parent->parent;
+    $workspace = $group->parent;
+    $topic = $group;
+
+@endphp
 @extends('layouts.user-header-and-footer')
 @section('html_title', $state->name.' | '.$group->name)
 @push('body')
@@ -5,7 +12,9 @@
 
         {{-- Navigation --}}
         <ul class="mb-5">
-            <li><a href="{{ route('group.show', $group) }}" class="underline">{{ $group->name }}</a></li>
+            <li><a href="{{ route('group.show', $root) }}" class="underline">{{ $root->name }}</a></li>
+            <li><a href="{{ route('group.show', $workspace) }}" class="underline">{{ $workspace->name }}</a></li>
+            <li><a href="{{ route('group.show', $topic) }}" class="underline">{{ $topic->name }}</a></li>
             <li>{{ $state->name }}</li>
         </ul>
 

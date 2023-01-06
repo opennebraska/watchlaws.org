@@ -14,19 +14,6 @@ class GroupSessionController extends Controller
     {
         $state = State::where('state_abbr', $state_abbr)->first();
 
-        if ($group->type == 'group')
-        {
-            return view('pages.user.group.session', compact('group', 'state', 'session'));
-        }
-
-        if ($group->type == 'workspace')
-        {
-            return view('pages.user.group.workspace', compact('group', 'state', 'session'));
-        }
-
-        if ($group->type == 'topic')
-        {
-            return view('pages.user.group.topic', compact('group', 'state', 'session'));
-        }
+        return view('pages.user.group.session', compact('group', 'state', 'session'));
     }
 }

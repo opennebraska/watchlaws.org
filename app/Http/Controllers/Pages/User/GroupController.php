@@ -10,11 +10,23 @@ class GroupController extends Controller
 {
     public function show(Group $group)
     {
-        if ($group->state_abbr)
+        if ($group->type == 'group')
         {
-            return redirect(route('group.state.show', [$group, $group->state_abbr]));
+            return view('pages.user.group.group', compact('group'));
         }
 
-        return view('pages.user.group.group', compact('group'));
+        if ($group->type == 'workspace')
+        {
+            return view('pages.user.group.workspace', compact('group'));
+        }
+
+        if ($group->type == 'topic')
+        {
+            // if (!request('choose-state') && $group->default_state)
+            // {
+            //     return redirect(route('group.state.show', [$group, $group->default_state->abbreviation]));
+            // }
+            return view('pages.user.group.topic', compact('group'));
+        }
     }
 }

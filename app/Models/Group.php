@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\LegiScan\State;
 use App\Traits\Models\HasEnumProperties;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,6 +50,11 @@ class Group extends Model
         return $this->morphMany(Bookmark::class, 'scope');
     }
 
+    function state()
+    {
+        return $this->belongsTo(State::class, 'state_abbr', 'state_abbr');
+    }
+
     #endregion
 
     #region Scopes
@@ -64,6 +70,24 @@ class Group extends Model
     function scopeTopics(Builder $query)
     {
         $query->where('type', 'topic');
+    }
+
+    #endregion
+
+    #region Attributes
+
+    function getDefaultStateAttribute()
+    {
+        if ($this->state) {
+            return $this->state;
+        }
+
+        for ($parent = $this->parent; $parent; $parent = $parent->parent)
+        {
+            if ($parent->state) {
+                return $parent->state;
+            }
+        }
     }
 
     #endregion

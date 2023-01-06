@@ -9,10 +9,15 @@ use Illuminate\Http\Request;
 
 class GroupStateController extends Controller
 {
+    public function index(Group $group)
+    {
+        return view('pages.user.group.state.index', compact('group'));
+    }
+
     public function show(Group $group, $state_abbr)
     {
         $state = State::where('state_abbr', $state_abbr)->first();
 
-        return view('pages.user.group.state', compact('group', 'state'));
+        return view('pages.user.group.state.show', compact('group', 'state'));
     }
 }

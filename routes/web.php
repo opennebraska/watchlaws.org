@@ -29,13 +29,10 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/', [UserHomeController::class, 'index'])->name('user.home.index');
 
-    // Group
+    // Group -> Workspace -> Topic -> State -> Session
     Route::get('group/{group}', [GroupController::class, 'show'])->name('group.show');
-
-    // Group-state
+    Route::get('group/{group}/state', [GroupStateController::class, 'index'])->name('group.state.index');
     Route::get('group/{group}/state/{state_abbr}', [GroupStateController::class, 'show'])->name('group.state.show');
-
-    // Group-state-session
     Route::get('group/{group}/state/{state_abbr}/session/{session}', [GroupSessionController::class, 'show'])->name('group.session.show');
     Route::get('group/{group}/state/{state_abbr}/session/{session}/search', [GroupBillSearchController::class, 'show'])->name('group.bill-search.show');
 

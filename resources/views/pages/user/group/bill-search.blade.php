@@ -12,10 +12,10 @@
         {{-- Navigation --}}
         <ul class="mb-5">
             <li><a href="{{ route('group.show', $root) }}" class="underline">{{ $root->name }}</a></li>
-            <li><a href="{{ route('group.state.show', [$root, $state->abbreviation]) }}" class="underline">{{ $state->name }}</a></li>
-            <li><a href="{{ route('group.session.show', [$root, $state->abbreviation, $session]) }}" class="underline">{{ $session->short_description }}</a></li>
-            <li><a href="{{ route('group.session.show', [$workspace, $state->abbreviation, $session]) }}" class="underline">{{ $workspace->name }}</a></li>
-            <li>{{ $topic->name }}</li>
+            <li><a href="{{ route('group.show', $workspace) }}" class="underline">{{ $workspace->name }}</a></li>
+            <li><a href="{{ route('group.show', $topic) }}?choose-state=1" class="underline">{{ $topic->name }}</a></li>
+            <li><a href="{{ route('group.state.show', [$topic, $state->abbreviation]) }}" class="underline">{{ $state->name }}</a></li>
+            <li>{{ $session->name }}</li>
         </ul>
 
         <nav class="pb-1 mb-6 border-b">
@@ -25,7 +25,7 @@
 
         <h2 class=" text-xl font-bold mb-3">Bill search</h2>
 
-        @livewire('bill-table', ['state' => $state, 'session' => $session, 'scope' => $group])
+        @livewire('bill-table', ['state' => $state, 'session' => $session, 'scope' => $topic])
 
     </x-container>
 @endpush
