@@ -10,10 +10,8 @@ use Illuminate\Http\Request;
 
 class GroupSessionController extends Controller
 {
-    public function show(Group $group, $state_abbr, Session $session)
+    public function show(Group $group, State $state, Session $session)
     {
-        $state = State::where('state_abbr', $state_abbr)->first();
-
         return view('pages.user.group.session', compact('group', 'state', 'session'));
     }
 }

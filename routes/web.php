@@ -32,9 +32,8 @@ Route::middleware('auth')->group(function(){
     // Group -> Workspace -> Topic -> State -> Session
     Route::get('group/{group}', [GroupController::class, 'show'])->name('group.show');
     Route::get('group/{group}/state', [GroupStateController::class, 'index'])->name('group.state.index');
-    Route::get('group/{group}/state/{state_abbr}', [GroupStateController::class, 'show'])->name('group.state.show');
-    Route::get('group/{group}/state/{state_abbr}/session/{session}', [GroupSessionController::class, 'show'])->name('group.session.show');
-    Route::get('group/{group}/state/{state_abbr}/session/{session}/search', [GroupBillSearchController::class, 'show'])->name('group.bill-search.show');
+    Route::get('group/{group}/state/{state}', [GroupStateController::class, 'show'])->name('group.state.show');
+    Route::get('group/{group}/state/{state}/session/{session}', [GroupSessionController::class, 'show'])->name('group.session.show');
+    Route::get('group/{group}/state/{state}/session/{session}/search', [GroupBillSearchController::class, 'show'])->name('group.bill-search.show');
 
 });
-

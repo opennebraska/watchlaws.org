@@ -16,6 +16,15 @@ class State extends Model
 
     public $timestamps = false;
 
+    #region Overrides
+
+    public function getRouteKeyName()
+    {
+        return 'state_abbr';
+    }
+
+    #endregion
+
     #region Relationships
 
     public function bills()

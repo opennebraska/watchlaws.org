@@ -10,13 +10,8 @@ use Illuminate\Http\Request;
 
 class GroupBillSearchController extends Controller
 {
-    public function show(Group $group, $state_abbr, Session $session)
+    public function show(Group $group, State $state, Session $session)
     {
-        $state = State::where('state_abbr', $state_abbr)->first();
-
-        if ($group->type == 'topic')
-        {
-            return view('pages.user.group.bill-search', compact('group', 'state', 'session'));
-        }
+        return view('pages.user.group.bill-search', compact('group', 'state', 'session'));
     }
 }

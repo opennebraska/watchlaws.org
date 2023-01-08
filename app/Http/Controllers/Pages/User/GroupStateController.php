@@ -14,10 +14,8 @@ class GroupStateController extends Controller
         return view('pages.user.group.state.index', compact('group'));
     }
 
-    public function show(Group $group, $state_abbr)
+    public function show(Group $group, State $state)
     {
-        $state = State::where('state_abbr', $state_abbr)->first();
-
         return view('pages.user.group.state.show', compact('group', 'state'));
     }
 }
