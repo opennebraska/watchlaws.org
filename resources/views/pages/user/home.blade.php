@@ -7,15 +7,18 @@
 
         {{-- Display groups --}}
         <h2 class="mb-1 font-semibold">Groups</h2>
-        @foreach ($groups as $group)
 
-            <div class="pb-1">
-                <a href="{{ route('group.show', compact('group')) }}"
-                    class="underline"
-                    >{{ $group->name }}</a>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
+            @foreach ($groups as $group)
 
-        @endforeach
+                <div>
+                    <a href="{{ route('group.show', compact('group')) }}"
+                        class="underline"
+                        >{{ $group->name }}</a>
+                </div>
+
+            @endforeach
+        </div>
 
     </x-container>
 @endpush

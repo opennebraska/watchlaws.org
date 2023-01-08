@@ -12,15 +12,18 @@
 
         {{-- Workspaces --}}
         <h2 class="mb-1 font-semibold">Workspaces</h2>
-        @foreach ($group->children()->workspaces()->get() as $workspace)
 
-            <div class="pb-1">
-                <a href="{{ route('group.show', [$workspace]) }}"
-                    class="underline"
-                    >{{ $workspace->name }}</a>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
+            @foreach ($group->children()->workspaces()->get() as $workspace)
 
-        @endforeach
+                <div>
+                    <a href="{{ route('group.show', [$workspace]) }}"
+                        class="underline"
+                        >{{ $workspace->name }}</a>
+                </div>
+
+            @endforeach
+        </div>
 
     </x-container>
 @endpush

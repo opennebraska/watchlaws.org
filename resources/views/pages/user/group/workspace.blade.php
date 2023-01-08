@@ -19,15 +19,18 @@
 
         {{-- Topics --}}
         <h2 class="mb-1 font-semibold">Topics</h2>
-        @foreach ($workspace->children()->topics()->get() as $topic)
 
-            <div class="pb-1">
-                <a href="{{ route('group.show', [$topic]) }}"
-                    class="underline"
-                    >{{ $topic->name }}</a>
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
+            @foreach ($workspace->children()->topics()->get() as $topic)
 
-        @endforeach
+                <div>
+                    <a href="{{ route('group.show', [$topic]) }}"
+                        class="underline"
+                        >{{ $topic->name }}</a>
+                </div>
+
+            @endforeach
+        </div>
 
     </x-container>
 @endpush
