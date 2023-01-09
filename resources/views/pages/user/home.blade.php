@@ -8,10 +8,10 @@
         {{-- Display groups --}}
         <h2 class="mb-1 font-semibold">Groups</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
+        <div>
             @foreach ($groups as $group)
 
-                <div>
+                <div class="mb-1">
                     <a href="{{ route('group.show', compact('group')) }}"
                         class="underline"
                         >{{ $group->name }}</a>
