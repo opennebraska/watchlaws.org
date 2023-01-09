@@ -31,7 +31,7 @@ class Bookmark extends Model
 
     public function bookmarkable()
     {
-        return $this->morphTo();
+        return $this->morphTo('bookmarkable');
     }
 
     #endregion

@@ -18,12 +18,15 @@
             <li>{{ $session->name }}</li>
         </ul>
 
-        <nav class="pb-1 mb-6 border-b">
-            <a href="{{ route('group.session.show', [$topic, $state->abbreviation, $session]) }}" class="underline">bookmarks</a>
-            <a href="{{ route('group.bill-search.show', [$topic, $state->abbreviation, $session]) }}" class="font-semibold ml-1">search</a>
-        </nav>
+        <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
+        <h1 class="mb-3 font-semibold">{{ $state->name }}, {{ $session->short_description }}</h1>
 
-        <h2 class=" text-xl font-bold mb-3">Bill search</h2>
+        <h2 class="mt-6 mb-2 text-xl font-light">Manage Bookmarks</h2>
+
+        <nav class="mb-6">
+            <a href="{{ route('group.session.show', [$topic, $state->abbreviation, $session]) }}" class="underline">bookmarks</a>
+            <a href="{{ route('group.bill-search.show', [$topic, $state->abbreviation, $session]) }}" class="ml-1">search</a>
+        </nav>
 
         @livewire('bill-table', ['state' => $state, 'session' => $session, 'scope' => $topic])
 

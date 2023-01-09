@@ -6,7 +6,7 @@
 
 @endphp
 @extends('layouts.user-header-and-footer')
-@section('html_title', $state->name.' | '.$group->name)
+@section('html_title', implode(' | ', [$state->name, $topic->name, $workspace->name, $root->name]))
 @push('body')
     <x-container>
 
@@ -18,8 +18,12 @@
             <li>{{ $state->name }}</li>
         </ul>
 
+        <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
+
+        <h1 class="mb-3 font-semibold">{{ $state->name }}</h1>
+
         {{-- Sessions --}}
-        <h2 class="mb-1 font-semibold text-lg">Sessions</h2>
+        <h2 class="mb-0.5">Pick a session:</h2>
         @foreach ($state->sessions()->orderByDesc('year_end')->orderByDesc('year_start')->get() as $session)
 
             <div>

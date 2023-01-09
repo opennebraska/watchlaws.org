@@ -91,4 +91,36 @@ class Group extends Model
     }
 
     #endregion
+
+    function descendants()
+    {
+        // Basis case
+        if (!$this->children)
+        {
+            return collect();
+        }
+
+        // Recursive case
+        $result = collect();
+        foreach ($this->children as $child)
+        {
+            $result->push($child);
+            $result = $result->merge($child->descendants());
+        }
+        return $result;
+    }
+
+    function ancestors()
+    {
+        // Basis case
+        if (!$this->parent)
+        {
+            return collect();
+        }
+
+        // Recursive case
+        $result = collect([$this->parent]);
+        $result = $result->merge($this->parent->ancestors());
+        return $result;
+    }
 }

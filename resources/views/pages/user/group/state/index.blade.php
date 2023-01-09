@@ -20,7 +20,7 @@
         <h1 class="mb-4 font-bold text-lg">{{ $topic->name }}</h1>
 
         {{-- State --}}
-        <h2 class="mb-1 font-semibold">Pick a state</h2>
+        <h2 class="mb-0.5">Pick a state:</h2>
         @foreach (array_diff(array_keys(config('enum.legiscan_states')), ['US', 'DC']) as $state_abbr)
 
             <a href="{{ route('group.state.show', [$group, $state_abbr]) }}"
