@@ -77,7 +77,12 @@ class User extends Authenticatable
 
     public function getGroupsAttribute()
     {
-        return $this->groups_owned->merge($this->group_memberships->pluck('group')->where('type', 'group'));
+        $groups = $this->groups_owned;
+
+        $memberships = $this->group_memberships;
+        $groupsIn = $memberships->pluck('group');
+
+        return $groups->merge($groupsIn)->where('type', 'group')->unique('id');
     }
 
     #endregion
