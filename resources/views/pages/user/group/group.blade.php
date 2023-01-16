@@ -8,6 +8,10 @@
             <li>{{ $group->name }}</li>
         </ul>
 
+        <div class="mb-4">
+            {{ view('pages.user.group.partials.saved-navigation-choices', compact('group')) }}
+        </div>
+
         <div class="flex items-baseline mb-5">
             <h1 class="font-bold text-lg mr-3">{{ $group->name }}</h1>
             <nav>
@@ -30,16 +34,12 @@
             @endforeach
         </div>
 
-        <h3 class="mt-12 mb-1 font-semibold border-t-4 border-gray-300 pt-2">
+        <h3 class="mt-12 mb-3 font-semibold border-t-4 border-gray-300 pt-1">
             Bookmarks under this
             <span class="bg-gray-200 px-1">GROUP</span>
+            for {{ $group->chosenYear() }}
         </h3>
 
-        <div>
-            {{ view('pages.user.group.partials.navigate-session-years', compact('session_years')) }}
-        </div>
-
-        <h3 class="mt-4 mb-0 font-bold tracking-tight">{{ $page_query_year }}</h3>
         {{ view('pages.user.group.partials.table-of-bookmarks', compact('bookmarks')) }}
 
     </x-container>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasEnumProperties;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -149,6 +150,32 @@ class Group extends Model
         }
 
         return $this->members()->where('user_id', $user->id)->first()->role;
+    }
+
+    public function chosenYearKey()
+    {
+        return sprintf('group/{%s}/year', $this->id);
+    }
+    public function chosenYear()
+    {
+        return session($this->chosenYearKey(), Carbon::now()->year);
+    }
+    public function chooseYear($year)
+    {
+        return session([$this->chosenYearKey() => $year]);
+    }
+
+    public function chosenStateKey()
+    {
+        return sprintf('group/{%s}/state', $this->id);
+    }
+    public function chosenState()
+    {
+        return session($this->chosenStateKey(), $this->state_abbr);
+    }
+    public function chooseState($state)
+    {
+        return session([$this->chosenStateKey() => $state]);
     }
 
     #endregion
