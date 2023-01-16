@@ -28,9 +28,9 @@ class DemoSeeder extends Seeder
 
         // Groups (x2)
         Group::factory(2)->create([
-            'admin_id' => $user->id,
             'type' => 'group',
             'state_abbr' => 'NE',
+            'owner_id' => $user->id,
         ]);
 
         // Workspaces (x4; 2 under each group)
@@ -39,7 +39,7 @@ class DemoSeeder extends Seeder
             Group::factory(2)->create([
                 'parent_id' => $group->id,
                 'type' => 'workspace',
-                'admin_id' => $user->id,
+                'owner_id' => $user->id,
             ]);
         }
 
@@ -49,7 +49,7 @@ class DemoSeeder extends Seeder
             Group::factory(3)->create([
                 'parent_id' => $workspace->id,
                 'type' => 'topic',
-                'admin_id' => $user->id,
+                'owner_id' => $user->id,
             ]);
         }
 

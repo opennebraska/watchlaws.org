@@ -49,6 +49,19 @@ class User extends Authenticatable
 
     #endregion
 
+    #region Relationships
+
+    function group_memberships()
+    {
+        return $this->hasMany(GroupMember::class);
+    }
+    function groups_owned()
+    {
+        return $this->hasMany(Group::class, 'owner_id');
+    }
+
+    #endregion
+
     #region Attributes
 
     public function getFullNameAttribute()
@@ -60,6 +73,11 @@ class User extends Authenticatable
         }
 
         return $this->email;
+    }
+
+    public function getGroupsAttribute()
+    {
+        return $this->groups_owned->merge($this->group_memberships->pluck('group')->where('type', 'group'));
     }
 
     #endregion

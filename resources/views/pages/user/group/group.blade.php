@@ -8,7 +8,12 @@
             <li>{{ $group->name }}</li>
         </ul>
 
-        <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
+        <div class="flex items-baseline mb-5">
+            <h1 class="font-bold text-lg mr-3">{{ $group->name }}</h1>
+            <nav>
+                <a href="{{ route('group.about.show', compact('group')) }}" class="hover:underline text-gray-500">about</a>
+            </nav>
+        </div>
 
         {{-- Workspaces --}}
         <h2 class="mb-0.5">Pick a workspace:</h2>

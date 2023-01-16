@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('state_abbr')->nullable();
             $table->text('description')->nullable();
 
-            $table->foreignIdFor(User::class, 'admin_id');
+            $table->foreignIdFor(User::class, 'owner_id');
 
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->timestamps();

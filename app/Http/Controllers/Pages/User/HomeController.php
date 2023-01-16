@@ -10,8 +10,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $groups = Group::roots()->get();
-
-        return view('pages.user.home', compact('groups'));
+        return view('pages.user.home');
     }
 }

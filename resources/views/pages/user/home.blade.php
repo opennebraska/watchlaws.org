@@ -9,7 +9,7 @@
         <h2 class="mb-1 font-semibold">Groups</h2>
 
         <div>
-            @foreach ($groups as $group)
+            @foreach (auth()->user()->groups as $group)
 
                 <div class="mb-1">
                     <a href="{{ route('group.show', compact('group')) }}"

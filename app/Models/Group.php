@@ -55,6 +55,16 @@ class Group extends Model
         return $this->belongsTo(State::class, 'state_abbr', 'state_abbr');
     }
 
+    function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    function members()
+    {
+        return $this->hasMany(GroupMember::class);
+    }
+
     #endregion
 
     #region Scopes
@@ -90,7 +100,14 @@ class Group extends Model
         }
     }
 
+    function getParticipantsAttribute()
+    {
+        return $this->members->pluck('user')->prepend($this->owner)->unique();
+    }
+
     #endregion
+
+    #region Methods
 
     function descendants()
     {
@@ -123,4 +140,16 @@ class Group extends Model
         $result = $result->merge($this->parent->ancestors());
         return $result;
     }
+
+    function getRole(User $user)
+    {
+        if ($this->owner_id == $user->id)
+        {
+            return 'owner';
+        }
+
+        return $this->members()->where('user_id', $user->id)->first()->role;
+    }
+
+    #endregion
 }
