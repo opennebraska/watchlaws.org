@@ -10,11 +10,14 @@ use App\Models\LegiScan\Session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class GroupController extends Controller
 {
     public function show(Group $group)
     {
+        $this->authorize('view', $group);
+
         // Assuming session is no more than 2 years (e.g. no sessions between start and end years)
         $session_years = Session::query()
             ->select('year_start as year')
