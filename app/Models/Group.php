@@ -167,7 +167,7 @@ class Group extends Model
     public function chosenYearKey()
     {
         // Root group's session
-        return sprintf('group/{%s}/year', $this->root()->id);
+        return sprintf('group/%s/year', $this->root()->id);
     }
     public function chosenYear()
     {
@@ -181,11 +181,11 @@ class Group extends Model
     public function chosenStateKey()
     {
         // Root group's session
-        return sprintf('group/{%s}/state', $this->root()->id);
+        return sprintf('group/%s/state', $this->root()->id);
     }
     public function chosenState()
     {
-        $state_abbr = session($this->chosenStateKey(), $this->state_abbr);
+        $state_abbr = session($this->chosenStateKey(), $this->root()->state_abbr);
 
         if ($state_abbr)
         {
