@@ -3,6 +3,7 @@
 namespace App\Models\LegiScan;
 
 use App\Traits\Models\HasLegiScanShim;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -26,6 +27,19 @@ class Session extends Model
     public function bills()
     {
         return $this->hasMany(Bill::class, 'session_id');
+    }
+
+    #endregion
+
+    #region Scopes
+
+    public function scopeSelectYears(Builder $query)
+    {
+        return $query
+            ->select('year_start as year')
+            ->union(Session::select('year_end as year'))
+            ->orderByDesc('year')
+            ;
     }
 
     #endregion

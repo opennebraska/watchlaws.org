@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasEnumProperties;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -109,6 +110,18 @@ class Group extends Model
 
     #region Methods
 
+    function root()
+    {
+        // Basis case
+        if (!$this->parent)
+        {
+            return $this;
+        }
+
+        // Recursive case
+        return $this->parent->root();
+    }
+
     function descendants()
     {
         // Basis case
@@ -149,6 +162,41 @@ class Group extends Model
         }
 
         return $this->members()->where('user_id', $user->id)->first()->role;
+    }
+
+    public function chosenYearKey()
+    {
+        // Root group's session
+        return sprintf('group/{%s}/year', $this->root()->id);
+    }
+    public function chosenYear()
+    {
+        return session($this->chosenYearKey(), Carbon::now()->year);
+    }
+    public function chooseYear($year)
+    {
+        return session([$this->chosenYearKey() => $year]);
+    }
+
+    public function chosenStateKey()
+    {
+        // Root group's session
+        return sprintf('group/{%s}/state', $this->root()->id);
+    }
+    public function chosenState()
+    {
+        $state_abbr = session($this->chosenStateKey(), $this->state_abbr);
+
+        if ($state_abbr)
+        {
+            return State::where('state_abbr', $state_abbr)->first();
+        }
+
+        return null;
+    }
+    public function chooseState($state_abbr)
+    {
+        return session([$this->chosenStateKey() => $state_abbr]);
     }
 
     #endregion
