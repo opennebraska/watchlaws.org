@@ -27,31 +27,42 @@ class GroupController extends Controller
             ->pluck('year')
             ->filter(function ($year) { return $year <= Carbon::now()->year; });
 
-        $page_query_year = request()->query('year', $session_years->first());
+        // $session_years = Session::query()
+        //     ->selectYears()
+        //     ->get()
+        //     ->pluck('year')
+        //     ->filter(function ($year) { return $year <= Carbon::now()->year; });
 
         $bookmarks = Bookmark::query()
             ->where('scope_type', Group::class)
             ->whereIn('scope_id', $group->descendants()->pluck('id')->prepend($group->id))
-            ->bills()
-            ->whereHas('bookmarkable.session', function(Builder $query) use ($page_query_year){
-                return $query->where('year_start', $page_query_year)
-                                ->orWhere('year_end', $page_query_year);
+            ->where('direction', true)
+            ->whereBills()
+            ->whereHas('bookmarkable.session', function(Builder $query) use ($group){
+                return $query->where('year_start', $group->chosenYear())
+                           ->orWhere('year_end', $group->chosenYear());
             })
+            ->when($group->chosenState(), function(Builder $query, $state) {
+                $query->whereHas('bookmarkable.state', function(Builder $query) use ($state) {
+                    return $query->where('state_abbr', $state->abbreviation);
+                });
+            })
+            ->orderByDesc('created_at')
             ->get();
 
         if ($group->type == 'group')
         {
-            return view('pages.user.group.group', compact('group', 'session_years', 'page_query_year', 'bookmarks'));
+            return view('pages.user.group.group', compact('group', 'session_years', 'bookmarks'));
         }
 
         if ($group->type == 'workspace')
         {
-            return view('pages.user.group.workspace', compact('group', 'session_years', 'page_query_year', 'bookmarks'));
+            return view('pages.user.group.workspace', compact('group', 'session_years', 'bookmarks'));
         }
 
         if ($group->type == 'topic')
         {
-            return view('pages.user.group.topic', compact('group', 'session_years', 'page_query_year', 'bookmarks'));
+            return view('pages.user.group.topic', compact('group', 'session_years', 'bookmarks'));
         }
     }
 }

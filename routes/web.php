@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GroupAboutController;
+use App\Http\Controllers\GroupNavigateStateController;
+use App\Http\Controllers\GroupNavigateYearController;
 use App\Http\Controllers\Pages\User\GroupBillSearchController;
 use App\Http\Controllers\Pages\User\GroupController;
 use App\Http\Controllers\Pages\User\GroupSessionController;
@@ -33,9 +35,9 @@ Route::middleware('auth')->group(function(){
     // Group -> Workspace -> Topic -> State -> Session
     Route::get('group/{group}', [GroupController::class, 'show'])->name('group.show');
     Route::get('group/{group}/about', [GroupAboutController::class, 'show'])->name('group.about.show');
-    Route::get('group/{group}/state', [GroupStateController::class, 'index'])->name('group.state.index');
-    Route::get('group/{group}/state/{state}', [GroupStateController::class, 'show'])->name('group.state.show');
-    Route::get('group/{group}/state/{state}/session/{session}', [GroupSessionController::class, 'show'])->name('group.session.show');
-    Route::get('group/{group}/state/{state}/session/{session}/search', [GroupBillSearchController::class, 'show'])->name('group.bill-search.show');
+    Route::get('group/{group}/search', [GroupBillSearchController::class, 'show'])->name('group.bill-search.show');
+
+    Route::put('group/{group}/navigate-state', [GroupNavigateStateController::class, 'update'])->name('group.navigate.state.update');
+    Route::put('group/{group}/navigate-year', [GroupNavigateYearController::class, 'update'])->name('group.navigate.year.update');
 
 });

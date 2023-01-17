@@ -18,8 +18,6 @@ class BillTable extends Component
         'search' => ['initial' => null, 'as' => 'q'],
     ];
 
-    public $state;
-    public $session;
     public $scope;
 
     public $search = null;
@@ -42,13 +40,15 @@ class BillTable extends Component
     {
         return Bill::query()
             ->when(
-                $this->state,
-                fn ($query) => $query->where('state_id', $this->state->id)
+                $this->scope->chosenState(),
+                fn ($query) => $query->where('state_id', $this->scope->chosenState()->id)
             )
-            ->when(
-                $this->session,
-                fn ($query) => $query->where('session_id', $this->session->id)
-            );
+            ->whereHas('session', function($query) {
+                return $query->where('year_start', $this->scope->chosenYear())
+                           ->orWhere('year_end', $this->scope->chosenYear());
+            })
+            ->orderByDesc('created')
+            ;
     }
 
     public function applyFilters($query)

@@ -38,7 +38,7 @@ class Bookmark extends Model
 
     #region Scopes
 
-    public function scopeBills(Builder $query)
+    public function scopeWhereBills(Builder $query)
     {
         return $query->where('bookmarkable_type', Bill::class);
     }

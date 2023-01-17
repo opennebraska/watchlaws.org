@@ -10,7 +10,7 @@
             Status
         </x-table.header>
         <x-table.header class="text-left text-sm">
-            Scope
+            Topic
         </x-table.header>
     @endslot
     @slot('body')
@@ -141,7 +141,9 @@
                                 @elseif ($node->type == 'topic')
 
                                     <div class="truncate max-w-xs">
-                                        {{ $node->name }}
+                                        <a href="{{ route('group.bill-search.show', [$node, 'q' => $bill->number]) }}"
+                                            class="underline"
+                                            >{{ $node->name }}</a>
                                     </div>
 
                                 @endif

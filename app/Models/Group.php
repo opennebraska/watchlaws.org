@@ -110,6 +110,18 @@ class Group extends Model
 
     #region Methods
 
+    function root()
+    {
+        // Basis case
+        if (!$this->parent)
+        {
+            return $this;
+        }
+
+        // Recursive case
+        return $this->parent->root();
+    }
+
     function descendants()
     {
         // Basis case
@@ -154,7 +166,8 @@ class Group extends Model
 
     public function chosenYearKey()
     {
-        return sprintf('group/{%s}/year', $this->id);
+        // Root group's session
+        return sprintf('group/{%s}/year', $this->root()->id);
     }
     public function chosenYear()
     {
@@ -167,15 +180,23 @@ class Group extends Model
 
     public function chosenStateKey()
     {
-        return sprintf('group/{%s}/state', $this->id);
+        // Root group's session
+        return sprintf('group/{%s}/state', $this->root()->id);
     }
     public function chosenState()
     {
-        return session($this->chosenStateKey(), $this->state_abbr);
+        $state_abbr = session($this->chosenStateKey(), $this->state_abbr);
+
+        if ($state_abbr)
+        {
+            return State::where('state_abbr', $state_abbr)->first();
+        }
+
+        return null;
     }
-    public function chooseState($state)
+    public function chooseState($state_abbr)
     {
-        return session([$this->chosenStateKey() => $state]);
+        return session([$this->chosenStateKey() => $state_abbr]);
     }
 
     #endregion

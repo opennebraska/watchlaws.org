@@ -25,6 +25,8 @@ class Session extends Model
         'special',
     ];
 
+    #region Relationships
+
     public function state()
     {
         return $this->belongsTo(State::class);
@@ -34,4 +36,6 @@ class Session extends Model
     {
         return $this->hasMany(Bill::class);
     }
+
+    #endregion
 }
