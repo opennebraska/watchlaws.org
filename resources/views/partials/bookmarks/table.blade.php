@@ -123,31 +123,21 @@
                     @foreach ($bill_bookmarks as $bookmark)
                         @php
 
-                            $branch = $bookmark->scope
-                                               ->ancestors()
-                                               ->filter(fn($group) => $group->type != 'group')
-                                               ->prepend($bookmark->scope);
+                            $topic = $bookmark->scope;
+                            $workspace = $topic->parent;
+                            $group = $topic->parent->parent;
 
                         @endphp
                         <div class="mb-2 last:mb-0">
 
-                            @foreach ($branch as $node)
-                                @if ($node->type == 'workspace')
-
-                                    <div class="text-xs text-slate-400 truncate max-w-xs">
-                                        {{ $node->name }}
-                                    </div>
-
-                                @elseif ($node->type == 'topic')
-
-                                    <div class="truncate max-w-xs">
-                                        <a href="{{ route('group.bill-search.show', [$node, 'q' => $bill->number]) }}"
-                                            class="underline"
-                                            >{{ $node->name }}</a>
-                                    </div>
-
-                                @endif
-                            @endforeach
+                            <div class="truncate max-w-xs">
+                                <a href="{{ route('groups.workspaces.topics.bill-search.show', [$group, $workspace, $topic, 'q'=>$bill->number]) }}"
+                                    class="underline"
+                                    >{{ $topic->name }}</a>
+                            </div>
+                            <div class="text-xs text-slate-400 truncate max-w-xs">
+                                {{ $workspace->name }}
+                            </div>
 
                         </div>
                     @endforeach

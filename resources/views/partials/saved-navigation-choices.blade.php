@@ -3,7 +3,7 @@
     <div class="bg-gray-200 px-4 py-4">
 
         {{-- Years --}}
-        <form action="{{ route('group.navigate.year.update', $group) }}" method="POST">
+        <form action="{{ route('groups.navigate.year.update', $group) }}" method="POST">
             @csrf
             @method('PUT')
             <select name="year" id="year" onchange="this.form.submit()">
@@ -19,7 +19,7 @@
     <div class="bg-gray-200 px-4 py-4 flex-grow">
 
         {{-- States --}}
-        <form action="{{ route('group.navigate.state.update', $group) }}" method="POST">
+        <form action="{{ route('groups.navigate.state.update', $group) }}" method="POST">
             @csrf
             @method('PUT')
             <select name="state" id="state" onchange="this.form.submit()">

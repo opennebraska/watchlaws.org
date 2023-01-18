@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Group;
 
+use App\Http\Controllers\Controller;
 use App\Models\Group;
 use Illuminate\Http\Request;
 
-class GroupNavigateYearController extends Controller
+class NavigateYearController extends Controller
 {
     public function update(Group $group, Request $request)
     {

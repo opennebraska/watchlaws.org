@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Pages\User;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bookmark;
 use App\Models\Group;
-use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\Session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class GroupController extends Controller
 {
@@ -26,12 +24,6 @@ class GroupController extends Controller
             ->get()
             ->pluck('year')
             ->filter(function ($year) { return $year <= Carbon::now()->year; });
-
-        // $session_years = Session::query()
-        //     ->selectYears()
-        //     ->get()
-        //     ->pluck('year')
-        //     ->filter(function ($year) { return $year <= Carbon::now()->year; });
 
         $bookmarks = Bookmark::query()
             ->where('scope_type', Group::class)
@@ -50,19 +42,6 @@ class GroupController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        if ($group->type == 'group')
-        {
-            return view('pages.user.group.group', compact('group', 'session_years', 'bookmarks'));
-        }
-
-        if ($group->type == 'workspace')
-        {
-            return view('pages.user.group.workspace', compact('group', 'session_years', 'bookmarks'));
-        }
-
-        if ($group->type == 'topic')
-        {
-            return view('pages.user.group.topic', compact('group', 'session_years', 'bookmarks'));
-        }
+        return view('groups.show', compact('group', 'session_years', 'bookmarks'));
     }
 }

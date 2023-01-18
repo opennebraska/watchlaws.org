@@ -24,8 +24,6 @@ class Group extends Model
         'topic'
     ];
 
-    #endregion
-
     public function __construct(array $attributes = array())
     {
         parent::__construct($attributes);
@@ -33,6 +31,8 @@ class Group extends Model
         // Enumerations
         $this->enumType = config('enum.group_type');
     }
+
+    #endregion
 
     #region Relationships
 

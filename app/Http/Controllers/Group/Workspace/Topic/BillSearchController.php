@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Pages\User;
+namespace App\Http\Controllers\Group\Workspace\Topic;
 
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\LegiScan\Session;
-use App\Models\LegiScan\State;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class GroupBillSearchController extends Controller
+class BillSearchController extends Controller
 {
-    public function show(Group $group, State $state, Session $session)
+    public function show(Group $group, Group $workspace, Group $topic)
     {
         $session_years = Session::query()
             ->select('year_start as year')
@@ -21,6 +20,6 @@ class GroupBillSearchController extends Controller
             ->pluck('year')
             ->filter(function ($year) { return $year <= Carbon::now()->year; });
 
-        return view('pages.user.group.topic-bill-search', compact('group', 'session_years'));
+        return view('groups.workspaces.topics.bill-search', compact('group', 'workspace', 'topic', 'session_years'));
     }
 }

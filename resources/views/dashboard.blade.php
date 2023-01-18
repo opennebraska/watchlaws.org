@@ -3,16 +3,16 @@
 @push('body')
     <x-container>
 
-        <h1 class="mb-4 font-bold text-lg">{{ auth()->user()->full_name }}</h1>
+        <h1 class="mb-4 font-bold text-lg">{{ $user->full_name }}</h1>
 
         {{-- Display groups --}}
         <h2 class="mb-1 font-semibold">Groups</h2>
 
         <div>
-            @foreach (auth()->user()->groups as $group)
+            @foreach ($user->groups as $group)
 
                 <div class="mb-1">
-                    <a href="{{ route('group.show', compact('group')) }}"
+                    <a href="{{ route('groups.show', compact('group')) }}"
                         class="underline"
                         >{{ $group->name }}</a>
                 </div>
