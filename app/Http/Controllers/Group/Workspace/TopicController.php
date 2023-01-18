@@ -8,7 +8,6 @@ use App\Models\Group;
 use App\Models\LegiScan\Session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
 class TopicController extends Controller
 {

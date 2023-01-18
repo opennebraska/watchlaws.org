@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Grouop\NavigateStateController;
+use App\Http\Controllers\Group\NavigateStateController;
 use App\Http\Controllers\Group\AboutController;
 use App\Http\Controllers\Group\NavigateYearController;
 use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;

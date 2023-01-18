@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Grouop;
+namespace App\Http\Controllers\Group;
 
 use App\Http\Controllers\Controller;
 use App\Models\Group;

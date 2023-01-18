@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\LegiScan\Session;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class BillSearchController extends Controller
 {
