@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Group\NavigateStateController;
 use App\Http\Controllers\Group\AboutController;
+use App\Http\Controllers\Group\HearingController;
 use App\Http\Controllers\Group\NavigateYearController;
 use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;
 use App\Http\Controllers\Group\Workspace\TopicController;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function()
     {
         Route::get('{group}', [GroupController::class, 'show'])->name('show');
         Route::get('{group}/about', [AboutController::class, 'show'])->name('about.show');
+        Route::get('{group}/hearings', [HearingController::class, 'index'])->name('hearings.index');
 
         // Saves year & state to session variable
         Route::put('{group}/navigate-year', [NavigateYearController::class, 'update'])->name('navigate.year.update');

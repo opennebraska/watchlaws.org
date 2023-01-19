@@ -174,12 +174,12 @@
 
                             {{-- Latest --}}
                             <div>
-                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_date ?? '' }}
+                                {{ $bill->history()->orderByDesc('history_date')->first()->history_date ?? '' }}
                             </div>
 
                             {{-- Action --}}
                             <div class="truncate max-w-xs">
-                                {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_action ?? '' }}
+                                {{ $bill->history()->orderByDesc('history_date')->first()->history_action ?? '' }}
                             </div>
 
                             {{-- Status --}}

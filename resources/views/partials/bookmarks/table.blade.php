@@ -99,17 +99,30 @@
 
                         </div>
 
+                        @php
+                            $hearing_history = $bill->history()->whereHearing()->get();
+                        @endphp
+                        @if ($hearing_history->isNotEmpty())
+                            <div class="mt-4 mb-1 px-4 py-3 bg-yellow-100 border border-yellow-400 text-yellow-900">
+                                @foreach ($hearing_history as $history_item)
+
+                                    {{ $history_item->action }}
+
+                                @endforeach
+                            </div>
+                        @endif
+
                 </x-table.cell>
                 <x-table.cell class="whitespace-nowrap text-sm">
 
                     {{-- Latest --}}
                     <div>
-                        {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_date ?? '' }}
+                        {{ $bill->history()->orderByDesc('history_date')->first()->history_date ?? '' }}
                     </div>
 
                     {{-- Action --}}
                     <div class="truncate max-w-xs">
-                        {{ $bill->historyItems()->orderByDesc('history_date')->first()->history_action ?? '' }}
+                        {{ $bill->history()->orderByDesc('history_date')->first()->history_action ?? '' }}
                     </div>
 
                     {{-- Status --}}

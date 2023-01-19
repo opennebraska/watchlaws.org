@@ -4,8 +4,13 @@
     <x-container>
 
         {{-- Saved navigation choices --}}
-        <div class="mb-4">
+        <div class="mb-4 flex">
             {{ view('partials.saved-navigation-choices', compact('group', 'session_years')) }}
+            <div class="bg-gray-200 px-4 py-4 flex-grow">
+
+                <a href="{{ route('groups.hearings.index', $group) }}" class="underline">Hearings</a>
+
+            </div>
         </div>
 
         {{-- Navigation --}}
