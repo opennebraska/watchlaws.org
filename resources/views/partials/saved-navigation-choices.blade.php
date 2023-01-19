@@ -7,7 +7,7 @@
             @csrf
             @method('PUT')
             <select name="year" id="year" onchange="this.form.submit()">
-                @foreach ($session_years as $year)
+                @foreach ($sessionYears as $year)
                     <option value="{{ $year }}" {!! $year == $group->chosenYear() ? 'selected="selected"' : '' !!}>
                         {{ $year }}
                     </option>

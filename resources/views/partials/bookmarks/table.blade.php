@@ -124,8 +124,8 @@
                         @php
 
                             $topic = $bookmark->scope;
-                            $workspace = $topic->parent;
-                            $group = $topic->parent->parent;
+                            $workspace = $topic->workspace;
+                            $group = $topic->workspace->group;
 
                         @endphp
                         <div class="mb-2 last:mb-0">

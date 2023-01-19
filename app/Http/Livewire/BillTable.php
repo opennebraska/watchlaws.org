@@ -18,6 +18,7 @@ class BillTable extends Component
         'search' => ['initial' => null, 'as' => 'q'],
     ];
 
+    public $group;
     public $scope;
 
     public $search = null;
@@ -40,12 +41,12 @@ class BillTable extends Component
     {
         return Bill::query()
             ->when(
-                $this->scope->chosenState(),
-                fn ($query) => $query->where('state_id', $this->scope->chosenState()->id)
+                $this->group->chosenState(),
+                fn ($query) => $query->where('state_id', $this->group->chosenState()->id)
             )
             ->whereHas('session', function($query) {
-                return $query->where('year_start', $this->scope->chosenYear())
-                           ->orWhere('year_end', $this->scope->chosenYear());
+                return $query->where('year_start', $this->group->chosenYear())
+                           ->orWhere('year_end', $this->group->chosenYear());
             })
             ->orderByDesc('created')
             ;
@@ -68,17 +69,16 @@ class BillTable extends Component
 
     public function render()
     {
-        $scope      = $this->scope;
-        $billCount  = $this->query()->count();
-        $bills      = $this->applyPagination(
-                                $this->applyFilters(
-                                    $this->query()->orderByDesc('status_date')
-                                )
-                            );
+        $bills = $this->applyPagination(
+            $this->applyFilters(
+                $this->query()->orderByDesc('status_date')
+            )
+        );
 
-        $has_filters = $this->hasFilters();
-
-        return view('livewire.bill-table', compact('bills', 'billCount', 'has_filters', 'scope'));
+        return view('livewire.bill-table')
+            ->withBills($bills)
+            ->withBillCount($this->query()->count())
+            ->withScope($this->scope);
     }
 
     public function hasFilters()

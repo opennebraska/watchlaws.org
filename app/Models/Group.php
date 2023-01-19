@@ -16,34 +16,22 @@ class Group extends Model
 
     #region Properties
 
-    protected $guarded = [];
-
-    protected $enumType = [
-        'group',
-        'workspace',
-        'topic'
+    protected $fillable = [
+        'name',
+        'type',
+        'state_abbr',
+        'description',
+        'owner_id',
+        'created_by',
     ];
-
-    public function __construct(array $attributes = array())
-    {
-        parent::__construct($attributes);
-
-        // Enumerations
-        $this->enumType = config('enum.group_type');
-    }
 
     #endregion
 
     #region Relationships
 
-    function parent()
+    function workspaces()
     {
-        return $this->belongsTo(Group::class, 'parent_id');
-    }
-
-    function children()
-    {
-        return $this->hasMany(Group::class, 'parent_id');
+        return $this->hasMany(Workspace::class);
     }
 
     function bookmarks()
@@ -64,23 +52,6 @@ class Group extends Model
     function members()
     {
         return $this->hasMany(GroupMember::class);
-    }
-
-    #endregion
-
-    #region Scopes
-
-    function scopeRoots(Builder $query)
-    {
-        $query->whereNull('parent_id');
-    }
-    function scopeWorkspaces(Builder $query)
-    {
-        $query->where('type', 'workspace');
-    }
-    function scopeTopics(Builder $query)
-    {
-        $query->where('type', 'topic');
     }
 
     #endregion
@@ -110,50 +81,6 @@ class Group extends Model
 
     #region Methods
 
-    function root()
-    {
-        // Basis case
-        if (!$this->parent)
-        {
-            return $this;
-        }
-
-        // Recursive case
-        return $this->parent->root();
-    }
-
-    function descendants()
-    {
-        // Basis case
-        if (!$this->children)
-        {
-            return collect();
-        }
-
-        // Recursive case
-        $result = collect();
-        foreach ($this->children as $child)
-        {
-            $result->push($child);
-            $result = $result->merge($child->descendants());
-        }
-        return $result;
-    }
-
-    function ancestors()
-    {
-        // Basis case
-        if (!$this->parent)
-        {
-            return collect();
-        }
-
-        // Recursive case
-        $result = collect([$this->parent]);
-        $result = $result->merge($this->parent->ancestors());
-        return $result;
-    }
-
     function getRole(User $user)
     {
         if ($this->owner_id == $user->id)
@@ -166,8 +93,7 @@ class Group extends Model
 
     public function chosenYearKey()
     {
-        // Root group's session
-        return sprintf('group/%s/year', $this->root()->id);
+        return sprintf('group/%s/year', $this->id);
     }
     public function chosenYear()
     {
@@ -180,19 +106,14 @@ class Group extends Model
 
     public function chosenStateKey()
     {
-        // Root group's session
-        return sprintf('group/%s/state', $this->root()->id);
+        return sprintf('group/%s/state', $this->id);
     }
     public function chosenState()
     {
-        $state_abbr = session($this->chosenStateKey(), $this->root()->state_abbr);
-
-        if ($state_abbr)
-        {
-            return State::where('state_abbr', $state_abbr)->first();
-        }
-
-        return null;
+        $state_abbr = session($this->chosenStateKey(), $this->state_abbr);
+        return $state_abbr
+             ? State::where('state_abbr', $state_abbr)->first()
+             : null;
     }
     public function chooseState($state_abbr)
     {

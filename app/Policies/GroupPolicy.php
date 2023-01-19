@@ -12,14 +12,6 @@ class GroupPolicy
 
     public function view(User $user, Group $group)
     {
-        // If you are a member of this group, or any parent groups
-        foreach ($group->ancestors()->prepend($group) as $current)
-        {
-            if ($current->participants->pluck('id')->contains($user->id))
-            {
-                return true;
-            }
-        }
-        return false;
+        return $group->participants->pluck('id')->contains($user->id);
     }
 }

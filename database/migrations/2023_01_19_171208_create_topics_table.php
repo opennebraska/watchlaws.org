@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Group;
 use App\Models\User;
+use App\Models\Workspace;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,20 +15,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('group_members', function (Blueprint $table) {
-
+        Schema::create('topics', function (Blueprint $table)
+        {
             $table->id();
 
-            $table->foreignIdFor(Group::class);
-            $table->foreignIdFor(User::class);
-            $table->string('role')->default('member');
+            $table->foreignIdFor(Workspace::class);
+            $table->string('name');
+            $table->string('state_abbr')->nullable();
+            $table->text('description')->nullable();
+            $table->foreignIdFor(User::class, 'owner_id');
 
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->timestamps();
 
             // Indexes
-            $table->unique(['group_id', 'user_id']);
-
+            $table->unique(['workspace_id', 'name']);
         });
     }
 
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_members');
+        Schema::dropIfExists('topics');
     }
 };

@@ -3,6 +3,7 @@
 namespace App\Models\LegiScan;
 
 use App\Traits\Models\HasLegiScanShim;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -67,6 +68,23 @@ class Session extends Model
     public function getTaglineAttribute()
     {
         return $this->session_tag;
+    }
+
+    #endregion
+
+    #region Static methods
+
+    public static function validYears()
+    {
+        // Assuming session is no more than 2 years (e.g. no third session between start and end years)
+
+        return Session::query()
+            ->select('year_start as year')
+            ->union(Session::select('year_end as year'))
+            ->orderByDesc('year')
+            ->get()
+            ->pluck('year')
+            ->filter(function ($year) { return $year <= Carbon::now()->year; });
     }
 
     #endregion

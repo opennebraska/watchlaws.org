@@ -12,7 +12,7 @@
             @foreach ($user->groups as $group)
 
                 <div class="mb-1">
-                    <a href="{{ route('groups.show', compact('group')) }}"
+                    <a href="{{ route('groups.show', $group) }}"
                         class="underline"
                         >{{ $group->name }}</a>
                 </div>

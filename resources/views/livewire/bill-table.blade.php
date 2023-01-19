@@ -4,7 +4,7 @@
 
         <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2" placeholder="Search..." />
 
-        @if ($has_filters)
+        @if ($this->hasFilters())
 
             <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">reset</a>
 

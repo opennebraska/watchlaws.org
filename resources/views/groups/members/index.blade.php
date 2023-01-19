@@ -4,10 +4,10 @@
     <x-container>
 
         {{-- Navigation --}}
-        <ul class="mb-5">
-            <li><a href="{{ route('group.show', $group) }}" class="underline">{{ $group->name }}</a></li>
-            <li>About</li>
-        </ul>
+        <nav class="mb-5">
+            <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
+            > Members
+        </nav>
 
         <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
 

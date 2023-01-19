@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Group\MemberController;
 use App\Http\Controllers\Group\NavigateStateController;
-use App\Http\Controllers\Group\AboutController;
 use App\Http\Controllers\Group\NavigateYearController;
 use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;
 use App\Http\Controllers\Group\Workspace\TopicController;
@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function()
     Route::middleware('can:view,group')->prefix('groups')->name('groups.')->group(function()
     {
         Route::get('{group}', [GroupController::class, 'show'])->name('show');
-        Route::get('{group}/about', [AboutController::class, 'show'])->name('about.show');
+        Route::get('{group}/members', [MemberController::class, 'index'])->name('members.index');
 
         // Saves year & state to session variable
         Route::put('{group}/navigate-year', [NavigateYearController::class, 'update'])->name('navigate.year.update');
