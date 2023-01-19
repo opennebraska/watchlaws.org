@@ -15,14 +15,14 @@
         {{-- Navigation --}}
         <div class="mb-5">
             <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
-            > <a href="{{ route('groups.workspaces.show', ['group'=>$group, 'workspace'=>$workspace]) }}" class="underline">{{ $workspace->name }}</a>
+            > <a href="{{ route('groups.workspaces.show', [$group, $workspace]) }}" class="underline">{{ $workspace->name }}</a>
             > {{ $topic->name }}</li>
         </div>
 
         <h1 class="mb-3 font-bold text-lg">{{ $topic->name }}</h1>
 
         <div class="mt-5">
-            <a href="{{ route('groups.workspaces.topics.bill-search.show', ['group'=>$group, 'workspace'=>$workspace, 'topic'=>$topic]) }}" class="text-white bg-green-600 tracking-wider px-3 py-1 rounded-xl">Search</a>
+            <a href="{{ route('groups.workspaces.topics.bill-search.show', [$group, $workspace, $topic]) }}" class="text-white bg-green-600 tracking-wider px-3 py-1 rounded-xl">Search</a>
         </div>
 
         <div class="flex mt-12 mb-4 border-t-4 border-gray-300 pt-3">
