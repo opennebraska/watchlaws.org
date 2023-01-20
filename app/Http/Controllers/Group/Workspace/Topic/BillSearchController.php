@@ -5,20 +5,17 @@ namespace App\Http\Controllers\Group\Workspace\Topic;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\LegiScan\Session;
+use App\Models\Topic;
+use App\Models\Workspace;
 use Carbon\Carbon;
 
 class BillSearchController extends Controller
 {
-    public function show(Group $group, Group $workspace, Group $topic)
+    public function show(Group $group, Workspace $workspace, Topic $topic)
     {
-        $session_years = Session::query()
-            ->select('year_start as year')
-            ->union(Session::select('year_end as year'))
-            ->orderByDesc('year')
-            ->get()
-            ->pluck('year')
-            ->filter(function ($year) { return $year <= Carbon::now()->year; });
-
-        return view('groups.workspaces.topics.bill-search', compact('group', 'workspace', 'topic', 'session_years'));
+        return view('groups.workspaces.topics.bill-search')
+            ->withGroup($group)
+            ->withWorkspace($workspace)
+            ->withTopic($topic);
     }
 }

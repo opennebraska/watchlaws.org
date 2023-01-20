@@ -18,6 +18,7 @@ class BillTable extends Component
         'search' => ['initial' => null, 'as' => 'q'],
     ];
 
+    public $group;
     public $scope;
 
     public $search = null;
@@ -40,12 +41,12 @@ class BillTable extends Component
     {
         return Bill::query()
             ->when(
-                $this->scope->chosenState(),
-                fn ($query) => $query->where('state_id', $this->scope->chosenState()->id)
+                $this->group->chosenState(),
+                fn ($query) => $query->where('state_id', $this->group->chosenState()->id)
             )
             ->whereHas('session', function($query) {
-                return $query->where('year_start', $this->scope->chosenYear())
-                           ->orWhere('year_end', $this->scope->chosenYear());
+                return $query->where('year_start', $this->group->chosenYear())
+                           ->orWhere('year_end', $this->group->chosenYear());
             })
             ->orderByDesc('created')
             ;
@@ -68,17 +69,16 @@ class BillTable extends Component
 
     public function render()
     {
-        $scope      = $this->scope;
-        $billCount  = $this->query()->count();
-        $bills      = $this->applyPagination(
-                                $this->applyFilters(
-                                    $this->query()->orderByDesc('status_date')
-                                )
-                            );
+        $bills = $this->applyPagination(
+            $this->applyFilters(
+                $this->query()->orderByDesc('status_date')
+            )
+        );
 
-        $has_filters = $this->hasFilters();
-
-        return view('livewire.bill-table', compact('bills', 'billCount', 'has_filters', 'scope'));
+        return view('livewire.bill-table')
+            ->withBills($bills)
+            ->withBillCount($this->query()->count())
+            ->withScope($this->scope);
     }
 
     public function hasFilters()
@@ -91,38 +91,6 @@ class BillTable extends Component
         $this->reset('search');
         $this->resetPage();
     }
-
-    // Need:
-    // - Get vote count for each bill
-    // - Get bookmark status (null, up, down)
-
-    // public function toggleUpVote(Bill $bill)
-    // {
-    //     // Find bill, and vote up or clear
-    //     // Up   => Clear
-    //     // Down => Up
-    //     // Null => Up
-
-    //     $current_direction = UpDownVote::userVote($bill)->direction ?? null;
-
-    //     return $current_direction === true
-    //          ? UpDownVote::userVoteClear($bill)
-    //          : UpDownVote::userVoteUp($bill);
-    // }
-
-    // public function toggleDownVote(Bill $bill)
-    // {
-    //     // Find bill, and vote down or clear
-    //     // Down => Clear
-    //     // Up   => Down
-    //     // Null => Down
-
-    //     $current_direction = UpDownVote::userVote($bill)->direction ?? null;
-
-    //     return $current_direction === false
-    //          ? UpDownVote::userVoteClear($bill)
-    //          : UpDownVote::userVoteUp($bill);
-    // }
 
     public function toggleBookmark(Bill $bill)
     {

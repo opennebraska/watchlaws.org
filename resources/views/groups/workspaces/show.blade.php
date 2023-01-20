@@ -4,7 +4,10 @@
     <x-container>
 
         <div class="mb-4">
-            {{ view('partials.saved-navigation-choices', compact('group', 'session_years')) }}
+
+            {{-- Saved navigation choices --}}
+            {{ view('partials.saved-navigation-choices')->withGroup($group) }}
+
         </div>
 
         {{-- Navigation --}}
@@ -19,7 +22,7 @@
         <h2 class="mb-0.5">Pick a topic:</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
-            @foreach ($workspace->children()->topics()->get() as $topic)
+            @foreach ($workspace->topics as $topic)
 
                 <div>
                     <a href="{{ route('groups.workspaces.topics.show', [$group, $workspace, $topic]) }}"
@@ -38,7 +41,7 @@
             </h3>
         </div>
 
-        {{ view('partials.bookmarks.table', compact('bookmarks')) }}
+        {{ view('partials.bookmarks.table')->withBookmarks($workspace->findBookmarks()) }}
 
     </x-container>
 @endpush

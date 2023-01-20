@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\LegiScan\Bill;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +13,17 @@ class Bookmark extends Model
 
     #region Properties
 
-    protected $guarded = [];
+    protected $fillable = [
+        'scope_type',
+        'scope_id',
+        'bookmarkable_type',
+        'bookmarkable_id',
+        'reason',
+        'pin_to_top',
+        'direction',
+        'type',
+        'created_by',
+    ];
 
     protected $casts = [
         'direction' => 'boolean',
@@ -36,14 +45,54 @@ class Bookmark extends Model
 
     #endregion
 
-    #region Scopes
-
-    public function scopeWhereBills(Builder $query)
+    public function scopePerGroup(Builder $query, Group $group)
     {
-        return $query->where('bookmarkable_type', Bill::class);
+        $query->whereHasMorph('scope', Topic::class, function(Builder $query) use ($group){
+            $query->whereHas('workspace.group', function(Builder $query) use($group){
+                $query->where('id', $group->id);
+            });
+        });
     }
+    public function scopePerWorkspace(Builder $query, Workspace $workspace)
+    {
+        $query->whereHasMorph('scope', Topic::class, function(Builder $query) use ($workspace){
+            $query->whereHas('workspace', function(Builder $query) use($workspace){
+                $query->where('id', $workspace->id);
+            });
+        });
+    }
+    public function scopePerTopic(Builder $query, Topic $topic)
+    {
+        $query->whereHasMorph('scope', Topic::class, function(Builder $query) use ($topic){
+            $query->where('id', $topic->id);
+        });
+    }
+    public function scopeWhereDirection(Builder $query, $direction)
+    {
+        return $query->where('direction', $direction);
+    }
+    public function scopeWhereBookmarksAreForBillsInChosenYearAndSessionForGroup(Builder $query, Group $group)
+    {
+        // Filter for bills
+        $query->whereHasMorph('bookmarkable', Bill::class, function(Builder $query) use ($group) {
 
-    #endregion
+            // Filter by chosen bill.state
+            $query->when($group->chosenState(), function(Builder $query, $state) {
+                $query->whereHas('state', function(Builder $query) use ($state) {
+                    $query->where('state_abbr', $state->abbreviation);
+                });
+            })
+
+            // Filter by chosen bill.session
+            ->when($group->chosenYear(), function(Builder $query, $year) {
+                $query->whereHas('session', function(Builder $query) use ($year) {
+                    return $query->where('year_start', $year)
+                                 ->orWhere('year_end', $year);
+                });
+            });
+
+        });
+    }
 
     #region Methods
 

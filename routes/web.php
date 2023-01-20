@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Group\MemberController;
 use App\Http\Controllers\Group\NavigateStateController;
-use App\Http\Controllers\Group\AboutController;
 use App\Http\Controllers\Group\HearingController;
 use App\Http\Controllers\Group\NavigateYearController;
 use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;
@@ -31,13 +31,13 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::middleware('auth')->group(function()
 {
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Groups
     Route::middleware('can:view,group')->prefix('groups')->name('groups.')->group(function()
     {
         Route::get('{group}', [GroupController::class, 'show'])->name('show');
-        Route::get('{group}/about', [AboutController::class, 'show'])->name('about.show');
+        Route::get('{group}/members', [MemberController::class, 'index'])->name('members.index');
         Route::get('{group}/hearings', [HearingController::class, 'index'])->name('hearings.index');
 
         // Saves year & state to session variable

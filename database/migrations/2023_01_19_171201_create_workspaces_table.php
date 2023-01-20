@@ -15,20 +15,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('group_members', function (Blueprint $table) {
-
+        Schema::create('workspaces', function (Blueprint $table)
+        {
             $table->id();
 
             $table->foreignIdFor(Group::class);
-            $table->foreignIdFor(User::class);
-            $table->string('role')->default('member');
+            $table->string('name');
+            $table->string('state_abbr')->nullable();
+            $table->text('description')->nullable();
+            $table->foreignIdFor(User::class, 'owner_id');
 
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->timestamps();
 
             // Indexes
-            $table->unique(['group_id', 'user_id']);
-
+            $table->unique(['group_id', 'name']);
         });
     }
 
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_members');
+        Schema::dropIfExists('workspaces');
     }
 };

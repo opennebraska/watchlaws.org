@@ -6,7 +6,7 @@
         {{-- Navigation --}}
         <nav class="mb-5">
             <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
-            > About
+            > Members
         </nav>
 
         <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>

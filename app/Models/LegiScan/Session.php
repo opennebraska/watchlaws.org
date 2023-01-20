@@ -3,6 +3,7 @@
 namespace App\Models\LegiScan;
 
 use App\Traits\Models\HasLegiScanShim;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

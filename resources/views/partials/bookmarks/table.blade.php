@@ -14,10 +14,10 @@
         </x-table.header>
     @endslot
     @slot('body')
-        @forelse ($bookmarks->groupBy('bookmarkable.id') as $bill_id => $bill_bookmarks)
+        @forelse ($bookmarks->groupBy('bookmarkable.id') as $billId => $billBookmarks)
             @php
 
-                $bill = $bill_bookmarks->first()->bookmarkable;
+                $bill = $billBookmarks->first()->bookmarkable;
 
             @endphp
             <x-table.row class="border-b">
@@ -133,12 +133,12 @@
                 </x-table.cell>
                 <x-table.cell class="whitespace-nowrap text-sm">
 
-                    @foreach ($bill_bookmarks as $bookmark)
+                    @foreach ($billBookmarks as $bookmark)
                         @php
 
                             $topic = $bookmark->scope;
-                            $workspace = $topic->parent;
-                            $group = $topic->parent->parent;
+                            $workspace = $topic->workspace;
+                            $group = $topic->workspace->group;
 
                         @endphp
                         <div class="mb-2 last:mb-0">
