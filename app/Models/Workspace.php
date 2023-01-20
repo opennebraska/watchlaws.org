@@ -27,4 +27,14 @@ class Workspace extends Model
     {
         return $this->hasMany(Topic::class);
     }
+
+    public function findBookmarks()
+    {
+        return Bookmark::query()
+                    ->perWorkspace($this)
+                    ->whereDirection(true)
+                    ->whereBookmarksAreForBillsInChosenYearAndSessionForGroup($this->group)
+                    ->orderByDesc('created_at')
+                    ->get();
+    }
 }

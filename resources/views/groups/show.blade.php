@@ -6,9 +6,7 @@
         <div class="mb-4">
 
             {{-- Saved navigation choices --}}
-            {{ view('partials.saved-navigation-choices')
-                    ->withGroup($group)
-                    ->withSessionYears($sessionYears) }}
+            {{ view('partials.saved-navigation-choices')->withGroup($group) }}
 
         </div>
 
@@ -48,7 +46,7 @@
             </h3>
         </div>
 
-        {{ view('partials.bookmarks.table')->withBookmarks($bookmarks) }}
+        {{ view('partials.bookmarks.table')->withBookmarks($group->findBookmarks()) }}
 
     </x-container>
 @endpush

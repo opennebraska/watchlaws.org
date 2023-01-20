@@ -28,42 +28,42 @@ return new class extends Migration
 
     private function moveWorkspaces()
     {
-        foreach (Group::where('type', 'workspace')->get() as $workspace_group)
+        foreach (Group::where('type', 'workspace')->get() as $workspaceGroup)
         {
             // Move workspaces to their own table
             $workspace = Workspace::create([
-                'group_id' => $workspace_group->parent_id,
-                'name' => $workspace_group->name,
-                'state_abbr' => $workspace_group->state_abbr,
-                'description' => $workspace_group->description,
-                'owner_id' => $workspace_group->owner_id,
-                'created_by' => $workspace_group->created_by,
-                'created_at' => $workspace_group->created_at,
-                'updated_at' => $workspace_group->updated_at,
+                'group_id' => $workspaceGroup->parent_id,
+                'name' => $workspaceGroup->name,
+                'state_abbr' => $workspaceGroup->state_abbr,
+                'description' => $workspaceGroup->description,
+                'owner_id' => $workspaceGroup->owner_id,
+                'created_by' => $workspaceGroup->created_by,
+                'created_at' => $workspaceGroup->created_at,
+                'updated_at' => $workspaceGroup->updated_at,
             ]);
 
-            $this->repointBookmarkstoNewModels($workspace_group, $workspace);
-            $this->moveTopics($workspace_group, $workspace);
+            $this->repointBookmarkstoNewModels($workspaceGroup, $workspace);
+            $this->moveTopics($workspaceGroup, $workspace);
         }
     }
 
-    private function moveTopics($workspace_group, $workspace)
+    private function moveTopics($workspaceGroup, $workspace)
     {
         // Move topics to their own table
-        foreach (Group::where([['type', 'topic'],['parent_id', $workspace_group->id]])->get() as $topic_group)
+        foreach (Group::where([['type', 'topic'],['parent_id', $workspaceGroup->id]])->get() as $topicGroup)
         {
             $topic = Topic::create([
                 'workspace_id' => $workspace->id,
-                'name' => $topic_group->name,
-                'state_abbr' => $topic_group->state_abbr,
-                'description' => $topic_group->description,
-                'owner_id' => $topic_group->owner_id,
-                'created_by' => $topic_group->created_by,
-                'created_at' => $topic_group->created_at,
-                'updated_at' => $topic_group->updated_at,
+                'name' => $topicGroup->name,
+                'state_abbr' => $topicGroup->state_abbr,
+                'description' => $topicGroup->description,
+                'owner_id' => $topicGroup->owner_id,
+                'created_by' => $topicGroup->created_by,
+                'created_at' => $topicGroup->created_at,
+                'updated_at' => $topicGroup->updated_at,
             ]);
 
-            $this->repointBookmarkstoNewModels($topic_group, $topic);
+            $this->repointBookmarkstoNewModels($topicGroup, $topic);
         }
     }
 

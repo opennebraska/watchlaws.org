@@ -196,6 +196,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Custom providers
+         */
+        App\Providers\LegislativeSessionHelperProvider::class,
+
     ],
 
     /*
@@ -210,7 +215,9 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+
+        'LegislativeSessionHelper' => App\Helpers\Facades\LegislativeSessionHelperFacade::class,
+
     ])->toArray(),
 
 ];

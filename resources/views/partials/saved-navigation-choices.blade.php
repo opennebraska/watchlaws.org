@@ -7,7 +7,7 @@
             @csrf
             @method('PUT')
             <select name="year" id="year" onchange="this.form.submit()">
-                @foreach ($sessionYears as $year)
+                @foreach (legislativeSessionHelper()->validYears() as $year)
                     <option value="{{ $year }}" {!! $year == $group->chosenYear() ? 'selected="selected"' : '' !!}>
                         {{ $year }}
                     </option>
@@ -24,9 +24,9 @@
             @method('PUT')
             <select name="state" id="state" onchange="this.form.submit()">
                 <option value="">ALL STATES</option>
-                @foreach (config('enum.legiscan_states') as $state_abbr => $state_name)
-                    <option value="{{ $state_abbr }}" {!! $state_abbr == ($group->chosenState()->abbreviation ?? null) ? 'selected="selected"' : '' !!}>
-                        {{ $state_name }}
+                @foreach (config('enum.legiscan_states') as $stateAbbr => $stateName)
+                    <option value="{{ $stateAbbr }}" {!! $stateAbbr == ($group->chosenState()->abbreviation ?? null) ? 'selected="selected"' : '' !!}>
+                        {{ $stateName }}
                     </option>
                 @endforeach
             </select>

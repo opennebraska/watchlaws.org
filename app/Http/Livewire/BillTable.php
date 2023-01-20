@@ -92,38 +92,6 @@ class BillTable extends Component
         $this->resetPage();
     }
 
-    // Need:
-    // - Get vote count for each bill
-    // - Get bookmark status (null, up, down)
-
-    // public function toggleUpVote(Bill $bill)
-    // {
-    //     // Find bill, and vote up or clear
-    //     // Up   => Clear
-    //     // Down => Up
-    //     // Null => Up
-
-    //     $current_direction = UpDownVote::userVote($bill)->direction ?? null;
-
-    //     return $current_direction === true
-    //          ? UpDownVote::userVoteClear($bill)
-    //          : UpDownVote::userVoteUp($bill);
-    // }
-
-    // public function toggleDownVote(Bill $bill)
-    // {
-    //     // Find bill, and vote down or clear
-    //     // Down => Clear
-    //     // Up   => Down
-    //     // Null => Down
-
-    //     $current_direction = UpDownVote::userVote($bill)->direction ?? null;
-
-    //     return $current_direction === false
-    //          ? UpDownVote::userVoteClear($bill)
-    //          : UpDownVote::userVoteUp($bill);
-    // }
-
     public function toggleBookmark(Bill $bill)
     {
         // Bookmark bill for topic

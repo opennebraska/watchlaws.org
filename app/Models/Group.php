@@ -110,14 +110,24 @@ class Group extends Model
     }
     public function chosenState()
     {
-        $state_abbr = session($this->chosenStateKey(), $this->state_abbr);
-        return $state_abbr
-             ? State::where('state_abbr', $state_abbr)->first()
+        $stateAbbr = session($this->chosenStateKey(), $this->state_abbr);
+        return $stateAbbr
+             ? State::where('state_abbr', $stateAbbr)->first()
              : null;
     }
-    public function chooseState($state_abbr)
+    public function chooseState($stateAbbr)
     {
-        return session([$this->chosenStateKey() => $state_abbr]);
+        return session([$this->chosenStateKey() => $stateAbbr]);
+    }
+
+    public function findBookmarks()
+    {
+        return Bookmark::query()
+                    ->perGroup($this)
+                    ->whereDirection(true)
+                    ->whereBookmarksAreForBillsInChosenYearAndSessionForGroup($this)
+                    ->orderByDesc('created_at')
+                    ->get();
     }
 
     #endregion

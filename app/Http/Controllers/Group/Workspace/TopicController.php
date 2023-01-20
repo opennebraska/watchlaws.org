@@ -15,20 +15,9 @@ class TopicController extends Controller
 {
     public function show(Group $group, Workspace $workspace, Topic $topic)
     {
-        $sessionYears = Session::validYears();
-
-        $bookmarks = Bookmark::query()
-                        ->perTopic($topic)
-                        ->whereDirection(true)
-                        ->whereBookmarksAreForBillsInChosenYearAndSessionForGroup($group)
-                        ->orderByDesc('created_at')
-                        ->get();
-
         return view('groups.workspaces.topics.show')
             ->withGroup($group)
             ->withWorkspace($workspace)
-            ->withTopic($topic)
-            ->withSessionYears($sessionYears)
-            ->withBookmarks($bookmarks);
+            ->withTopic($topic);
     }
 }

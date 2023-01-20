@@ -6,9 +6,7 @@
         <div class="mb-4">
 
             {{-- Saved navigation choices --}}
-            {{ view('partials.saved-navigation-choices')
-                    ->withGroup($group)
-                    ->withSessionYears($sessionYears) }}
+            {{ view('partials.saved-navigation-choices')->withGroup($group) }}
 
         </div>
 

@@ -66,10 +66,10 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        $name_parts = array_filter([$this->first_name, $this->last_name]);
-        if ($name_parts)
+        $nameParts = array_filter([$this->first_name, $this->last_name]);
+        if ($nameParts)
         {
-            return implode(' ', $name_parts);
+            return implode(' ', $nameParts);
         }
 
         return $this->email;

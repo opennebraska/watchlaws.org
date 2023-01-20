@@ -13,12 +13,9 @@ class BillSearchController extends Controller
 {
     public function show(Group $group, Workspace $workspace, Topic $topic)
     {
-        $sessionYears = Session::validYears();
-
         return view('groups.workspaces.topics.bill-search')
             ->withGroup($group)
             ->withWorkspace($workspace)
-            ->withTopic($topic)
-            ->withSessionYears($sessionYears);
+            ->withTopic($topic);
     }
 }

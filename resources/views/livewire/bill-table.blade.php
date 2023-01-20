@@ -31,11 +31,11 @@
             @forelse ($bills as $bill)
                 @php
 
-                    $is_bookmarked = ($bill->bookmark($scope)->direction ?? null) === true;
-                    $is_hidden = ($bill->bookmark($scope)->direction ?? null) === false;
+                    $isBookmarked = ($bill->bookmark($scope)->direction ?? null) === true;
+                    $isHidden = ($bill->bookmark($scope)->direction ?? null) === false;
 
                 @endphp
-                <x-table.row class="border-b {{ $is_bookmarked ? 'bg-green-100' : '' }} {{ $is_hidden ? 'bg-gray-200' : '' }}">
+                <x-table.row class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}">
                     <x-table.cell class="whitespace-nowrap text-center">
 
                         {{-- State seal --}}

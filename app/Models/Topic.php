@@ -22,4 +22,14 @@ class Topic extends Model
     {
         return $this->belongsTo(Workspace::class);
     }
+
+    public function findBookmarks()
+    {
+        return Bookmark::query()
+                    ->perTopic($this)
+                    ->whereDirection(true)
+                    ->whereBookmarksAreForBillsInChosenYearAndSessionForGroup($this->workspace->group)
+                    ->orderByDesc('created_at')
+                    ->get();
+    }
 }

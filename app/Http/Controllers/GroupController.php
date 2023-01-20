@@ -17,18 +17,6 @@ class GroupController extends Controller
     {
         $this->authorize('view', $group);
 
-        $sessionYears = Session::validYears();
-
-        $bookmarks = Bookmark::query()
-                        ->perGroup($group)
-                        ->whereDirection(true)
-                        ->whereBookmarksAreForBillsInChosenYearAndSessionForGroup($group)
-                        ->orderByDesc('created_at')
-                        ->get();
-
-        return view('groups.show')
-            ->withGroup($group)
-            ->withSessionYears($sessionYears)
-            ->withBookmarks($bookmarks);
+        return view('groups.show')->withGroup($group);
     }
 }
