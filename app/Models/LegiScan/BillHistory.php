@@ -104,6 +104,10 @@ class BillHistory extends Model
     {
         return $this->hearing_date->diffForHumans(Carbon::now('utc'), CarbonInterface::DIFF_RELATIVE_TO_NOW) ?? null;
     }
+    public function getIsHearingForNebraskaAttribute()
+    {
+        return strpos('hearing', $this->action);
+    }
 
     #endregion
 }

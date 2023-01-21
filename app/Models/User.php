@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\LegiScan\Bill;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,6 +61,21 @@ class User extends Authenticatable
     function groups_owned()
     {
         return $this->hasMany(Group::class, 'owner_id');
+    }
+
+    #endregion
+
+    #region Scopes
+
+    public function scopeWhereHasBookmarksForBill(Builder $query, Bill $bill)
+    {
+        return $query
+            ->whereHasMorph('group_memberships.group.workspaces.topics.bookmarks.bookmarkable', Bill::class, function(Builder $query) use ($bill) {
+                $query->where('id', $bill->id);
+            })
+            ->orWhereHasMorph('groups_owned.workspaces.topics.bookmarks.bookmarkable', Bill::class, function(Builder $query) use ($bill) {
+                $query->where('id', $bill->id);
+            });
     }
 
     #endregion
