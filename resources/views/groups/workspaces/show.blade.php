@@ -18,8 +18,17 @@
 
         <h1 class="mb-5 font-bold text-lg">{{ $workspace->name }}</h1>
 
+        {{-- State --}}
+        <div class="mb-6">
+
+            <h2 class="mb-0.5 font-semibold">For {{ $group->chosenState()->name }} in {{ $group->chosenYear() }}</h2>
+
+            <a href="{{ route('groups.workspaces.states.years.hearings.index', [$group, $workspace, $group->chosenState(), $group->chosenYear()]) }}" class="underline">Hearings</a>
+
+        </div>
+
         {{-- Topics --}}
-        <h2 class="mb-0.5">Pick a topic:</h2>
+        <h2 class="mb-0.5 font-semibold">Topics</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
             @foreach ($workspace->topics as $topic)

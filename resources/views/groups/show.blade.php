@@ -3,16 +3,10 @@
 @push('body')
     <x-container>
 
-        <div class="mb-4 flex">
+        <div class="mb-4">
 
             {{-- Saved navigation choices --}}
             {{ view('partials.saved-navigation-choices')->withGroup($group) }}
-
-            <div class="bg-gray-200 px-4 py-4 flex-grow">
-
-                <a href="{{ route('groups.hearings.index', $group) }}" class="underline">Hearings</a>
-
-            </div>
 
         </div>
 

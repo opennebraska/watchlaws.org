@@ -2,7 +2,10 @@
 
 namespace App\Models\LegiScan;
 
+use App\Models\Bookmark;
 use App\Traits\Models\HasLegiScanShim;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,18 +49,29 @@ class BillHistory extends Model
 
     #region Scopes
 
-    public function scopeWhereHearing(Builder $query)
+    public function scopeWhereState(Builder $query, State $state)
     {
         return $query
-            ->where(function($query){
-                $query
-                    ->where('history_action', 'like', '%hearing%')
-                    ->whereHas('bill.state', function($query){
-                        $query->where('state_abbr', 'NE');
-                    })
-                    ;
+            ->whereHas('bill.state', function(Builder $query) use($state){
+                $query->where('state_abbr', $state->abbreviation);
+            });
+    }
+    public function scopeWhereYear(Builder $query, $year)
+    {
+        return $query
+            ->whereHas('bill.session', function(Builder $query) use($year){
+                $query->where('year_start', $year)
+                      ->orWhere('year_end', $year);
+            });
+    }
+    public function scopeWhereIsHearing(Builder $query)
+    {
+        // Only working for NE, since we don't know how other state's hearings are presented in the history
+        return $query
+            ->whereHas('bill.state', function($query){
+                $query->where('state_abbr', 'NE');
             })
-            ->orderByDesc('history_step');
+            ->where('history_action', 'like', '%hearing%');
     }
 
     #endregion
@@ -79,6 +93,16 @@ class BillHistory extends Model
     public function getActionAttribute()
     {
         return $this->history_action;
+    }
+    public function getHearingDateAttribute()
+    {
+        $dateString = str_replace('Notice of hearing for ', '', $this->action);
+
+        return Carbon::createFromFormat('F j, Y', $dateString);
+    }
+    public function getHearingDateHumanizedAttribute()
+    {
+        return $this->hearing_date->diffForHumans(Carbon::now('utc'), CarbonInterface::DIFF_RELATIVE_TO_NOW) ?? null;
     }
 
     #endregion

@@ -28,33 +28,36 @@ Route::get('/', fn() => redirect('/dashboard'))->name('index');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 // Routes requiring authentication
-Route::middleware('auth')->group(function()
-{
+Route::middleware('auth')->group(function() {
+
     // Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Groups
-    Route::middleware('can:view,group')->prefix('groups')->name('groups.')->group(function()
-    {
+    Route::prefix('groups')->name('groups.')->middleware('can:view,group')->group(function() {
+
         Route::get('{group}', [GroupController::class, 'show'])->name('show');
         Route::get('{group}/members', [MemberController::class, 'index'])->name('members.index');
-        Route::get('{group}/hearings', [HearingController::class, 'index'])->name('hearings.index');
 
         // Saves year & state to session variable
         Route::put('{group}/navigate-year', [NavigateYearController::class, 'update'])->name('navigate.year.update');
         Route::put('{group}/navigate-state', [NavigateStateController::class, 'update'])->name('navigate.state.update');
 
         // Workspaces
-        Route::prefix('{group}/workspaces')->name('workspaces.')->group(function()
-        {
+        Route::prefix('{group}/workspaces')->name('workspaces.')->group(function() {
+
             Route::get('{workspace}', [WorkspaceController::class, 'show'])->name('show');
 
+            Route::get('{workspace}/states/{state}/years/{year}/hearings', [HearingController::class, 'index'])->name('states.years.hearings.index');
+
             // Topics
-            Route::prefix('{workspace}/topics')->name('topics.')->group(function()
-            {
+            Route::prefix('{workspace}/topics')->name('topics.')->group(function() {
+
                 Route::get('{topic}', [TopicController::class, 'show'])->name('show');
                 Route::get('{topic}/search', [BillSearchController::class, 'show'])->name('bill-search.show');
+
             });
+
         });
 
     });

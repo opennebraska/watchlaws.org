@@ -4,6 +4,7 @@ namespace Database\Factories\LegiScan;
 
 use App\Models\LegiScan\Body;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -14,13 +15,11 @@ class BodyFactory extends Factory
 
     public function definition()
     {
-        static $increment = 1;
-
-        $bodyName = ucfirst($this->faker->text(80));
-        $roleName = ucfirst($this->faker->text(80));
+        $bodyName = $this->faker->sentence();
+        $roleName = $this->faker->sentence();
 
         return [
-            'body_id' => $increment++,
+            'body_id' => $this->makeId(),
             // 'state_id' => null,  //
             // 'role_id' => null,   // Global role: Represenative, Senator, Joint Conference
             'body_abbr' => $bodyName[0],

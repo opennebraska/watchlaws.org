@@ -45,6 +45,8 @@ class Bookmark extends Model
 
     #endregion
 
+    #region Scopes
+
     public function scopePerGroup(Builder $query, Group $group)
     {
         $query->whereHasMorph('scope', Topic::class, function(Builder $query) use ($group){
@@ -93,6 +95,8 @@ class Bookmark extends Model
 
         });
     }
+
+    #endregion
 
     #region Methods
 

@@ -15,8 +15,6 @@ class GroupController extends Controller
 {
     public function show(Group $group)
     {
-        $this->authorize('view', $group);
-
         return view('groups.show')->withGroup($group);
     }
 }

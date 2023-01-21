@@ -3,23 +3,36 @@
 namespace App\Http\Controllers\Group;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bookmark;
 use App\Models\Group;
-use App\Models\LegiScan\Session;
-use Carbon\Carbon;
+use App\Models\LegiScan\Bill;
+use App\Models\LegiScan\BillHistory;
+use App\Models\LegiScan\State;
+use App\Models\Workspace;
+use Illuminate\Database\Eloquent\Builder;
 
 class HearingController extends Controller
 {
-    public function index(Group $group)
+    public function index(Group $group, Workspace $workspace, State $state, $year)
     {
-        // Assuming session is no more than 2 years (e.g. no sessions between start and end years)
-        $session_years = Session::query()
-            ->select('year_start as year')
-            ->union(Session::select('year_end as year'))
-            ->orderByDesc('year')
-            ->get()
-            ->pluck('year')
-            ->filter(function ($year) { return $year <= Carbon::now()->year; });
+        $billHistory = BillHistory::query()
+                            ->whereState($state)
+                            ->whereYear($year)
+                            ->whereIsHearing()
+                            ->whereHas('bill.bookmarks', function(Builder $query) use($workspace){
+                                $query
+                                    ->perWorkspace($workspace)
+                                    ->whereDirection(true);
+                            })
+                            ->get()
+                            ->sortBy(fn($history) => $history->hearing_date->diff(now())->days)
+                            ;
 
-        return view('groups.hearings.index', compact('group', 'session_years'));
+        return view('groups.workspaces.states.years.hearings.index')
+                    ->withGroup($group)
+                    ->withWorkspace($workspace)
+                    ->withState($state)
+                    ->withYear($year)
+                    ->withBillHistory($billHistory);
     }
 }

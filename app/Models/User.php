@@ -66,13 +66,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        $nameParts = array_filter([$this->first_name, $this->last_name]);
-        if ($nameParts)
-        {
-            return implode(' ', $nameParts);
-        }
-
-        return $this->email;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function getGroupsAttribute()
