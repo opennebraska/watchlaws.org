@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Group;
+namespace App\Http\Controllers\Group\Workspace;
 
 use App\Http\Controllers\Controller;
-use App\Models\Bookmark;
 use App\Models\Group;
-use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\BillHistory;
 use App\Models\LegiScan\State;
 use App\Models\Workspace;
@@ -18,7 +16,7 @@ class HearingController extends Controller
         $billHistory = BillHistory::query()
                             ->whereState($state)
                             ->whereYear($year)
-                            ->whereIsHearing()
+                            ->whereIsHearingForNebraska()
                             ->whereHas('bill.bookmarks', function(Builder $query) use($workspace){
                                 $query
                                     ->perWorkspace($workspace)

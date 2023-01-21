@@ -8,7 +8,7 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     /** @test */
-    public function example()
+    public function fullNameConcatenatesFirstNameAndLastName()
     {
         $user = User::factory()->create([
             'first_name' => 'first',

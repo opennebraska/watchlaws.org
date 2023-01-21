@@ -7,7 +7,7 @@
             @csrf
             @method('PUT')
             <select name="year" id="year" onchange="this.form.submit()">
-                @foreach (app(\App\Helpers\Models\LegiScan\SessionYear::class)->getAll()->sortDesc() as $year)
+                @foreach (app(\App\Helpers\SessionYear::class)->getAll()->sortDesc() as $year)
                     <option value="{{ $year }}" {!! $year == $group->chosenYear() ? 'selected="selected"' : '' !!}>
                         {{ $year }}
                     </option>

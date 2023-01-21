@@ -210,7 +210,11 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+
         // 'ExampleClass' => App\Example\ExampleClass::class,
+
+        'SessionYear' => App\Facades\SessionYear::class,
+
     ])->toArray(),
 
 ];

@@ -64,7 +64,7 @@ class BillHistory extends Model
                       ->orWhere('year_end', $year);
             });
     }
-    public function scopeWhereIsHearing(Builder $query)
+    public function scopeWhereIsHearingForNebraska(Builder $query)
     {
         // Only working for NE, since we don't know how other state's hearings are presented in the history
         return $query

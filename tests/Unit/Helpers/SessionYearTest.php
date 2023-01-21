@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Helpers;
 
-use App\Helpers\Models\LegiScan\SessionYear;
+use App\Helpers\SessionYear;
 use Tests\TestCase;
 use App\Models\LegiScan\Session;
 
@@ -20,14 +20,21 @@ class SessionYearTest extends TestCase
             'year_end' => 3,
         ]);
         Session::factory()->create([
-            'year_start' => 3,
-            'year_end' => 4,
+            'year_start' => 5,
+            'year_end' => 5,
+        ]);
+        Session::factory()->create([
+            'year_start' => 5,
+            'year_end' => 6,
         ]);
 
         $years = app(SessionYear::class)->getAll();
 
         $this->assertTrue($years->duplicates()->isEmpty());
 
-        $this->assertTrue($years->diff([1, 2, 3, 4])->isEmpty());
+        $this->assertEquals(
+            [1, 2, 3, 5, 6],
+            $years->toArray()
+        );
     }
 }
