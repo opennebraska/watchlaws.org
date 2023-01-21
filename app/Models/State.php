@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\LegiScan\Bill;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\HasEnumProperties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,11 +26,10 @@ class State extends Model
 
     public $enumCarryOvers = ['OE', 'EO', 'NO'];
 
-    // public function bills()
-    // {
-    //     // Not yet migrated
-    //     return $this->hasMany(Bill::class, 'state_id');
-    // }
+    public function bills()
+    {
+        return $this->hasMany(Bill::class, 'state_id');
+    }
 
     public function scopeNonNational($query)
     {
