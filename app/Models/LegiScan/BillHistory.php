@@ -2,7 +2,6 @@
 
 namespace App\Models\LegiScan;
 
-use App\Models\Bookmark;
 use App\Traits\Models\HasLegiScanShim;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
@@ -66,7 +65,6 @@ class BillHistory extends Model
     }
     public function scopeWhereIsHearingForNebraska(Builder $query)
     {
-        // Only working for NE, since we don't know how other state's hearings are presented in the history
         return $query
             ->whereHas('bill.state', function($query){
                 $query->where('state_abbr', 'NE');

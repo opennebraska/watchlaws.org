@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Group;
 
 use App\Http\Controllers\Controller;
-use App\Models\Bookmark;
 use App\Models\Group;
-use App\Models\LegiScan\Session;
 use App\Models\Workspace;
 
 class WorkspaceController extends Controller

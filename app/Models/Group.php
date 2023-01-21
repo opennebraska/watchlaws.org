@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasEnumProperties;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

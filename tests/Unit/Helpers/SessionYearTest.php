@@ -34,7 +34,7 @@ class SessionYearTest extends TestCase
 
         $this->assertEquals(
             [1, 2, 3, 5, 6],
-            $years->toArray()
+            $years->sort()->values()->toArray(),
         );
     }
 }

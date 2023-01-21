@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Bookmark;
 use App\Models\LegiScan\Bill;
-use App\Models\UpDownVote;
 use App\Traits\Livewire\WithPerPagePagination;
 
 class BillTable extends Component
