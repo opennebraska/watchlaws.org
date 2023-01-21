@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Helpers;
 
-use App\Helpers\LegiScan\SessionYear;
+use App\Helpers\Models\LegiScan\SessionYear;
 use Tests\TestCase;
 use App\Models\LegiScan\Session;
 
