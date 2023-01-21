@@ -15,7 +15,7 @@ class ImportLegiScanSchemaSeeder extends Seeder
      */
     public function run()
     {
-        $sql_filepath = base_path('lib/legiscan/schema-mysql.sql');
+        $sqlFilepath = base_path('lib/legiscan/schema-mysql.sql');
 
         $host     = env('DB_HOST');
         $username = env('DB_USERNAME');
@@ -28,7 +28,7 @@ class ImportLegiScanSchemaSeeder extends Seeder
         $command .= "-u $username ";
         $command .= "--password=$password ";
         $command .= "--database=$database ";
-        $command .= "< $sql_filepath";
+        $command .= "< $sqlFilepath";
 
         exec($command);
 

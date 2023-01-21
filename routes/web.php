@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Group\MemberController;
+use App\Http\Controllers\Group\NavigateStateController;
+use App\Http\Controllers\Group\NavigateYearController;
+use App\Http\Controllers\Group\Workspace\HearingController;
+use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;
+use App\Http\Controllers\Group\Workspace\TopicController;
+use App\Http\Controllers\Group\WorkspaceController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\GroupAboutController;
-use App\Http\Controllers\GroupNavigateStateController;
-use App\Http\Controllers\GroupNavigateYearController;
-use App\Http\Controllers\Pages\User\GroupBillSearchController;
-use App\Http\Controllers\Pages\User\GroupController;
-use App\Http\Controllers\Pages\User\GroupSessionController;
-use App\Http\Controllers\Pages\User\GroupStateController;
-use App\Http\Controllers\Pages\User\HomeController as UserHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,21 +23,42 @@ use App\Http\Controllers\Pages\User\HomeController as UserHomeController;
 |
 */
 
-// Route::get('/', [HomeController::class, 'index'])->name('home.index');
-// Route::get('/state/{state}', [StateHomeController::class, 'index'])->name('state.home.index');
-
+// Public routes
+Route::get('/', fn() => redirect('/dashboard'))->name('index');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
-Route::middleware('auth')->group(function(){
+// Routes requiring authentication
+Route::middleware('auth')->group(function() {
 
-    Route::get('/', [UserHomeController::class, 'index'])->name('user.home.index');
+    // Dashboard
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Group -> Workspace -> Topic -> State -> Session
-    Route::get('group/{group}', [GroupController::class, 'show'])->name('group.show');
-    Route::get('group/{group}/about', [GroupAboutController::class, 'show'])->name('group.about.show');
-    Route::get('group/{group}/search', [GroupBillSearchController::class, 'show'])->name('group.bill-search.show');
+    // Groups
+    Route::prefix('groups')->name('groups.')->middleware('can:view,group')->group(function() {
 
-    Route::put('group/{group}/navigate-state', [GroupNavigateStateController::class, 'update'])->name('group.navigate.state.update');
-    Route::put('group/{group}/navigate-year', [GroupNavigateYearController::class, 'update'])->name('group.navigate.year.update');
+        Route::get('{group}', [GroupController::class, 'show'])->name('show');
+        Route::get('{group}/members', [MemberController::class, 'index'])->name('members.index');
 
+        // Saves year & state to session variable
+        Route::put('{group}/navigate-year', [NavigateYearController::class, 'update'])->name('navigate.year.update');
+        Route::put('{group}/navigate-state', [NavigateStateController::class, 'update'])->name('navigate.state.update');
+
+        // Workspaces
+        Route::prefix('{group}/workspaces')->name('workspaces.')->group(function() {
+
+            Route::get('{workspace}', [WorkspaceController::class, 'show'])->name('show');
+
+            Route::get('{workspace}/states/{state}/years/{year}/hearings', [HearingController::class, 'index'])->name('states.years.hearings.index');
+
+            // Topics
+            Route::prefix('{workspace}/topics')->name('topics.')->group(function() {
+
+                Route::get('{topic}', [TopicController::class, 'show'])->name('show');
+                Route::get('{topic}/search', [BillSearchController::class, 'show'])->name('bill-search.show');
+
+            });
+
+        });
+
+    });
 });

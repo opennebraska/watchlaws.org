@@ -5,7 +5,7 @@
 
     <div class="px-6 pt-1 text-slate-600">
 
-        <a href="{{ route('user.home.index') }}"
+        <a href="{{ route('dashboard') }}"
             class="underline"
             >Home</a>
 

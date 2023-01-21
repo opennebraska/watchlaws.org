@@ -12,4 +12,9 @@ class Progress extends Model
     protected $table = 'ls_progress';
 
     protected $primaryKey = 'progress_event_id';
+
+    public function getDescriptionAttribute()
+    {
+        return $this->progress_desc;
+    }
 }

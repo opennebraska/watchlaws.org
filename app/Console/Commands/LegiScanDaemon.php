@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\BillHistoryTimestamps;
 use App\Models\Body;
 use App\Models\Committee;
+use App\Models\LegiScan\BillHistory;
 use App\Models\State;
 
 use Illuminate\Console\Command;
@@ -30,7 +32,8 @@ class LegiScanDaemon extends Command
         $this->importLegiScanData()
             ->translateStates()
             ->translateBodies()
-            ->translateCommittees();
+            ->translateCommittees()
+            ->upsertBillHistoryTimestamps();
 
         $this->info('');
         $this->info(
@@ -125,6 +128,38 @@ class LegiScanDaemon extends Command
                     'name'    => $committee->committee_name,
                     'body_id' => $committee->committee_body_id,
                 ]
+            );
+
+            $progress->advance();
+        }
+
+        $progress->finish();
+
+        $this->info("\n" . $this->separator);
+
+        return $this;
+    }
+
+    public function upsertBillHistoryTimestamps(): static
+    {
+        $this->info('Upating Legislative Bill History Timestamps');
+
+        $billHistory = BillHistory::all();
+
+        $progress = $this->output->createProgressBar(count($billHistory));
+
+        $progress->start();
+
+        foreach ($billHistory as $billHistoryItem) {
+            BillHistoryTimestamps::updateOrCreate(
+                [
+                    'bill_id' => $billHistory->bill_id,
+                    'history_step' => $billHistory->history_step,
+                ],
+                [
+                    'bill_id' => $billHistory->bill_id,
+                    'history_step' => $billHistory->history_step,
+                ],
             );
 
             $progress->advance();

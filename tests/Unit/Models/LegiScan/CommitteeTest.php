@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\LegiScan;
+namespace Tests\Unit\Models\LegiScan;
 
 use Tests\TestCase;
 use App\Models\LegiScan\Body;

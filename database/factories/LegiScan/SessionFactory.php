@@ -15,13 +15,15 @@ class SessionFactory extends Factory
 
     public function definition()
     {
+        $yearStart = now()->year - rand(0, 9);
+
         return [
             'session_id'        => $this->makeId(),
             'session_name'      => $this->faker->sentence,
             'session_title'     => $this->faker->sentence,
-            'session_tag'       => Arr::random(['Regular Session']),
-            'year_start'        => Arr::random(range(2020, now()->format('Y'))),
-            'year_end'          => now()->format('Y'),
+            'session_tag'       => $this->faker->randomElement(['Regular Session']),
+            'year_start'        => $yearStart,
+            'year_end'          => $this->faker->randomElement([$yearStart, $yearStart + 1]),
         ];
     }
 }

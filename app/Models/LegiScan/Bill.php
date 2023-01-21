@@ -4,7 +4,6 @@ namespace App\Models\LegiScan;
 
 use App\Models\Bookmark;
 use App\Traits\Models\HasLegiScanShim;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -98,7 +97,7 @@ class Bill extends Model
         return $this->hasMany(BillCalendar::class, 'bill_id');
     }
 
-    public function historyItems()
+    public function history()
     {
         return $this->hasMany(BillHistory::class, 'bill_id');
     }

@@ -15,10 +15,8 @@ class StateFactory extends Factory
 
     public function definition()
     {
-        static $increment = 1;
-
         return [
-            'state_id' => $increment++,
+            'state_id' => $this->makeId(),
             'state_abbr' => $this->faker->stateAbbr,
             'state_name' => $this->faker->state,
             'biennium' => 0,
