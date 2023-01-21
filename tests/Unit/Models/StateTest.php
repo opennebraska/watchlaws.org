@@ -4,7 +4,6 @@ namespace Tests\Unit\Models;
 
 use Tests\TestCase;
 use App\Models\LegiScan\Bill;
-use App\Models\Session;
 use App\Models\State;
 
 class StateTest extends TestCase

@@ -2,7 +2,6 @@
 
 namespace App\Models\LegiScan;
 
-use App\Models\Bookmark;
 use App\Traits\Models\HasLegiScanShim;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
