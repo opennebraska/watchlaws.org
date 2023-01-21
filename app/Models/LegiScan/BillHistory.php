@@ -66,7 +66,6 @@ class BillHistory extends Model
     }
     public function scopeWhereIsHearingForNebraska(Builder $query)
     {
-        // Only working for NE, since we don't know how other state's hearings are presented in the history
         return $query
             ->whereHas('bill.state', function($query){
                 $query->where('state_abbr', 'NE');
