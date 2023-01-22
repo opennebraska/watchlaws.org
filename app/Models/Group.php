@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasEnumProperties;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,25 +57,23 @@ class Group extends Model
 
     #endregion
 
-    #region Attributes
+    #region Scopes
 
-    function getDefaultStateAttribute()
+    public function scopeHasMember(Builder $query, $member)
     {
-        if ($this->state) {
-            return $this->state;
-        }
-
-        for ($parent = $this->parent; $parent; $parent = $parent->parent)
-        {
-            if ($parent->state) {
-                return $parent->state;
-            }
-        }
+        return $query
+            ->whereHas('members', function(Builder $query) use($member){
+                $query->where('user_id', $member->id);
+            });
     }
-
-    function getParticipantsAttribute()
+    public function scopeHasBookmarked(Builder $query, $bookmarkable_type, $bookmarkable_id)
     {
-        return $this->members->pluck('user')->prepend($this->owner)->unique();
+        return $query
+            ->whereHas('workspaces.topics.bookmarks', function(Builder $query) use($bookmarkable_type, $bookmarkable_id){
+                $query->whereHasMorph('bookmarkable', $bookmarkable_type, function(Builder $query) use($bookmarkable_id){
+                    $query->where('id', $bookmarkable_id);
+                });
+            });
     }
 
     #endregion

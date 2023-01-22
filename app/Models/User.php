@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\LegiScan\Bill;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,13 +54,24 @@ class User extends Authenticatable
 
     #region Relationships
 
-    function group_memberships()
+    public function groups()
     {
-        return $this->hasMany(GroupMember::class);
+        return $this->hasManyThrough(Group::class, GroupMember::class, 'user_id', 'id', 'id', 'group_id');
     }
-    function groups_owned()
+
+    #endregion
+
+    #region Scopes
+
+    public function scopeWhereHasBookmarksForBill(Builder $query, Bill $bill)
     {
-        return $this->hasMany(Group::class, 'owner_id');
+        return $query
+            ->whereHasMorph('group_memberships.group.workspaces.topics.bookmarks.bookmarkable', Bill::class, function(Builder $query) use ($bill) {
+                $query->where('id', $bill->id);
+            })
+            ->orWhereHasMorph('groups_owned.workspaces.topics.bookmarks.bookmarkable', Bill::class, function(Builder $query) use ($bill) {
+                $query->where('id', $bill->id);
+            });
     }
 
     #endregion
@@ -67,16 +81,6 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
-    }
-
-    public function getGroupsAttribute()
-    {
-        $groups = $this->groups_owned;
-
-        $memberships = $this->group_memberships;
-        $groupsIn = $memberships->pluck('group');
-
-        return $groups->merge($groupsIn)->where('type', 'group')->unique('id');
     }
 
     #endregion

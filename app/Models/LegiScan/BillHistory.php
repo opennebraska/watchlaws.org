@@ -63,7 +63,7 @@ class BillHistory extends Model
                       ->orWhere('year_end', $year);
             });
     }
-    public function scopeWhereIsHearingForNebraska(Builder $query)
+    public function scopeWhereIsNebraskaHearing(Builder $query)
     {
         return $query
             ->whereHas('bill.state', function($query){
@@ -92,15 +92,19 @@ class BillHistory extends Model
     {
         return $this->history_action;
     }
-    public function getHearingDateAttribute()
+    public function getNebraskaHearingDateAttribute()
     {
         $dateString = str_replace('Notice of hearing for ', '', $this->action);
 
         return Carbon::createFromFormat('F j, Y', $dateString);
     }
-    public function getHearingDateHumanizedAttribute()
+    public function getNebraskaHearingDateHumanizedAttribute()
     {
-        return $this->hearing_date->diffForHumans(Carbon::now('utc'), CarbonInterface::DIFF_RELATIVE_TO_NOW) ?? null;
+        return $this->nebraska_hearing_date->diffForHumans(Carbon::now('utc'), CarbonInterface::DIFF_RELATIVE_TO_NOW) ?? null;
+    }
+    public function getIsNebraskaHearingAttribute()
+    {
+        return strpos('hearing', $this->action);
     }
 
     #endregion

@@ -47,7 +47,7 @@
                                     {{ $historyItem->action }}
                                 </div>
                                 <div class="text-sm opacity-60">
-                                    {{ $historyItem->hearing_date_humanized }}
+                                    {{ $historyItem->nebraska_hearing_date_humanized }}
                                 </div>
 
                             </div>

@@ -22,6 +22,10 @@ class Topic extends Model
     {
         return $this->belongsTo(Workspace::class);
     }
+    public function bookmarks()
+    {
+        return $this->morphMany(Bookmark::class, 'scope');
+    }
 
     public function findBookmarks()
     {

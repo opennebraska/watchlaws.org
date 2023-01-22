@@ -10,6 +10,10 @@ use App\Http\Controllers\Group\Workspace\TopicController;
 use App\Http\Controllers\Group\WorkspaceController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LoginController;
+use App\Models\LegiScan\BillHistory;
+use App\Models\User;
+use App\Notifications\BillHasProgressed;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Route;
 
 /*
