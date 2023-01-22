@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\LegiScan\Bill;
 use App\Notifications\BillHasProgressed;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
@@ -24,14 +23,14 @@ class BillHistoryTimestamps extends Model
         {
             $bill_history = $billHistoryTimestamps->bill_history;
 
-            if ($bill_history->is_hearing_for_nebraska)
+            if ($bill_history->is_nebraska_hearing)
             {
                 $users = User::query()
                     ->whereHasBookmarksForBill($bill_history->bill)
                     ->distinct()
                     ->get();
 
-                Notification::send($users, BillHasProgressed::class);
+                Notification::send($users, new BillHasProgressed($bill_history));
             }
         });
     }

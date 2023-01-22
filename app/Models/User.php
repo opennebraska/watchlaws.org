@@ -54,13 +54,9 @@ class User extends Authenticatable
 
     #region Relationships
 
-    function group_memberships()
+    public function groups()
     {
-        return $this->hasMany(GroupMember::class);
-    }
-    function groups_owned()
-    {
-        return $this->hasMany(Group::class, 'owner_id');
+        return $this->hasManyThrough(Group::class, GroupMember::class, 'user_id', 'id', 'id', 'group_id');
     }
 
     #endregion
@@ -85,16 +81,6 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;
-    }
-
-    public function getGroupsAttribute()
-    {
-        $groups = $this->groups_owned;
-
-        $memberships = $this->group_memberships;
-        $groupsIn = $memberships->pluck('group');
-
-        return $groups->merge($groupsIn)->where('type', 'group')->unique('id');
     }
 
     #endregion

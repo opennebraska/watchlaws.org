@@ -16,14 +16,14 @@ class HearingController extends Controller
         $billHistory = BillHistory::query()
                             ->whereState($state)
                             ->whereYear($year)
-                            ->whereIsHearingForNebraska()
+                            ->whereIsNebraskaHearing()
                             ->whereHas('bill.bookmarks', function(Builder $query) use($workspace){
                                 $query
                                     ->perWorkspace($workspace)
                                     ->whereDirection(true);
                             })
                             ->get()
-                            ->sortBy(fn($history) => $history->hearing_date->diff(now())->days)
+                            ->sortBy(fn($history) => $history->nebraska_hearing_date->diff(now())->days)
                             ;
 
         return view('groups.workspaces.states.years.hearings.index')
