@@ -33,6 +33,21 @@ class BillHistoryTimestamps extends Model
                 Notification::send($users, new BillHasProgressed($bill_history));
             }
         });
+
+        static::updated(function (BillHistoryTimestamps $billHistoryTimestamps)
+        {
+            $bill_history = $billHistoryTimestamps->bill_history;
+
+            if ($bill_history->is_nebraska_hearing)
+            {
+                $users = User::query()
+                    ->whereHasBookmarksForBill($bill_history->bill)
+                    ->distinct()
+                    ->get();
+
+                Notification::send($users, new BillHasProgressed($bill_history));
+            }
+        });
     }
 
     public function bill_history()
