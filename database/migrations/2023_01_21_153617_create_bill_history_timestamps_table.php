@@ -15,7 +15,7 @@ return new class extends Migration {
     {
         Schema::create('bill_history_timestamps', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(History::class);
+            $table->foreignIdFor(History::class, 'bill_id');
             $table->integer('history_step');
             $table->timestamps();
         });

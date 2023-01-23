@@ -18,6 +18,8 @@ class History extends Model
     use HasFactory;
     use HasLegiScanShim;
 
+    //region Properties
+
     protected $fillable = [
         'composite_id',
         'bill_id',
@@ -32,11 +34,11 @@ class History extends Model
         'history_date' => 'datetime:Y-m-d',
     ];
 
-    //region Properties
-
     protected $table = 'ls_bill_history';
 
     protected $primaryKey = 'composite_id';
+
+    public $timestamps = false;
 
     //endregion
 
@@ -131,7 +133,7 @@ class History extends Model
 
     public function getIsNebraskaHearingAttribute()
     {
-        return strpos('hearing', $this->action);
+        return stripos($this->action, 'hearing') !== false;
     }
 
     //endregion

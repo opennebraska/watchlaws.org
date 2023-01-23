@@ -11,11 +11,8 @@ class HistoryTimestamp extends Model
 {
     use HasFactory;
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
+    protected $table = 'bill_history_timestamps';
+
     protected static function booted()
     {
         static::created(function (HistoryTimestamp $historyTimestamp) {
@@ -29,16 +26,18 @@ class HistoryTimestamp extends Model
 
     public function historyItem()
     {
-        return $this->belongsTo(History::class);
+        return $this->belongsTo(History::class, 'bill_id', 'bill_id');
     }
 
     private static function notifyUsersWhenBillHasProgressed(History $historyItem)
     {
-        if ($historyItem->is_nebraska_hearing) {
+        if ($historyItem->is_nebraska_hearing)
+        {
             $users = collect();
+            $historyItem->bill->bookmarks->each(function ($bookmark) use (&$users) {
 
-            $historyItem->bill->bookmarks->each(function ($bookmark) use ($users) {
-                $users->concat($bookmark->workspace->group->members);
+                $users = $users->concat($bookmark->scope->group->members);
+
             });
 
             Notification::send($users->unique(), new BillHasProgressed($historyItem));
