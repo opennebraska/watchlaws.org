@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->hasManyThrough(Group::class, GroupMember::class, 'user_id', 'id', 'id', 'group_id');
+        return $this->belongsToMany(Group::class, 'group_members');
     }
 
     #endregion
