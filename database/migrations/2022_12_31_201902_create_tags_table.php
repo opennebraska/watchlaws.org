@@ -1,14 +1,13 @@
 <?php
 
-use App\Models\Group;
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Group\Workspace;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -17,7 +16,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
-
             $table->id();
 
             $table->morphs('scope');
@@ -30,10 +28,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(
-                ['scope_type', 'scope_id', 'taggable_type', 'taggable_id', 'text', /*'type'*/],
+                ['scope_type', 'scope_id', 'taggable_type', 'taggable_id', 'text'/*'type'*/],
                 'tags_scope_taggable_text_unique',
             );
-
         });
     }
 

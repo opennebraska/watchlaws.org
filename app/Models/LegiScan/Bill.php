@@ -3,31 +3,31 @@
 namespace App\Models\LegiScan;
 
 use App\Models\Bookmark;
-use App\Models\Group\Workspace\Topic;
-use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
-use App\Models\LegiScan\Bill\Amendment;
-use App\Models\LegiScan\Bill\Calendar;
-use App\Models\LegiScan\Bill\History;
-use App\Models\LegiScan\Bill\Progress;
-use App\Models\LegiScan\Bill\Reason;
-use App\Models\LegiScan\Bill\Referral;
 use App\Models\LegiScan\Bill\Sast;
-use App\Models\LegiScan\Bill\Sponsor;
-use App\Models\LegiScan\Bill\Subject;
-use App\Models\LegiScan\Bill\Supplement;
 use App\Models\LegiScan\Bill\Text;
 use App\Models\LegiScan\Bill\Vote;
+use App\Models\LegiScan\Bill\Reason;
+use App\Models\Group\Workspace\Topic;
+use App\Models\LegiScan\Bill\History;
+use App\Models\LegiScan\Bill\Sponsor;
+use App\Models\LegiScan\Bill\Subject;
+use App\Models\LegiScan\Bill\Calendar;
+use App\Models\LegiScan\Bill\Progress;
+use App\Models\LegiScan\Bill\Referral;
 use App\Traits\Models\HasLegiScanShim;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\LegiScan\Bill\Amendment;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\LegiScan\Bill\Supplement;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
 
 class Bill extends Model
 {
     use HasFactory;
     use HasLegiScanShim;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_bill';
 
@@ -59,9 +59,9 @@ class Bill extends Model
         'pending_committee_id',
     ];
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     // belongsTo()
 
@@ -175,44 +175,47 @@ class Bill extends Model
     {
         return $this->morphToMany(Topic::class, 'topicable', 'topic_assignments');
     }
+
     public function topicAssignments()
     {
         return $this->morphMany(TopicAssignment::class, 'topicable');
     }
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function scopeWhereYear(Builder $query, $year)
     {
-        $query->whereHas('session', function(Builder $query) use ($year) {
+        $query->whereHas('session', function (Builder $query) use ($year) {
             return $query->where('year_start', $year)
                             ->orWhere('year_end', $year);
         });
     }
+
     public function scopeWhereState(Builder $query, $state)
     {
-        $query->whereHas('state', function(Builder $query) use ($state) {
+        $query->whereHas('state', function (Builder $query) use ($state) {
             $query->where('state_abbr', $state->abbreviation);
         });
     }
+
     public function scopeWhereTopic(Builder $query, Topic $topic)
     {
         // bill -> topic
-        $query->whereHas('topicAssignments', function(Builder $query) use($topic){
+        $query->whereHas('topicAssignments', function (Builder $query) use ($topic) {
             $query->where('topic_id', $topic->id);
         });
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getNumberAttribute()
     {
         return $this->bill_number;
     }
 
-    #endregion
+    //endregion
 }

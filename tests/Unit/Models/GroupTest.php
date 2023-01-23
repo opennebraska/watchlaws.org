@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Bookmark;
-use App\Models\Group;
-use App\Models\Group\Member;
-use App\Models\Group\Workspace;
-use App\Models\LegiScan\Bill;
-use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Group;
+use App\Models\Bookmark;
+use App\Models\Group\Member;
+use App\Models\LegiScan\Bill;
+use App\Models\Group\Workspace;
+use Illuminate\Support\Facades\DB;
 
 class GroupTest extends TestCase
 {
@@ -22,11 +22,11 @@ class GroupTest extends TestCase
         User::factory()->count(4)->create();
         Member::factory()->create([
             'group_id' => $group->id,
-            'user_id' => $user1->id,
+            'user_id'  => $user1->id,
         ]);
         Member::factory()->create([
             'group_id' => $group->id,
-            'user_id' => $user2->id,
+            'user_id'  => $user2->id,
         ]);
 
         $this->assertEquals(2, $group->members->count());
@@ -48,8 +48,8 @@ class GroupTest extends TestCase
     public function groupsCanBeScopedToUsers()
     {
         $groups = Group::factory()->count(5)->create();
-        $user1 = User::factory()->create();
-        $user2 = User::factory()->create();
+        $user1  = User::factory()->create();
+        $user2  = User::factory()->create();
         User::factory()->count(5)->create();
         $groups[0]->memberships()->create([
             'user_id' => $user1->id,
@@ -88,11 +88,11 @@ class GroupTest extends TestCase
 
         // workspace -> bookmarks -> bill
         Bill::factory()->count(2)->create();
-        $bill = Bill::factory()->create();  // Make sure $bill->id doesn't start with 1
+        $bill     = Bill::factory()->create();  // Make sure $bill->id doesn't start with 1
         $bookmark = $workspace->bookmarks()->create([
             'bookmarkable_type' => get_class($bill),
-            'bookmarkable_id' => $bill->id,
-            'direction' => true,
+            'bookmarkable_id'   => $bill->id,
+            'direction'         => true,
         ]);
 
         $groupsWithBookmarkedBill = Group::query()

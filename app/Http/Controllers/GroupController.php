@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Group;
+use App\Http\Controllers\Controller;
 
 class GroupController extends Controller
 {

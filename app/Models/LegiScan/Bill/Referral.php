@@ -11,37 +11,39 @@ class Referral extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_bill_referral';
 
     protected $primaryKey = 'composite_id';
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     public function bill()
     {
         return $this->belongsTo(Bill::class, 'bill_id');
     }
+
     public function committee()
     {
         return $this->belongsTo(Committee::class, 'committee_id');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getStepAttribute()
     {
         return $this->referral_step;
     }
+
     public function getDateAttribute()
     {
         return $this->referral_date;
     }
 
-    #endregion
+    //endregion
 }

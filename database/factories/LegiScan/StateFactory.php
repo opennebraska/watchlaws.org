@@ -16,14 +16,14 @@ class StateFactory extends Factory
     public function definition()
     {
         return [
-            'state_id' => $this->makeId(),
+            'state_id'   => $this->makeId(),
             'state_abbr' => $this->faker->stateAbbr,
             'state_name' => $this->faker->state,
-            'biennium' => 0,
+            'biennium'   => 0,
             'carry_over' => Arr::random(['YES', 'NO']),
-            'capitol' => $this->faker->city,
-            'latitude' => $this->faker->randomFloat(),
-            'longitude' => $this->faker->randomFloat(),
+            'capitol'    => $this->faker->city,
+            'latitude'   => $this->faker->randomFloat(),
+            'longitude'  => $this->faker->randomFloat(),
         ];
     }
 }

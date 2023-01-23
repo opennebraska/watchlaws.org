@@ -17,7 +17,7 @@ class HistoryTimestampFactory extends Factory
     public function definition()
     {
         return [
-            //
+
         ];
     }
 }

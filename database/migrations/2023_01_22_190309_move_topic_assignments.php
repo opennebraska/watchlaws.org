@@ -2,14 +2,13 @@
 
 use App\Models\Bookmark;
 use App\Models\Group\Workspace;
-use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
-use App\Models\Group\Workspace\Topic\Section as TopicSection;
+use Illuminate\Support\Facades\DB;
 use App\Models\Group\Workspace\Topic;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use App\Models\Group\Workspace\Topic\Section as TopicSection;
+use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -28,63 +27,53 @@ return new class extends Migration
          *      - Topics have their own pivot table for topic-bill assignments
          *      - Bookmarks are associated with the workspace
          */
-
-        DB::transaction(function(){
-
+        DB::transaction(function () {
             $this->convertToUsingTopicSections()
                  ->assignTopicsDirectly()
                  ->scopeBookmarksToWorkspaces();
-
         });
     }
 
     private function convertToUsingTopicSections()
     {
         // Topics should have their own sections... and NOT rely on the workspace for this
-        Topic::all()->each(function($topic){
-
+        Topic::all()->each(function ($topic) {
             $section = TopicSection::updateOrCreate([
                 'workspace_id' => $topic->workspace_id,
-                'name' => $topic->workspace->name,
+                'name'         => $topic->workspace->name,
             ]);
 
             $topic->section_id = $section->id;
             $topic->save();
-
         });
 
         return $this;
     }
+
     private function assignTopicsDirectly()
     {
         // Topics should use their own pivot table for assignments... and NOT reply on bookmarks for this
-        Bookmark::all()->each(function($bookmark){
-
+        Bookmark::all()->each(function ($bookmark) {
             TopicAssignment::updateOrCreate([
-                'topic_id' => $bookmark->scope_id,
+                'topic_id'       => $bookmark->scope_id,
                 'topicable_type' => $bookmark->bookmarkable_type,
-                'topicable_id' => $bookmark->bookmarkable_id,
+                'topicable_id'   => $bookmark->bookmarkable_id,
             ]);
-
         });
 
         return $this;
     }
+
     private function scopeBookmarksToWorkspaces()
     {
-        Bookmark::all()->each(function($bookmark){
-
-            try
-            {
+        Bookmark::all()->each(function ($bookmark) {
+            try {
                 $bookmark->scope_type = Workspace::class;
-                $bookmark->scope_id = Topic::find($bookmark->scope_id)->workspace->id;
+                $bookmark->scope_id   = Topic::find($bookmark->scope_id)->workspace->id;
                 $bookmark->save();
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $bookmark->delete();
             }
-
         });
 
         return $this;

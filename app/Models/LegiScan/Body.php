@@ -3,56 +3,64 @@
 namespace App\Models\LegiScan;
 
 use App\Traits\Models\HasLegiScanShim;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Body extends Model
 {
     use HasFactory;
     use HasLegiScanShim;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_body';
+
     protected $primaryKey = 'body_id';
 
     public $timestamps = false;
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
-    public function state() {
+    public function state()
+    {
         return $this->belongsTo(State::class, 'state_id');
     }
-    public function role() {
+
+    public function role()
+    {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getAbbreviationAttribute()
     {
         return $this->body_abbr;
     }
+
     public function getShortNameAttribute()
     {
         return $this->body_short;
     }
+
     public function getNameAttribute()
     {
         return $this->body_name;
     }
+
     public function getRoleAbbreviationAttribute()
     {
         return $this->body_role_abbr;
     }
+
     public function getRoleNameAttribute()
     {
         return $this->body_role_name;
     }
 
-    #endregion
+    //endregion
 }

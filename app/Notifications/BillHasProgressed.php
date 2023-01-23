@@ -3,17 +3,18 @@
 namespace App\Notifications;
 
 use App\Models\Group;
-use App\Models\LegiScan\Bill;
-use App\Models\LegiScan\Bill\History;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\LegiScan\Bill\History;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class BillHasProgressed extends Notification
 {
     use Queueable;
 
-    public function __construct(public History $history) {}
+    public function __construct(public History $history)
+    {
+    }
 
     public function via($user)
     {
@@ -24,7 +25,7 @@ class BillHasProgressed extends Notification
     {
         $number = $this->history->bill->number;
         $action = $this->history->action;
-        $title = $this->history->bill->title;
+        $title  = $this->history->bill->title;
 
         $groups = Group::query()
             ->hasMember($user)
@@ -32,12 +33,14 @@ class BillHasProgressed extends Notification
             ->get();
 
         return (new MailMessage)
-            ->subject($number.' progress, '.$action.' - '.$title)
-            ->markdown('mail.bill.hasProgressed',
-            [
-                'notifiable' => $user,
-                'history' => $this->history,
-                'relatedGroups' => $groups,
-            ]);
+            ->subject($number . ' progress, ' . $action . ' - ' . $title)
+            ->markdown(
+                'mail.bill.hasProgressed',
+                [
+                    'notifiable'    => $user,
+                    'history'       => $this->history,
+                    'relatedGroups' => $groups,
+                ]
+            );
     }
 }

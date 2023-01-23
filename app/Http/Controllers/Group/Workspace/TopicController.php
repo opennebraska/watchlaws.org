@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Group\Workspace;
 
-use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Group\Workspace;
+use App\Http\Controllers\Controller;
 use App\Models\Group\Workspace\Topic;
 
 class TopicController extends Controller

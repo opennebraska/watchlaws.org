@@ -13,7 +13,6 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-
             $table->id();
 
             // Authentication
@@ -30,7 +29,6 @@ return new class extends Migration {
             // $table->string('name');  // TODO: Implement as dynamic property
 
             $table->timestamps();
-
         });
     }
 

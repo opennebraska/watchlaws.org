@@ -2,10 +2,10 @@
 
 namespace App\Models\Group;
 
-use App\Models\Group;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Member extends Model
 {
@@ -15,20 +15,21 @@ class Member extends Model
 
     protected $guarded = [];
 
-    #region Relationships
+    //region Relationships
 
-    function group()
+    public function group()
     {
         return $this->belongsTo(Group::class);
     }
-    function user()
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getIsGroupOwnerAttribute()
     {
@@ -36,8 +37,7 @@ class Member extends Model
             return true;
         }
 
-        for ($parent = $this->group->parent; $parent; $parent = $parent->parent)
-        {
+        for ($parent = $this->group->parent; $parent; $parent = $parent->parent) {
             if ($parent->group->owner_id == $this->user->id) {
                 return true;
             }
@@ -46,5 +46,5 @@ class Member extends Model
         return false;
     }
 
-    #endregion
+    //endregion
 }

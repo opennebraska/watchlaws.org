@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Group;
 
-use App\Http\Controllers\Controller;
 use App\Models\Group;
+use App\Http\Controllers\Controller;
 
 class MemberController extends Controller
 {

@@ -2,10 +2,10 @@
 
 namespace App\Models\LegiScan\Bill;
 
-use App\Notifications\BillHasProgressed;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Notifications\BillHasProgressed;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class HistoryTimestamp extends Model
 {
@@ -19,15 +19,11 @@ class HistoryTimestamp extends Model
     protected static function booted()
     {
         static::created(function (HistoryTimestamp $historyTimestamp) {
-
             HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->historyItem);
-
         });
 
         static::updated(function (HistoryTimestamp $historyTimestamp) {
-
             HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->historyItem);
-
         });
     }
 
@@ -38,11 +34,10 @@ class HistoryTimestamp extends Model
 
     private static function notifyUsersWhenBillHasProgressed(History $historyItem)
     {
-        if ($historyItem->is_nebraska_hearing)
-        {
+        if ($historyItem->is_nebraska_hearing) {
             $users = collect();
 
-            $historyItem->bill->bookmarks->each(function($bookmark) use($users){
+            $historyItem->bill->bookmarks->each(function ($bookmark) use ($users) {
                 $users->concat($bookmark->workspace->group->members);
             });
 

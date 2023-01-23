@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Group\Member as GroupMember;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Group\Member as GroupMember;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    #region Properties
+    //region Properties
 
     protected $fillable = [
         'name',
@@ -32,23 +32,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_members');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getFullNameAttribute()
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
-    #endregion
+    //endregion
 }

@@ -2,30 +2,31 @@
 
 namespace App\Http\Livewire;
 
-use App\Helpers\BookmarkToggle;
 use Livewire\Component;
 use App\Models\Bookmark;
 use App\Models\LegiScan\Bill;
+use App\Helpers\BookmarkToggle;
 use App\Traits\Livewire\WithPerPagePagination;
 
 class BillTable extends Component
 {
     use WithPerPagePagination;
 
-    #region Properties
+    //region Properties
 
     protected $queryString = [
         'search' => ['initial' => null, 'as' => 'q'],
     ];
 
     public $group;
+
     public $scope;
 
     public $search = null;
 
-    #endregion
+    //endregion
 
-    #region Methods
+    //region Methods
 
     public function mount()
     {
@@ -40,15 +41,14 @@ class BillTable extends Component
     public function query()
     {
         return Bill::query()
-            ->when($this->group->chosenState(), function($query){
+            ->when($this->group->chosenState(), function ($query) {
                 $query->where('state_id', $this->group->chosenState()->id);
             })
-            ->whereHas('session', function($query) {
+            ->whereHas('session', function ($query) {
                 return $query->where('year_start', $this->group->chosenYear())
                            ->orWhere('year_end', $this->group->chosenYear());
             })
-            ->orderByDesc('created')
-            ;
+            ->orderByDesc('created');
     }
 
     public function applyFilters($query)
@@ -102,14 +102,13 @@ class BillTable extends Component
         $toggle = app(BookmarkToggle::class);
 
         $bookmark = $toggle->getBookmark($bill, $this->scope);
-        if (is_null($bookmark))
-        {
+        if (is_null($bookmark)) {
             return $toggle->up($bill, $this->scope);
         }
 
-        if ($bookmark->direction === false)
-        {
+        if ($bookmark->direction === false) {
             $toggle->clear($bill, $this->scope);
+
             return $toggle->up($bill, $this->scope);
         }
 
@@ -127,19 +126,18 @@ class BillTable extends Component
         $toggle = app(BookmarkToggle::class);
 
         $bookmark = $toggle->getBookmark($bill, $this->scope);
-        if (is_null($bookmark))
-        {
+        if (is_null($bookmark)) {
             return $toggle->down($bill, $this->scope);
         }
 
-        if ($bookmark->direction === true)
-        {
+        if ($bookmark->direction === true) {
             $toggle->clear($bill, $this->scope);
+
             return $toggle->down($bill, $this->scope);
         }
 
         return $toggle->clear($bill, $this->scope);
     }
 
-    #endregion
+    //endregion
 }

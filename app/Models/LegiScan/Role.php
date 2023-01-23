@@ -9,24 +9,25 @@ class Role extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_role';
 
     protected $primaryKey = 'role_id';
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getNameAttribute()
     {
         return $this->role_name;
     }
+
     public function getAbbreviationAttribute()
     {
         return $this->role_abbreviation;
     }
 
-    #endregion
+    //endregion
 }

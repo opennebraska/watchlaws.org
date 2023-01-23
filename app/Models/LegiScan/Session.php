@@ -3,8 +3,8 @@
 namespace App\Models\LegiScan;
 
 use App\Traits\Models\HasLegiScanShim;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Session extends Model
@@ -13,11 +13,12 @@ class Session extends Model
     use HasLegiScanShim;
 
     protected $table = 'ls_session';
+
     protected $primaryKey = 'session_id';
 
     public $timestamps = false;
 
-    #region Relationships
+    //region Relationships
 
     public function state()
     {
@@ -29,22 +30,21 @@ class Session extends Model
         return $this->hasMany(Bill::class, 'session_id');
     }
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function scopeSelectYears(Builder $query)
     {
         return $query
             ->select('year_start as year')
             ->union(Session::select('year_end as year'))
-            ->orderByDesc('year')
-            ;
+            ->orderByDesc('year');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getShortDescriptionAttribute()
     {
@@ -52,22 +52,25 @@ class Session extends Model
 
         $result = '';
         $result .= $this->name;
-        $result .= ' ('.implode('-', array_unique([$this->year_start, $this->year_end])).')';
+        $result .= ' (' . implode('-', array_unique([$this->year_start, $this->year_end])) . ')';
 
         return $result;
     }
+
     public function getNameAttribute()
     {
         return $this->session_name;
     }
+
     public function getTitleAttribute()
     {
         return $this->session_title;
     }
+
     public function getTaglineAttribute()
     {
         return $this->session_tag;
     }
 
-    #endregion
+    //endregion
 }

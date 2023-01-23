@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Body;
-use App\Models\Committee;
 use App\Models\State;
+use App\Models\Committee;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -41,7 +41,7 @@ class LegiScanClean extends Command
         $mysqlConfig    = config('database.connections.mysql');
         // $apiKey         = config('legiscan.api_key');
         $scriptFilepath = base_path('lib/legiscan/legiscan-cli.php');
-        $command = sprintf(
+        $command        = sprintf(
             'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s php %s --clean',
             // 'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s %s%s--bulk --import --yes',
             $mysqlConfig['host'],
@@ -66,6 +66,7 @@ class LegiScanClean extends Command
 
         // Separator before returning
         $this->info($this->separator);
+
         return $this;
     }
 }

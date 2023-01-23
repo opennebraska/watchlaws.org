@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Group;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Group;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DemoSeeder extends Seeder
 {
@@ -19,8 +19,8 @@ class DemoSeeder extends Seeder
         // Users (regular)
         $user = User::factory()->create([
             'first_name' => 'User',
-            'last_name' => 'Account',
-            'email' => 'user@example.com',
+            'last_name'  => 'Account',
+            'email'      => 'user@example.com',
         ]);
 
         // Users (x8)
@@ -28,28 +28,26 @@ class DemoSeeder extends Seeder
 
         // Groups (x2)
         Group::factory(2)->create([
-            'type' => 'group',
+            'type'       => 'group',
             'state_abbr' => 'NE',
-            'owner_id' => $user->id,
+            'owner_id'   => $user->id,
         ]);
 
         // Workspaces (x4; 2 under each group)
-        foreach (Group::roots()->get() as $group)
-        {
+        foreach (Group::roots()->get() as $group) {
             Group::factory(2)->create([
                 'parent_id' => $group->id,
-                'type' => 'workspace',
-                'owner_id' => $user->id,
+                'type'      => 'workspace',
+                'owner_id'  => $user->id,
             ]);
         }
 
         // Topics (x12; 3 under each workspace)
-        foreach (Group::workspaces()->get() as $workspace)
-        {
+        foreach (Group::workspaces()->get() as $workspace) {
             Group::factory(3)->create([
                 'parent_id' => $workspace->id,
-                'type' => 'topic',
-                'owner_id' => $user->id,
+                'type'      => 'topic',
+                'owner_id'  => $user->id,
             ]);
         }
 

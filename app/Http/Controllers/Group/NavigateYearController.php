@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Group;
 
-use App\Http\Controllers\Controller;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class NavigateYearController extends Controller
 {

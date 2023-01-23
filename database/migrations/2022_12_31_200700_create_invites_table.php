@@ -1,13 +1,12 @@
 <?php
 
-use App\Models\Group;
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Group;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,7 +15,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('invites', function (Blueprint $table) {
-
             $table->id();
 
             // From (e.g. group or friend invite)
@@ -40,7 +38,6 @@ return new class extends Migration
             $table->unique(['scope_type', 'scope_id', 'user_id']);
             $table->unique(['scope_type', 'scope_id', 'email']);
             $table->unique(['scope_type', 'scope_id', 'mobile']);
-
         });
     }
 

@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Models\Group\Workspace;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Bookmark extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $fillable = [
         'scope_type',
@@ -29,9 +29,9 @@ class Bookmark extends Model
         'direction' => 'boolean',
     ];
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     public function scope()
     {
@@ -43,13 +43,13 @@ class Bookmark extends Model
         return $this->morphTo('bookmarkable');
     }
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function scopePerWorkspace(Builder $query, Workspace $workspace)
     {
-        $query->whereHasMorph('scope', Workspace::class, function(Builder $query) use ($workspace){
+        $query->whereHasMorph('scope', Workspace::class, function (Builder $query) use ($workspace) {
             $query->where('id', $workspace->id);
         });
     }
@@ -59,5 +59,5 @@ class Bookmark extends Model
         return $query->where('direction', $direction);
     }
 
-    #endregion
+    //endregion
 }

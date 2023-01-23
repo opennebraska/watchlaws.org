@@ -3,8 +3,8 @@
 namespace Tests\Unit\Models;
 
 use Tests\TestCase;
-use App\Models\LegiScan\Bill;
 use App\Models\State;
+use App\Models\LegiScan\Bill;
 
 class StateTest extends TestCase
 {

@@ -9,15 +9,15 @@ class Type extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_type';
 
     protected $primaryKey = 'bill_type_id';
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getNameAttribute()
     {
@@ -29,5 +29,5 @@ class Type extends Model
         return $this->bill_type_abbr;
     }
 
-    #endregion
+    //endregion
 }

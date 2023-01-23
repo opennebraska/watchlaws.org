@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UpDownVote extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $guarded = [];
 
@@ -17,5 +17,5 @@ class UpDownVote extends Model
         'direction' => 'boolean',
     ];
 
-    #endregion
+    //endregion
 }

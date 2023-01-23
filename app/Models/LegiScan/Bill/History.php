@@ -2,16 +2,16 @@
 
 namespace App\Models\LegiScan\Bill;
 
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
+use Illuminate\Support\Str;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasLegiScanShim;
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
-use Carbon\Exceptions\InvalidFormatException;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Str;
 
 class History extends Model
 {
@@ -32,15 +32,15 @@ class History extends Model
         'history_date' => 'datetime:Y-m-d',
     ];
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_bill_history';
 
     protected $primaryKey = 'composite_id';
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     public function bill()
     {
@@ -52,84 +52,87 @@ class History extends Model
         return $this->belongsTo(Body::class, 'history_body_id');
     }
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function scopeWhereState(Builder $query, State $state)
     {
         return $query
-            ->whereHas('bill.state', function(Builder $query) use($state){
+            ->whereHas('bill.state', function (Builder $query) use ($state) {
                 $query->where('state_abbr', $state->abbreviation);
             });
     }
+
     public function scopeWhereYear(Builder $query, $year)
     {
         return $query
-            ->whereHas('bill.session', function(Builder $query) use($year){
+            ->whereHas('bill.session', function (Builder $query) use ($year) {
                 $query->where('year_start', $year)
                       ->orWhere('year_end', $year);
             });
     }
+
     public function scopeWhereIsNebraskaHearing(Builder $query)
     {
         return $query
-            ->whereHas('bill.state', function($query){
+            ->whereHas('bill.state', function ($query) {
                 $query->where('state_abbr', 'NE');
             })
             ->where('history_action', 'like', '%hearing%');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getStepAttribute()
     {
         return $this->history_step;
     }
+
     public function getMajorAttribute()
     {
         return $this->history_major;
     }
+
     public function getDateAttribute()
     {
         return $this->history_date;
     }
+
     public function getActionAttribute()
     {
         return $this->history_action;
     }
+
     public function getNebraskaHearingDateAttribute()
     {
-        if (Str::contains($this->action, 'hearing', ignoreCase:true))
-        {
+        if (Str::contains($this->action, 'hearing', ignoreCase:true)) {
             $matches = [];
-            if (preg_match('/(January|February|March|April|May|June|July|August|September|October|November|December)\s\d{2},\s\d{4}/', $this->action, $matches))
-            {
+            if (preg_match('/(January|February|March|April|May|June|July|August|September|October|November|December)\s\d{2},\s\d{4}/', $this->action, $matches)) {
                 $dateString = $matches[0];
 
-                try
-                {
+                try {
                     return Carbon::createFromFormat('F d, Y', $dateString);
-                }
-                catch (InvalidFormatException $e)
-                {
+                } catch (InvalidFormatException $e) {
                     return null;
                 }
             }
         }
     }
+
     public function getNebraskaHearingDateHumanizedAttribute()
     {
         return $this->nebraska_hearing_date
              ? $this->nebraska_hearing_date->diffForHumans(Carbon::now('utc'), CarbonInterface::DIFF_RELATIVE_TO_NOW)
              : null;
     }
+
     public function getIsNebraskaHearingAttribute()
     {
         return strpos('hearing', $this->action);
     }
 
-    #endregion
+    //endregion
 }

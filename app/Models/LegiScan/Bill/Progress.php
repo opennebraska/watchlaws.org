@@ -17,6 +17,7 @@ class Progress extends Model
     {
         return $this->belongsTo(Bill::class);
     }
+
     public function event()
     {
         return $this->belongsTo(Progress::class);

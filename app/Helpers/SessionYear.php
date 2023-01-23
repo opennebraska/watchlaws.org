@@ -9,10 +9,10 @@ class SessionYear
     public function getAll()
     {
         return collect(
-                    Session::select('year_start', 'year_end')
-                        ->get()
-                        ->toArray()
-                )
+            Session::select('year_start', 'year_end')
+                ->get()
+                ->toArray()
+        )
                 ->flatten()
                 ->unique();
     }

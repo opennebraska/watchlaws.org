@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Body;
-use App\Models\Committee;
 use App\Models\State;
+use App\Models\Committee;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;

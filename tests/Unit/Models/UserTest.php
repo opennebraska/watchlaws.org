@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\User;
 use Tests\TestCase;
+use App\Models\User;
 
 class UserTest extends TestCase
 {
@@ -12,7 +12,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create([
             'first_name' => 'first',
-            'last_name' => 'last',
+            'last_name'  => 'last',
         ]);
 
         $this->assertEquals('first last', $user->full_name);

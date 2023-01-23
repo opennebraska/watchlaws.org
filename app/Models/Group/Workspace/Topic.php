@@ -2,20 +2,20 @@
 
 namespace App\Models\Group\Workspace;
 
-use App\Models\Bookmark;
 use App\Models\Group;
-use App\Models\Group\Workspace;
-use App\Models\Group\Workspace\Topic\Section;
+use App\Models\Bookmark;
 use App\Models\LegiScan\Bill;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Group\Workspace;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Models\Group\Workspace\Topic\Section;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Topic extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $fillable = [
         'workspace_id',
@@ -26,63 +26,63 @@ class Topic extends Model
         'created_by',
     ];
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     public function workspace()
     {
         return $this->belongsTo(Workspace::class);
     }
+
     public function section()
     {
         return $this->belongsTo(Section::class);
     }
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function scopePerWorkspace(Builder $query, Workspace $workspace)
     {
         return $query->where('workspace_id', $workspace->id);
     }
+
     public function scopePerGroup(Builder $query, Group $group)
     {
-        return $query->whereHas('workspace.group', function(Builder $query) use($group){
+        return $query->whereHas('workspace.group', function (Builder $query) use ($group) {
             $query->where('id', $group->id);
         });
     }
 
-    #endregion
+    //endregion
 
-    #region Public methods
+    //region Public methods
 
     public function findBookmarks()
     {
         return Bookmark::query()
 
                     // Bills subquery
-                    ->whereHasMorph('bookmarkable', Bill::class, function(Builder $query) {
-
+                    ->whereHasMorph('bookmarkable', Bill::class, function (Builder $query) {
                         // Filtered by topic
                         $query->whereTopic($this)
 
                         // Optionally filtered by state
-                        ->when($this->workspace->group->chosenState(), function($query, $state) {
+                        ->when($this->workspace->group->chosenState(), function ($query, $state) {
                             $query->whereState($state);
                         })
 
                         // Optionally filtered by year
-                        ->when($this->workspace->group->chosenYear(), function($query, $year) {
+                        ->when($this->workspace->group->chosenYear(), function ($query, $year) {
                             $query->whereYear($year);
                         });
-
                     })
                     ->whereDirection(true)
                     ->orderByDesc('created_at')
                     ->get();
     }
 
-    #endregion
+    //endregion
 }

@@ -36,7 +36,7 @@ return [
     */
 
     'legiscan_carry_over' => ['OE', 'EO', 'NO'],
-    'legiscan_states' => [
+    'legiscan_states'     => [
         'AL' => 'Alabama',
         'AK' => 'Alaska',
         'AZ' => 'Arizona',

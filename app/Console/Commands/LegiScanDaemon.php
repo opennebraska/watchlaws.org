@@ -2,16 +2,16 @@
 
 namespace App\Console\Commands;
 
-use App\Models\LegiScan\Bill\HistoryTimestamp as BillHistoryTimestamp;
 use App\Models\Body;
-use App\Models\Committee;
-use App\Models\LegiScan\Bill\History as BillHistory;
 use App\Models\State;
-
+use App\Models\Committee;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
+use App\Models\LegiScan\Bill\History as BillHistory;
+use App\Models\LegiScan\Bill\HistoryTimestamp as BillHistoryTimestamp;
 
 /**
  * @codeCoverageIgnore
@@ -153,11 +153,11 @@ class LegiScanDaemon extends Command
         foreach ($billHistory as $billHistoryItem) {
             BillHistoryTimestamp::updateOrCreate(
                 [
-                    'bill_id' => $billHistory->bill_id,
+                    'bill_id'      => $billHistory->bill_id,
                     'history_step' => $billHistory->history_step,
                 ],
                 [
-                    'bill_id' => $billHistory->bill_id,
+                    'bill_id'      => $billHistory->bill_id,
                     'history_step' => $billHistory->history_step,
                 ],
             );
@@ -176,6 +176,7 @@ class LegiScanDaemon extends Command
     {
         if ($this->option('skip')) {
             $this->info('Skipping base import');
+
             return $this;
         }
 
@@ -183,7 +184,7 @@ class LegiScanDaemon extends Command
         $mysqlConfig    = config('database.connections.mysql');
         $apiKey         = config('legiscan.api_key');
         $scriptFilepath = base_path('lib/legiscan/legiscand.php');
-        $command = sprintf(
+        $command        = sprintf(
             'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s',
             $mysqlConfig['host'],
             $mysqlConfig['port'],
@@ -207,6 +208,7 @@ class LegiScanDaemon extends Command
 
         // Display separator before returning
         $this->info($this->separator);
+
         return $this;
     }
 }

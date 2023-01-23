@@ -13,7 +13,7 @@ class BookmarkToggle
                 ['scope_type', get_class($scope)],
                 ['scope_id', $scope->id],
                 ['bookmarkable_type', get_class($bookmarkable)],
-                ['bookmarkable_id', $bookmarkable->id]
+                ['bookmarkable_id', $bookmarkable->id],
             ])
             ->first();
     }
@@ -28,12 +28,12 @@ class BookmarkToggle
     {
         // Add bookmark "up" for bill and scope
         return Bookmark::create([
-            'scope_type' => get_class($scope),
-            'scope_id' => $scope->id,
+            'scope_type'        => get_class($scope),
+            'scope_id'          => $scope->id,
             'bookmarkable_type' => get_class($bookmarkable),
-            'bookmarkable_id' => $bookmarkable->id,
-            'direction' => true,
-            'created_by' => auth()->user()->id,
+            'bookmarkable_id'   => $bookmarkable->id,
+            'direction'         => true,
+            'created_by'        => auth()->user()->id,
         ]);
     }
 
@@ -41,12 +41,12 @@ class BookmarkToggle
     {
         // Add bookmark "down" for bill and scope
         return Bookmark::create([
-            'scope_type' => get_class($scope),
-            'scope_id' => $scope->id,
+            'scope_type'        => get_class($scope),
+            'scope_id'          => $scope->id,
             'bookmarkable_type' => get_class($bookmarkable),
-            'bookmarkable_id' => $bookmarkable->id,
-            'direction' => false,
-            'created_by' => auth()->user()->id,
+            'bookmarkable_id'   => $bookmarkable->id,
+            'direction'         => false,
+            'created_by'        => auth()->user()->id,
         ]);
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Group\MemberController;
-use App\Http\Controllers\Group\NavigateStateController;
-use App\Http\Controllers\Group\NavigateYearController;
-use App\Http\Controllers\Group\Workspace\HearingController;
-use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;
-use App\Http\Controllers\Group\Workspace\TopicController;
-use App\Http\Controllers\Group\WorkspaceController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LoginController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Group\MemberController;
+use App\Http\Controllers\Group\WorkspaceController;
+use App\Http\Controllers\Group\NavigateYearController;
+use App\Http\Controllers\Group\NavigateStateController;
+use App\Http\Controllers\Group\Workspace\TopicController;
+use App\Http\Controllers\Group\Workspace\HearingController;
+use App\Http\Controllers\Group\Workspace\Topic\BillSearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,18 +24,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Public routes
-Route::get('/', fn() => redirect('/dashboard'))->name('index');
+Route::get('/', fn () => redirect('/dashboard'))->name('index');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 // Routes requiring authentication
-Route::middleware('auth')->group(function() {
-
+Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Groups
-    Route::prefix('groups')->name('groups.')->middleware('can:view,group')->group(function() {
-
+    Route::prefix('groups')->name('groups.')->middleware('can:view,group')->group(function () {
         Route::get('{group}', [GroupController::class, 'show'])->name('show');
         Route::get('{group}/members', [MemberController::class, 'index'])->name('members.index');
 
@@ -44,21 +42,16 @@ Route::middleware('auth')->group(function() {
         Route::put('{group}/navigate-state', [NavigateStateController::class, 'update'])->name('navigate.state.update');
 
         // Workspaces
-        Route::prefix('{group}/workspaces')->name('workspaces.')->group(function() {
-
+        Route::prefix('{group}/workspaces')->name('workspaces.')->group(function () {
             Route::get('{workspace}', [WorkspaceController::class, 'show'])->name('show');
 
             Route::get('{workspace}/states/{state}/years/{year}/hearings', [HearingController::class, 'index'])->name('states.years.hearings.index');
 
             // Topics
-            Route::prefix('{workspace}/topics')->name('topics.')->group(function() {
-
+            Route::prefix('{workspace}/topics')->name('topics.')->group(function () {
                 Route::get('{topic}', [TopicController::class, 'show'])->name('show');
                 Route::get('{topic}/search', [BillSearchController::class, 'show'])->name('bill-search.show');
-
             });
-
         });
-
     });
 });

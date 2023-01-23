@@ -2,12 +2,11 @@
 
 use App\Models\User;
 use App\Models\Group\Workspace;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,8 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('topics', function (Blueprint $table)
-        {
+        Schema::create('topics', function (Blueprint $table) {
             $table->id();
 
             $table->foreignIdFor(Workspace::class);
