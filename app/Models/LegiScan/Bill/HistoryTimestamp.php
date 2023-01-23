@@ -3,7 +3,6 @@
 namespace App\Models\LegiScan\Bill;
 
 use App\Models\LegiScan\Bill;
-use App\Models\User;
 use App\Notifications\BillHasProgressed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
