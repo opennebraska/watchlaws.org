@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Helpers;
 
-use Tests\TestCase;
 use App\Helpers\SessionYear;
 use App\Models\LegiScan\Session;
+use Tests\TestCase;
 
 class SessionYearTest extends TestCase
 {

@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\LegiScan\Bill;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\HasEnumProperties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {

@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\State;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\HasEnumProperties;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Body extends Model
 {

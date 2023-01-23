@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Models\Group\Member;
+use App\Models\Group\Workspace;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
-use App\Models\Group\Workspace;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Models\HasEnumProperties;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {

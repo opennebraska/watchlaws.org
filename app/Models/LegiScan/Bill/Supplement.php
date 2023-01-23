@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan\Bill;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Supplement extends Model
 {

@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Group;
 use App\Models\Bookmark;
+use App\Models\Group;
 use App\Models\Group\Member;
-use App\Models\LegiScan\Bill;
 use App\Models\Group\Workspace;
+use App\Models\LegiScan\Bill;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 class GroupTest extends TestCase
 {

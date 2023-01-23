@@ -3,10 +3,10 @@
 namespace App\Notifications;
 
 use App\Models\Group;
-use Illuminate\Bus\Queueable;
 use App\Models\LegiScan\Bill\History;
-use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class BillHasProgressed extends Notification
 {

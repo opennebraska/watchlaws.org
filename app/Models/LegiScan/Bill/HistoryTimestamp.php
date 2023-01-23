@@ -2,10 +2,10 @@
 
 namespace App\Models\LegiScan\Bill;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Notifications\BillHasProgressed;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
 
 class HistoryTimestamp extends Model
 {

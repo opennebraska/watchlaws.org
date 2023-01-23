@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
+use App\Helpers\BookmarkToggle;
 use App\Models\Bookmark;
 use App\Models\LegiScan\Bill;
-use App\Helpers\BookmarkToggle;
 use App\Traits\Livewire\WithPerPagePagination;
+use Livewire\Component;
 
 class BillTable extends Component
 {

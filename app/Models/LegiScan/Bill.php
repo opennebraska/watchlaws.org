@@ -3,24 +3,24 @@
 namespace App\Models\LegiScan;
 
 use App\Models\Bookmark;
-use App\Models\LegiScan\Bill\Sast;
-use App\Models\LegiScan\Bill\Text;
-use App\Models\LegiScan\Bill\Vote;
-use App\Models\LegiScan\Bill\Reason;
 use App\Models\Group\Workspace\Topic;
+use App\Models\Group\Workspace\Topic\Assignment;
+use App\Models\LegiScan\Bill\Amendment;
+use App\Models\LegiScan\Bill\Calendar;
 use App\Models\LegiScan\Bill\History;
+use App\Models\LegiScan\Bill\Progress;
+use App\Models\LegiScan\Bill\Reason;
+use App\Models\LegiScan\Bill\Referral;
+use App\Models\LegiScan\Bill\Sast;
 use App\Models\LegiScan\Bill\Sponsor;
 use App\Models\LegiScan\Bill\Subject;
-use App\Models\LegiScan\Bill\Calendar;
-use App\Models\LegiScan\Bill\Progress;
-use App\Models\LegiScan\Bill\Referral;
-use App\Traits\Models\HasLegiScanShim;
-use App\Models\LegiScan\Bill\Amendment;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\LegiScan\Bill\Supplement;
+use App\Models\LegiScan\Bill\Text;
+use App\Models\LegiScan\Bill\Vote;
+use App\Traits\Models\HasLegiScanShim;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Group\Workspace\Topic\Assignment;
+use Illuminate\Database\Eloquent\Model;
 
 class Bill extends Model
 {

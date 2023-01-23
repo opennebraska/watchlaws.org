@@ -4,8 +4,8 @@ namespace App\Models\LegiScan\Bill;
 
 use App\Models\LegiScan\People;
 use App\Models\LegiScan\SponsorType;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Sponsor extends Model
 {

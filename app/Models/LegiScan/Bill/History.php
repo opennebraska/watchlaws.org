@@ -2,16 +2,16 @@
 
 namespace App\Models\LegiScan\Bill;
 
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
-use Illuminate\Support\Str;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasLegiScanShim;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Carbon\Exceptions\InvalidFormatException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class History extends Model
 {

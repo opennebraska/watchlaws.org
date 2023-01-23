@@ -2,11 +2,11 @@
 
 use App\Models\Bookmark;
 use App\Models\Group\Workspace;
-use Illuminate\Support\Facades\DB;
 use App\Models\Group\Workspace\Topic;
-use Illuminate\Database\Migrations\Migration;
-use App\Models\Group\Workspace\Topic\Section;
 use App\Models\Group\Workspace\Topic\Assignment;
+use App\Models\Group\Workspace\Topic\Section;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration {
     /**

@@ -2,14 +2,14 @@
 
 namespace App\Models\Group\Workspace;
 
-use App\Models\Group;
 use App\Models\Bookmark;
-use App\Models\LegiScan\Bill;
+use App\Models\Group;
 use App\Models\Group\Workspace;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use App\Models\Group\Workspace\Topic\Section;
+use App\Models\LegiScan\Bill;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
 {

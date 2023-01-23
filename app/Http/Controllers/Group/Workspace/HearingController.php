@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Group\Workspace;
 
-use Carbon\Carbon;
-use App\Models\Group;
-use App\Models\LegiScan\State;
-use App\Models\Group\Workspace;
 use App\Http\Controllers\Controller;
+use App\Models\Group;
+use App\Models\Group\Workspace;
 use App\Models\LegiScan\Bill\History;
+use App\Models\LegiScan\State;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class HearingController extends Controller

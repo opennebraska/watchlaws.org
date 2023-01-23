@@ -3,14 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Models\Body;
-use App\Models\State;
 use App\Models\Committee;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Log;
 use App\Models\LegiScan\Bill\History;
 use App\Models\LegiScan\Bill\HistoryTimestamp;
+use App\Models\State;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @codeCoverageIgnore
