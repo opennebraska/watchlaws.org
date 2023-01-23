@@ -9,9 +9,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Artisan;
-use App\Models\LegiScan\Bill\History as BillHistory;
-use App\Models\LegiScan\Bill\HistoryTimestamp as BillHistoryTimestamp;
+use App\Models\LegiScan\Bill\History;
+use App\Models\LegiScan\Bill\HistoryTimestamp;
 
 /**
  * @codeCoverageIgnore
@@ -144,14 +143,14 @@ class LegiScanDaemon extends Command
     {
         $this->info('Upating Legislative Bill History Timestamps');
 
-        $billHistory = BillHistory::all();
+        $billHistory = History::all();
 
         $progress = $this->output->createProgressBar(count($billHistory));
 
         $progress->start();
 
         foreach ($billHistory as $billHistoryItem) {
-            BillHistoryTimestamp::updateOrCreate(
+            HistoryTimestamp::updateOrCreate(
                 [
                     'bill_id'      => $billHistory->bill_id,
                     'history_step' => $billHistory->history_step,

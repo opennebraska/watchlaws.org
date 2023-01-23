@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\LegiScan\Bill\Supplement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
+use App\Models\Group\Workspace\Topic\Assignment;
 
 class Bill extends Model
 {
@@ -178,7 +178,7 @@ class Bill extends Model
 
     public function topicAssignments()
     {
-        return $this->morphMany(TopicAssignment::class, 'topicable');
+        return $this->morphMany(Assignment::class, 'topicable');
     }
 
     //endregion

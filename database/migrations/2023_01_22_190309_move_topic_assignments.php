@@ -5,8 +5,8 @@ use App\Models\Group\Workspace;
 use Illuminate\Support\Facades\DB;
 use App\Models\Group\Workspace\Topic;
 use Illuminate\Database\Migrations\Migration;
-use App\Models\Group\Workspace\Topic\Section as TopicSection;
-use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
+use App\Models\Group\Workspace\Topic\Section;
+use App\Models\Group\Workspace\Topic\Assignment;
 
 return new class extends Migration {
     /**
@@ -38,7 +38,7 @@ return new class extends Migration {
     {
         // Topics should have their own sections... and NOT rely on the workspace for this
         Topic::all()->each(function ($topic) {
-            $section = TopicSection::updateOrCreate([
+            $section = Section::updateOrCreate([
                 'workspace_id' => $topic->workspace_id,
                 'name'         => $topic->workspace->name,
             ]);
@@ -54,7 +54,7 @@ return new class extends Migration {
     {
         // Topics should use their own pivot table for assignments... and NOT reply on bookmarks for this
         Bookmark::all()->each(function ($bookmark) {
-            TopicAssignment::updateOrCreate([
+            Assignment::updateOrCreate([
                 'topic_id'       => $bookmark->scope_id,
                 'topicable_type' => $bookmark->bookmarkable_type,
                 'topicable_id'   => $bookmark->bookmarkable_id,
