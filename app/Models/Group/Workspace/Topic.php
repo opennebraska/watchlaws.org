@@ -62,10 +62,10 @@ class Topic extends Model
     {
         return Bookmark::query()
 
-                    // For bills
+                    // Bills subquery
                     ->whereHasMorph('bookmarkable', Bill::class, function(Builder $query) {
 
-                        // For this topic
+                        // Filtered by topic
                         $query->whereTopic($this)
 
                         // Optionally filtered by state

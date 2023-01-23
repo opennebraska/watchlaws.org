@@ -37,11 +37,6 @@ class Group extends Model
         return $this->hasMany(Workspace::class);
     }
 
-    function bookmarks()
-    {
-        return $this->morphMany(Bookmark::class, 'scope');
-    }
-
     function state()
     {
         return $this->belongsTo(State::class, 'state_abbr', 'state_abbr');
@@ -54,28 +49,30 @@ class Group extends Model
 
     function members()
     {
-        return $this->hasManyThrough(User::class, Member::class, 'group_id', 'id', 'id', 'user_id');
+        return $this->belongsToMany(User::class, 'group_members');
     }
 
     #endregion
 
     #region Scopes
 
-    public function scopeHasMember(Builder $query, $member)
+    public function scopeHasMember(Builder $query, $user)
     {
         return $query
-            ->whereHas('members', function(Builder $query) use($member){
-                $query->where('user_id', $member->id);
+            ->whereHas('members', function(Builder $query) use($user){
+                $query->where('users.id', $user->id);
             });
     }
-    public function scopeHasBookmarked(Builder $query, $bookmarkable_type, $bookmarkable_id)
+    public function scopeHasBookmarked(Builder $query, $bookmarkable)
     {
-        return $query
-            ->whereHas('workspaces.topics.bookmarks', function(Builder $query) use($bookmarkable_type, $bookmarkable_id){
-                $query->whereHasMorph('bookmarkable', $bookmarkable_type, function(Builder $query) use($bookmarkable_id){
-                    $query->where('id', $bookmarkable_id);
-                });
+        return $query->whereHas('workspaces.bookmarks', function(Builder $query) use($bookmarkable){
+            $query->whereHasMorph('bookmarkable', get_class($bookmarkable), function(Builder $query) use($bookmarkable){
+                $query->where(
+                    $bookmarkable->getTable().'.'.$bookmarkable->getKeyName(),
+                    $bookmarkable->id
+                );
             });
+        });
     }
 
     #endregion

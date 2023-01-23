@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Group;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BillHistoryTimestamps>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\GroupMember>
  */
-class BillHistoryTimestampFactory extends Factory
+class MemberFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class BillHistoryTimestampFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'role' => 'Member',
         ];
     }
 }

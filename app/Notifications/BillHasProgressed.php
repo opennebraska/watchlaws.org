@@ -25,9 +25,10 @@ class BillHasProgressed extends Notification
         $number = $this->history->bill->number;
         $action = $this->history->action;
         $title = $this->history->bill->title;
+
         $groups = Group::query()
             ->hasMember($user)
-            ->hasBookmarked(Bill::class, $this->history->bill->id)
+            ->hasBookmarked($this->history->bill)
             ->get();
 
         return (new MailMessage)

@@ -2,7 +2,6 @@
 
 namespace App\Models\LegiScan\Bill;
 
-use App\Models\LegiScan\Bill;
 use App\Notifications\BillHasProgressed;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,34 +18,35 @@ class HistoryTimestamp extends Model
      */
     protected static function booted()
     {
-        static::created(function (HistoryTimestamp $historyTimestamp)
-        {
-            HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->history);
+        static::created(function (HistoryTimestamp $historyTimestamp) {
+
+            HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->historyItem);
 
         });
 
-        static::updated(function (HistoryTimestamp $historyTimestamp)
-        {
-            HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->history);
+        static::updated(function (HistoryTimestamp $historyTimestamp) {
+
+            HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->historyItem);
+
         });
     }
 
-    public function history()
+    public function historyItem()
     {
-        return $this->belongsTo(Bill::class);
+        return $this->belongsTo(History::class);
     }
 
-    private static function notifyUsersWhenBillHasProgressed(History $history)
+    private static function notifyUsersWhenBillHasProgressed(History $historyItem)
     {
-        if ($history->is_nebraska_hearing)
+        if ($historyItem->is_nebraska_hearing)
         {
             $users = collect();
 
-            $history->bill->bookmarks->each(function($bookmark) use($users){
+            $historyItem->bill->bookmarks->each(function($bookmark) use($users){
                 $users->concat($bookmark->workspace->group->members);
             });
 
-            Notification::send($users->unique(), new BillHasProgressed($history));
+            Notification::send($users->unique(), new BillHasProgressed($historyItem));
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories\LegiScan;
 
+use App\Models\LegiScan\Bill;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,9 +10,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class BillFactory extends Factory
 {
+    public $model = Bill::class;
+
     public function definition()
     {
+        static $increment = 1;
+
         return [
+            'bill_id'              => $increment++,
             'bill_number'          => 'LB' . $this->faker->randomNumber(4, true),
             'status_date'          => $this->faker->date('Y-m-d'),
             'title'                => $this->faker->sentence(),
