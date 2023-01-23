@@ -20,10 +20,14 @@ return new class extends Migration
 
         foreach (Group::all() as $group)
         {
-            $group->memberships()->updateOrCreate([
-                'user_id' => $group->owner_id,
-                'role' => 'Owner',
-            ]);
+            $group->memberships()->updateOrCreate(
+                [
+                    'user_id' => $group->owner_id,
+                ],
+                [
+                    'role' => 'Owner',
+                ]
+            );
         }
 
         Schema::table('groups', function (Blueprint $table) {
