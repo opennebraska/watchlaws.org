@@ -12,6 +12,6 @@ class GroupPolicy
 
     public function view(User $user, Group $group)
     {
-        return $group->members->pluck('user_id')->contains($user->id);
+        return $group->memberships->pluck('user_id')->contains($user->id);
     }
 }

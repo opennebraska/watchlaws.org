@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\LegiScan\BillHistory;
+use App\Models\LegiScan\Bill\History;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('bill_history_timestamps', function (Blueprint $table)
         {
             $table->id();
-            $table->foreignIdFor(BillHistory::class);
+            $table->foreignIdFor(History::class);
             $table->integer('history_step');
             $table->timestamps();
         });

@@ -2,9 +2,8 @@
 
 use App\Models\Bookmark;
 use App\Models\Group;
-use App\Models\GroupMember;
-use App\Models\Topic;
-use App\Models\Workspace;
+use App\Models\Group\Workspace;
+use App\Models\Group\Workspace\Topic;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

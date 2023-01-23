@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\BillHistoryTimestamps;
+use App\Models\LegiScan\Bill\HistoryTimestamp as BillHistoryTimestamp;
 use App\Models\Body;
 use App\Models\Committee;
-use App\Models\LegiScan\BillHistory;
+use App\Models\LegiScan\Bill\History as BillHistory;
 use App\Models\State;
 
 use Illuminate\Console\Command;
@@ -151,7 +151,7 @@ class LegiScanDaemon extends Command
         $progress->start();
 
         foreach ($billHistory as $billHistoryItem) {
-            BillHistoryTimestamps::updateOrCreate(
+            BillHistoryTimestamp::updateOrCreate(
                 [
                     'bill_id' => $billHistory->bill_id,
                     'history_step' => $billHistory->history_step,

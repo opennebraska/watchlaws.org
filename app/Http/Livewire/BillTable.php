@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Helpers\BookmarkToggle;
 use Livewire\Component;
 use App\Models\Bookmark;
 use App\Models\LegiScan\Bill;
@@ -39,10 +40,9 @@ class BillTable extends Component
     public function query()
     {
         return Bill::query()
-            ->when(
-                $this->group->chosenState(),
-                fn ($query) => $query->where('state_id', $this->group->chosenState()->id)
-            )
+            ->when($this->group->chosenState(), function($query){
+                $query->where('state_id', $this->group->chosenState()->id);
+            })
             ->whereHas('session', function($query) {
                 return $query->where('year_start', $this->group->chosenYear())
                            ->orWhere('year_end', $this->group->chosenYear());
@@ -99,20 +99,21 @@ class BillTable extends Component
         // Hide => Show
         // Show => Clear
 
-        $bookmark = $bill->bookmark($this->scope);
+        $toggle = app(BookmarkToggle::class);
 
+        $bookmark = $toggle->getBookmark($bill, $this->scope);
         if (is_null($bookmark))
         {
-            return Bookmark::up($bill, $this->scope);
+            return $toggle->up($bill, $this->scope);
         }
 
         if ($bookmark->direction === false)
         {
-            Bookmark::clear($bill, $this->scope);
-            return Bookmark::up($bill, $this->scope);
+            $toggle->clear($bill, $this->scope);
+            return $toggle->up($bill, $this->scope);
         }
 
-        return Bookmark::clear($bill, $this->scope);
+        return $toggle->clear($bill, $this->scope);
     }
 
     public function toggleHide(Bill $bill)
@@ -123,20 +124,21 @@ class BillTable extends Component
         // Show => Hide
         // Hide => Clear
 
-        $bookmark = $bill->bookmark($this->scope);
+        $toggle = app(BookmarkToggle::class);
 
+        $bookmark = $toggle->getBookmark($bill, $this->scope);
         if (is_null($bookmark))
         {
-            return Bookmark::down($bill, $this->scope);
+            return $toggle->down($bill, $this->scope);
         }
 
         if ($bookmark->direction === true)
         {
-            Bookmark::clear($bill, $this->scope);
-            return Bookmark::down($bill, $this->scope);
+            $toggle->clear($bill, $this->scope);
+            return $toggle->down($bill, $this->scope);
         }
 
-        return Bookmark::clear($bill, $this->scope);
+        return $toggle->clear($bill, $this->scope);
     }
 
     #endregion

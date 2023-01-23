@@ -5,7 +5,7 @@
 
         <div class="mb-4">
 
-            {{ view('partials.saved-navigation-choices')->withGroup($group) }}
+            {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
 
         </div>
 
@@ -36,21 +36,12 @@
                 </x-table.header>
             @endslot
             @slot('body')
-                @forelse ($billHistory as $historyItem)
+                @forelse ($historyItems as $historyItem)
 
                     <x-table.row>
                         <x-table.cell class=" w-96">
 
-                            <div class="mt-4 mb-1 px-4 py-3 bg-yellow-100 border border-yellow-400 text-yellow-900">
-
-                                <div>
-                                    {{ $historyItem->action }}
-                                </div>
-                                <div class="text-sm opacity-60">
-                                    {{ $historyItem->nebraska_hearing_date_humanized }}
-                                </div>
-
-                            </div>
+                            {{ view('partials.hearings.alert')->withHistoryItem($historyItem) }}
 
                         </x-table.cell>
                         <x-table.cell class="">

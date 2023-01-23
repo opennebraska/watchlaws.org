@@ -3,7 +3,22 @@
 namespace App\Models\LegiScan;
 
 use App\Models\Bookmark;
+use App\Models\Group\Workspace\Topic;
+use App\Models\Group\Workspace\Topic\Assignment as TopicAssignment;
+use App\Models\LegiScan\Bill\Amendment;
+use App\Models\LegiScan\Bill\Calendar;
+use App\Models\LegiScan\Bill\History;
+use App\Models\LegiScan\Bill\Progress;
+use App\Models\LegiScan\Bill\Reason;
+use App\Models\LegiScan\Bill\Referral;
+use App\Models\LegiScan\Bill\Sast;
+use App\Models\LegiScan\Bill\Sponsor;
+use App\Models\LegiScan\Bill\Subject;
+use App\Models\LegiScan\Bill\Supplement;
+use App\Models\LegiScan\Bill\Text;
+use App\Models\LegiScan\Bill\Vote;
 use App\Traits\Models\HasLegiScanShim;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -48,7 +63,7 @@ class Bill extends Model
 
     #region Relationships
 
-    // Foreign key references
+    // belongsTo()
 
     public function state()
     {
@@ -85,78 +100,109 @@ class Bill extends Model
         return $this->belongsTo(Committee::class, 'pending_committee_id');
     }
 
-    // One-to-many references
+    // hasMany()
 
     public function ammendments()
     {
-        return $this->hasMany(BillAmendment::class, 'bill_id');
+        return $this->hasMany(Amendment::class, 'bill_id');
     }
 
     public function calendarDates()
     {
-        return $this->hasMany(BillCalendar::class, 'bill_id');
+        return $this->hasMany(Calendar::class, 'bill_id');
     }
 
     public function history()
     {
-        return $this->hasMany(BillHistory::class, 'bill_id');
+        return $this->hasMany(History::class, 'bill_id');
     }
 
     public function progress()
     {
-        return $this->hasMany(BillProgress::class, 'bill_id');
+        return $this->hasMany(Progress::class, 'bill_id');
     }
 
     public function reasons()
     {
-        return $this->hasMany(BillReason::class, 'bill_id');
+        return $this->hasMany(Reason::class, 'bill_id');
     }
 
     public function referrals()
     {
-        return $this->hasMany(BillReferral::class, 'bill_id');
+        return $this->hasMany(Referral::class, 'bill_id');
     }
 
     public function sastItems()
     {
-        return $this->hasMany(BillSast::class, 'bill_id');
+        return $this->hasMany(Sast::class, 'bill_id');
     }
 
     public function sponsors()
     {
-        return $this->hasMany(BillSponsor::class, 'bill_id');
+        return $this->hasMany(Sponsor::class, 'bill_id');
     }
 
     public function subjects()
     {
-        return $this->hasMany(BillSubject::class, 'bill_id');
+        return $this->hasMany(Subject::class, 'bill_id');
     }
 
     public function supplements()
     {
-        return $this->hasMany(BillSupplement::class, 'bill_id');
+        return $this->hasMany(Supplement::class, 'bill_id');
     }
 
     public function texts()
     {
-        return $this->hasMany(BillText::class, 'bill_text');
-    }
-
-    public function views()
-    {
-        return $this->hasMany(BillView::class, 'bill_id');
+        return $this->hasMany(Text::class, 'bill_text');
     }
 
     public function votes()
     {
-        return $this->hasMany(BillVote::class, 'bill_id');
+        return $this->hasMany(Vote::class, 'bill_id');
     }
 
-    # Morph relationships
+    // morphMany()
 
     public function bookmarks()
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
+    }
+
+    // morphToMany()
+
+    public function topics()
+    {
+        return $this->morphToMany(Topic::class, 'topicable', 'topic_assignments');
+    }
+    public function topicAssignments()
+    {
+        return $this->morphMany(TopicAssignment::class, 'topicable');
+    }
+
+    #endregion
+
+    #region Scopes
+
+    public function scopeWhereYear(Builder $query, $year)
+    {
+        $query->whereHas('session', function(Builder $query) use ($year) {
+            return $query->where('year_start', $year)
+                            ->orWhere('year_end', $year);
+        });
+    }
+    public function scopeWhereState(Builder $query, $state)
+    {
+        $query->whereHas('state', function(Builder $query) use ($state) {
+            $query->where('state_abbr', $state->abbreviation);
+        });
+    }
+    public function scopeWhereTopic(Builder $query, Topic $topic)
+    {
+        // bill -> topic
+        $query->whereHas('topicAssignments', function(Builder $query) use($topic){
+            $query->where('topic_id', $topic->id);
+        });
     }
 
     #endregion
@@ -166,15 +212,6 @@ class Bill extends Model
     public function getNumberAttribute()
     {
         return $this->bill_number;
-    }
-
-    #endregion
-
-    #region Methods
-
-    public function bookmark($scope)
-    {
-        return Bookmark::getForBill($this, $scope);
     }
 
     #endregion

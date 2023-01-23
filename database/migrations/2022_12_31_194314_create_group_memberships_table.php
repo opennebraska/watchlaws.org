@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->foreignIdFor(Group::class);
             $table->foreignIdFor(User::class);
-            $table->string('role')->default('member');
+            $table->string('role')->default('Member');
 
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->timestamps();

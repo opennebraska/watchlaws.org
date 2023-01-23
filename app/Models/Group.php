@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Group\Member;
+use App\Models\Group\Workspace;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasEnumProperties;
@@ -45,14 +47,14 @@ class Group extends Model
         return $this->belongsTo(State::class, 'state_abbr', 'state_abbr');
     }
 
-    function owner()
+    function memberships()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->hasMany(Member::class);
     }
 
     function members()
     {
-        return $this->hasMany(GroupMember::class);
+        return $this->hasManyThrough(User::class, Member::class, 'group_id', 'id', 'id', 'user_id');
     }
 
     #endregion
@@ -79,16 +81,6 @@ class Group extends Model
     #endregion
 
     #region Methods
-
-    function getRole(User $user)
-    {
-        if ($this->owner_id == $user->id)
-        {
-            return 'owner';
-        }
-
-        return $this->members()->where('user_id', $user->id)->first()->role;
-    }
 
     public function chosenYearKey()
     {
@@ -122,11 +114,26 @@ class Group extends Model
     public function findBookmarks()
     {
         return Bookmark::query()
-                    ->perGroup($this)
+                    ->whereHasMorph('scope', Workspace::class, function(Builder $query) {
+
+                        $query->where('group_id', $this->id);
+
+                    })
+                    ->whereHasMorph('bookmarkable', Bill::class, function($query) {
+
+                        $query->when($this->chosenState(), function($query, $state) {
+                            $query->whereState($state);
+                        })
+
+                        ->when($this->chosenYear(), function($query, $year) {
+                            $query->whereYear($year);
+                        });
+
+                    })
                     ->whereDirection(true)
-                    ->whereBookmarksAreForBillsInChosenYearAndSessionForGroup($this)
                     ->orderByDesc('created_at')
                     ->get();
+
     }
 
     #endregion

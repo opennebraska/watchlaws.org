@@ -4,10 +4,8 @@ namespace App\Notifications;
 
 use App\Models\Group;
 use App\Models\LegiScan\Bill;
-use App\Models\LegiScan\BillHistory;
+use App\Models\LegiScan\Bill\History;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -15,61 +13,30 @@ class BillHasProgressed extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(public BillHistory $bill_history) {}
+    public function __construct(public History $history) {}
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
+    public function via($user)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toMail($user)
     {
-        $bill_number = $this->bill_history->bill->number;
-        $bill_history_action = $this->bill_history->action;
-        $bill_title = $this->bill_history->bill->title;
-
-        $related_groups = Group::query()
-            ->hasMember($notifiable)
-            ->hasBookmarked(Bill::class, $this->bill_history->bill->id)
+        $number = $this->history->bill->number;
+        $action = $this->history->action;
+        $title = $this->history->bill->title;
+        $groups = Group::query()
+            ->hasMember($user)
+            ->hasBookmarked(Bill::class, $this->history->bill->id)
             ->get();
 
         return (new MailMessage)
-            ->subject($bill_number.' progress, '.$bill_history_action.' - '.$bill_title)
+            ->subject($number.' progress, '.$action.' - '.$title)
             ->markdown('mail.bill.hasProgressed',
             [
-                'notifiable' => $notifiable,
-                'billHistory' => $this->bill_history,
-                'related_groups' => $related_groups,
+                'notifiable' => $user,
+                'history' => $this->history,
+                'relatedGroups' => $groups,
             ]);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }

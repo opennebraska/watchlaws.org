@@ -33,7 +33,10 @@
                 </x-table.header>
             @endslot
             @slot('body')
-                @foreach ($group->participants as $user)
+                @foreach ($group->memberships as $membership)
+                    @php
+                        $user = $membership->user;
+                    @endphp
                     <x-table.row>
                         <x-table.cell>
                             {{ $user->first_name }}
@@ -48,7 +51,7 @@
                             {{ $user->phone }}
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $group->getRole($user) }}
+                            {{ $membership->role }}
                         </x-table.cell>
                     </x-table.row>
                 @endforeach

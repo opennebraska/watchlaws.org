@@ -31,8 +31,11 @@
             @forelse ($bills as $bill)
                 @php
 
-                    $isBookmarked = ($bill->bookmark($scope)->direction ?? null) === true;
-                    $isHidden = ($bill->bookmark($scope)->direction ?? null) === false;
+                    $bookmarkToggle = app(\App\Helpers\BookmarkToggle::class);
+
+                    $bookmark = $bookmarkToggle->getBookmark($bill, $scope);
+                    $isBookmarked = ($bookmark->direction ?? null) === true;
+                    $isHidden = ($bookmark->direction ?? null) === false;
 
                 @endphp
                 <x-table.row class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}">
@@ -51,29 +54,9 @@
 
                         {{-- Options --}}
 
-                        {{-- <div class="inline-block align-middle text-center">
-                            <div class="leading-3">
-
-                                <a wire:click.prevent="voteUp" href="#" class="text-slate-400">
-                                    <i class="fa-solid fa-chevron-up"></i>
-                                </a>
-
-                            </div>
-                            <div>
-                                0
-                            </div>
-                            <div class="leading-3">
-
-                                <a wire:click.prevent="voteDown" href="#" class="text-slate-400">
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </a>
-
-                            </div>
-                        </div> --}}
-
                         <a wire:click.prevent="toggleBookmark({{ $bill }})" href="#">
 
-                            @if (($bill->bookmark($scope)->direction ?? null) === true)
+                            @if ($isBookmarked)
                                 <i class="fa-solid fa-bookmark text-green-700"></i>
                             @else
                                 <i class="fa-regular fa-bookmark text-slate-400"></i>
@@ -83,7 +66,7 @@
 
                         <a wire:click.prevent="toggleHide({{ $bill }})" href="#" class="ml-2">
 
-                            @if (($bill->bookmark($scope)->direction ?? null) === false)
+                            @if ($isHidden)
                                 <i class="fa-solid fa-circle-minus text-gray-400"></i>
                             @else
                                 <i class="fa-solid fa-circle-minus text-slate-400"></i>
