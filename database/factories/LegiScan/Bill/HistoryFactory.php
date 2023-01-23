@@ -17,9 +17,9 @@ class HistoryFactory extends Factory
     public function definition()
     {
         return [
-            'history_step' => $this->faker->randomNumber(3),
-            'history_major' => $this->faker->randomElement([0, 1]),
-            'history_date' => $this->faker->date(),
+            'history_step'   => $this->faker->randomNumber(3),
+            'history_major'  => $this->faker->randomElement([0, 1]),
+            'history_date'   => $this->faker->date(),
             'history_action' => $this->faker->sentence(),
         ];
     }

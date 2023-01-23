@@ -25,7 +25,7 @@ class HistoryTimestampTest extends TestCase
         // group -> members -> users
         $user1  = User::factory()->create();
         $user2  = User::factory()->create();
-        $group = Group::factory()->create();
+        $group  = Group::factory()->create();
         $group->members()->attach($user1);
         $group->members()->attach($user2);
 
@@ -34,9 +34,9 @@ class HistoryTimestampTest extends TestCase
             'group_id' => $group->id,
         ]);
         Bill::factory()->count(3)->create();
-        $bill = Bill::factory()->create();
+        $bill        = Bill::factory()->create();
         $billHistory = History::factory()->create([
-            'bill_id' => $bill->bill_id,
+            'bill_id'        => $bill->bill_id,
             'history_action' => 'Hearing February 25, 2023',
         ]);
         Bookmark::factory()->create([
@@ -50,7 +50,7 @@ class HistoryTimestampTest extends TestCase
 
         // Trigger created event
         HistoryTimestamp::factory()->create([
-            'bill_id' => $billHistory->bill_id,
+            'bill_id'      => $billHistory->bill_id,
             'history_step' => $billHistory->history_step,
         ]);
 

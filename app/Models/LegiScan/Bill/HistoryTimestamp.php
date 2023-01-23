@@ -31,13 +31,10 @@ class HistoryTimestamp extends Model
 
     private static function notifyUsersWhenBillHasProgressed(History $historyItem)
     {
-        if ($historyItem->is_nebraska_hearing)
-        {
+        if ($historyItem->is_nebraska_hearing) {
             $users = collect();
             $historyItem->bill->bookmarks->each(function ($bookmark) use (&$users) {
-
                 $users = $users->concat($bookmark->scope->group->members);
-
             });
 
             Notification::send($users->unique(), new BillHasProgressed($historyItem));
