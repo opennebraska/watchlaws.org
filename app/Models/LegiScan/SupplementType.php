@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class SupplementType extends Model
 {
@@ -12,4 +12,6 @@ class SupplementType extends Model
     protected $table = 'ls_supplement_type';
 
     protected $primaryKey = 'supplement_type_id';
+
+    public $incrementing = false;
 }

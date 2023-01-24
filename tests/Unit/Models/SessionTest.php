@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
-use App\Models\State;
 use App\Models\Session;
+use App\Models\State;
+use Tests\TestCase;
 
 class SessionTest extends TestCase
 {

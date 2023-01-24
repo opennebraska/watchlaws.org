@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Group\Workspace\Topic;
 
 use App\Http\Controllers\Controller;
 use App\Models\Group;
-use App\Models\Topic;
-use App\Models\Workspace;
+use App\Models\Group\Workspace;
+use App\Models\Group\Workspace\Topic;
 
 class BillSearchController extends Controller
 {

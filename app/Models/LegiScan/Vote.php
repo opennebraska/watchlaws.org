@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
@@ -12,4 +12,6 @@ class Vote extends Model
     protected $table = 'ls_vote';
 
     protected $primaryKey = 'vote_id';
+
+    public $incrementing = false;
 }

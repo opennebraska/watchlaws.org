@@ -2,16 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Models\BillHistoryTimestamps;
 use App\Models\Body;
 use App\Models\Committee;
-use App\Models\LegiScan\BillHistory;
+use App\Models\LegiScan\Bill\History;
+use App\Models\LegiScan\Bill\HistoryTimestamp;
 use App\Models\State;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Artisan;
 
 /**
  * @codeCoverageIgnore
@@ -144,20 +143,20 @@ class LegiScanDaemon extends Command
     {
         $this->info('Upating Legislative Bill History Timestamps');
 
-        $billHistory = BillHistory::all();
+        $billHistory = History::all();
 
         $progress = $this->output->createProgressBar(count($billHistory));
 
         $progress->start();
 
         foreach ($billHistory as $billHistoryItem) {
-            BillHistoryTimestamps::updateOrCreate(
+            HistoryTimestamp::updateOrCreate(
                 [
-                    'bill_id' => $billHistory->bill_id,
+                    'bill_id'      => $billHistory->bill_id,
                     'history_step' => $billHistory->history_step,
                 ],
                 [
-                    'bill_id' => $billHistory->bill_id,
+                    'bill_id'      => $billHistory->bill_id,
                     'history_step' => $billHistory->history_step,
                 ],
             );
@@ -176,6 +175,7 @@ class LegiScanDaemon extends Command
     {
         if ($this->option('skip')) {
             $this->info('Skipping base import');
+
             return $this;
         }
 
@@ -183,7 +183,7 @@ class LegiScanDaemon extends Command
         $mysqlConfig    = config('database.connections.mysql');
         $apiKey         = config('legiscan.api_key');
         $scriptFilepath = base_path('lib/legiscan/legiscand.php');
-        $command = sprintf(
+        $command        = sprintf(
             'HOST=%s PORT=%s NAME=%s USER=%s PASS=%s LEGISCAN_API_KEY=%s php %s',
             $mysqlConfig['host'],
             $mysqlConfig['port'],
@@ -207,6 +207,7 @@ class LegiScanDaemon extends Command
 
         // Display separator before returning
         $this->info($this->separator);
+
         return $this;
     }
 }

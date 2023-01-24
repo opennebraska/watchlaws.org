@@ -17,7 +17,9 @@ class BookmarkFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'reason'     => $this->faker->sentence(),
+            'pin_to_top' => $this->faker->boolean(),
+            'direction'  => $this->faker->boolean(),
         ];
     }
 }

@@ -12,42 +12,47 @@ class State extends Model
     use HasLegiScanShim;
 
     protected $table = 'ls_state';
+
     protected $primaryKey = 'state_id';
+
+    public $incrementing = false;
 
     public $timestamps = false;
 
-    #region Overrides
+    //region Overrides
 
     public function getRouteKeyName()
     {
         return 'state_abbr';
     }
 
-    #endregion
+    //endregion
 
-    #region Relationships
+    //region Relationships
 
     public function bills()
     {
         return $this->hasMany(Bill::class, 'state_id');
     }
+
     public function sessions()
     {
         return $this->hasMany(Session::class, 'state_id');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getAbbreviationAttribute()
     {
         return $this->state_abbr;
     }
+
     public function getNameAttribute()
     {
         return $this->state_name;
     }
 
-    #endregion
+    //endregion
 }

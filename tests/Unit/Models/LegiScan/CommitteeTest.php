@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Models\LegiScan;
 
-use Tests\TestCase;
 use App\Models\LegiScan\Body;
-use App\Models\LegiScan\State;
 use App\Models\LegiScan\Committee;
+use App\Models\LegiScan\State;
+use Tests\TestCase;
 
 class CommitteeTest extends TestCase
 {

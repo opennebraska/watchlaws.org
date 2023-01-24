@@ -6,7 +6,7 @@
         <div class="mb-4">
 
             {{-- Saved navigation choices --}}
-            {{ view('partials.saved-navigation-choices')->withGroup($group) }}
+            {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
 
         </div>
 
@@ -22,7 +22,7 @@
 
         <h2 class="mt-6 mb-2 text-xl font-light">Search</h2>
 
-        @livewire('bill-table', ['scope'=>$topic, 'group'=>$group])
+        @livewire('bill-table', ['scope'=>$workspace, 'group'=>$group])
 
     </x-container>
 @endpush

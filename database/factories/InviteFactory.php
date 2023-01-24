@@ -17,7 +17,7 @@ class InviteFactory extends Factory
     public function definition()
     {
         return [
-            //
+
         ];
     }
 }

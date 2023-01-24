@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
 use App\Models\Body;
 use App\Models\State;
+use Tests\TestCase;
 
 class BodyTest extends TestCase
 {

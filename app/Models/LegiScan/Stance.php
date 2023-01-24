@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Stance extends Model
 {
@@ -12,4 +12,6 @@ class Stance extends Model
     protected $table = 'ls_stance';
 
     protected $primaryKey = 'stance';
+
+    public $incrementing = false;
 }

@@ -2,8 +2,8 @@
 
 namespace App\Traits\Models;
 
-use Illuminate\Support\Str;
 use App\Exceptions\InvalidEnumException;
+use Illuminate\Support\Str;
 
 trait HasEnumProperties
 {

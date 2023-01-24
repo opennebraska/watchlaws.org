@@ -19,9 +19,9 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->company(),
-            'type' => fake()->randomElement(['group', 'workspace', 'topic']),
-            'state_abbr' => Arr::random(array_keys(config('enum.legiscan_states'))),
+            'name'        => fake()->company(),
+            'type'        => fake()->randomElement(['group', 'workspace', 'topic']),
+            'state_abbr'  => Arr::random(array_keys(config('enum.legiscan_states'))),
             'description' => fake()->paragraph(),
         ];
     }

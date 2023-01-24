@@ -12,7 +12,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create([
             'first_name' => 'first',
-            'last_name' => 'last',
+            'last_name'  => 'last',
         ]);
 
         $this->assertEquals('first last', $user->full_name);

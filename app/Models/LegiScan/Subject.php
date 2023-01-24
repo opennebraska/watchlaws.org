@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
@@ -12,4 +12,6 @@ class Subject extends Model
     protected $table = 'ls_subject';
 
     protected $primaryKey = 'subject_id';
+
+    public $incrementing = false;
 }

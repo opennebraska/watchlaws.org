@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Variable extends Model
 {
@@ -12,4 +12,6 @@ class Variable extends Model
     protected $table = 'ls_variable';
 
     protected $primaryKey = 'name';
+
+    public $incrementing = false;
 }

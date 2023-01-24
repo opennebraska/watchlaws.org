@@ -17,7 +17,7 @@ class UpDownVoteFactory extends Factory
     public function definition()
     {
         return [
-            //
+
         ];
     }
 }

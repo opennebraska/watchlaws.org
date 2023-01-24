@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,7 +15,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
-
             $table->id();
 
             $table->foreignIdFor(Group::class, 'parent_id')->nullable();
@@ -33,7 +31,6 @@ return new class extends Migration
 
             // Indexes
             $table->unique(['parent_id', 'name']);
-
         });
     }
 

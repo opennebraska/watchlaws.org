@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Group;
 
 use App\Http\Controllers\Controller;
 use App\Models\Group;
-use App\Models\Workspace;
+use App\Models\Group\Workspace;
 
 class WorkspaceController extends Controller
 {

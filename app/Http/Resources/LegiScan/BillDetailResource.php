@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\LegiScan;
 
-use App\Models\LegiScan\State;
 use App\Models\LegiScan\Session;
+use App\Models\LegiScan\State;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BillDetailResource extends JsonResource

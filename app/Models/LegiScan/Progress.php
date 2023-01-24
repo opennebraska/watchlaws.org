@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Progress extends Model
 {
@@ -12,6 +12,8 @@ class Progress extends Model
     protected $table = 'ls_progress';
 
     protected $primaryKey = 'progress_event_id';
+
+    public $incrementing = false;
 
     public function getDescriptionAttribute()
     {

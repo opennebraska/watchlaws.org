@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Ignore extends Model
 {
@@ -12,4 +12,6 @@ class Ignore extends Model
     protected $table = 'ls_ignore';
 
     protected $primaryKey = 'bill_id';
+
+    public $incrementing = false;
 }

@@ -9,7 +9,7 @@ class UpDownVote extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $guarded = [];
 
@@ -17,5 +17,5 @@ class UpDownVote extends Model
         'direction' => 'boolean',
     ];
 
-    #endregion
+    //endregion
 }

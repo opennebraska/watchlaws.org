@@ -2,22 +2,24 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
     use HasFactory;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_type';
 
     protected $primaryKey = 'bill_type_id';
 
-    #endregion
+    public $incrementing = false;
 
-    #region Attributes
+    //endregion
+
+    //region Attributes
 
     public function getNameAttribute()
     {
@@ -29,5 +31,5 @@ class Type extends Model
         return $this->bill_type_abbr;
     }
 
-    #endregion
+    //endregion
 }

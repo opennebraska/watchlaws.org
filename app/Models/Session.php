@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\Bill;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
@@ -25,7 +25,7 @@ class Session extends Model
         'special',
     ];
 
-    #region Relationships
+    //region Relationships
 
     public function state()
     {
@@ -37,5 +37,5 @@ class Session extends Model
         return $this->hasMany(Bill::class);
     }
 
-    #endregion
+    //endregion
 }

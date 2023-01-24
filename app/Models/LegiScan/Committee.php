@@ -11,30 +11,33 @@ class Committee extends Model
     use HasFactory;
     use HasLegiScanShim;
 
-    #region Properties
+    //region Properties
 
     protected $table = 'ls_committee';
+
     protected $primaryKey = 'committee_id';
+
+    public $incrementing = false;
 
     public $timestamps = false;
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function body()
     {
         return $this->belongsTo(Body::class, 'committee_body_id');
     }
 
-    #endregion
+    //endregion
 
-    #region Attributes
+    //region Attributes
 
     public function getNameAttribute()
     {
         return $this->committee_name;
     }
 
-    #endregion
+    //endregion
 }

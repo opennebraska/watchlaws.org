@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class EventType extends Model
 {
@@ -12,4 +12,6 @@ class EventType extends Model
     protected $table = 'ls_event_type';
 
     protected $primaryKey = 'event_type_id';
+
+    public $incrementing = false;
 }

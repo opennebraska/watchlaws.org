@@ -2,8 +2,8 @@
 
 namespace App\Models\LegiScan;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class MimeType extends Model
 {
@@ -12,4 +12,6 @@ class MimeType extends Model
     protected $table = 'ls_mime_type';
 
     protected $primaryKey = 'mime_id';
+
+    public $incrementing = false;
 }

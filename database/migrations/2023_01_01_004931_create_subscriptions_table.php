@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-
             $table->id();
 
             $table->morphs('scope');
@@ -30,7 +28,6 @@ return new class extends Migration
                 ['scope_type', 'scope_id', 'subscribable_type', 'subscribable_id'],
                 'subscriptions_scope_subscribable_unique',
             );
-
         });
     }
 
