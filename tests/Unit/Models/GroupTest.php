@@ -88,7 +88,7 @@ class GroupTest extends TestCase
         Bill::factory()->count(5)->create();
         $bill = Bill::factory()->create();  // Make sure $bill->id doesn't start with 1
         $workspace->bookmarks()->create([
-            'bookmarkable_type' => get_class($bill),
+            'bookmarkable_type' => Bill::class,
             'bookmarkable_id'   => $bill->id,
             'direction'         => true,
         ]);

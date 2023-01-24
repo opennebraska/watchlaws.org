@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\BookmarkToggle;
-use App\Models\Bookmark;
 use App\Models\LegiScan\Bill;
 use App\Traits\Livewire\WithPerPagePagination;
 use Livewire\Component;

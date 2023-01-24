@@ -38,9 +38,9 @@ class HistoryTimestampTest extends TestCase
             'history_action' => 'Hearing February 25, 2023',
         ]);
         Bookmark::factory()->create([
-            'scope_type'        => get_class($workspace),  // Workspace
+            'scope_type'        => Workspace::class,
             'scope_id'          => $workspace->id,
-            'bookmarkable_type' => get_class($bill),  // Bill
+            'bookmarkable_type' => Bill::class,
             'bookmarkable_id'   => $bill->id,
         ]);
 
