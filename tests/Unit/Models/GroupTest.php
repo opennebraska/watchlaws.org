@@ -97,7 +97,6 @@ class GroupTest extends TestCase
                                         ->hasBookmarked($bill)
                                         ->get();
 
-        $this->assertEquals(1, $groupsWithBookmarkedBill->count());
         $this->assertEquals(
             [$group->id],
             $groupsWithBookmarkedBill->pluck('id')->sort()->toArray(),
