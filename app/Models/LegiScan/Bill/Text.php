@@ -9,7 +9,8 @@ class Text extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'ls_bill_text';
 
-    protected $primaryKey = '';
+    protected $primaryKey = 'text_id';
+    public $incrementing = false;
 }

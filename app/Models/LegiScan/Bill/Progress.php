@@ -12,6 +12,7 @@ class Progress extends Model
     protected $table = 'ls_bill_progress';
 
     protected $primaryKey = 'composite_id';
+    public $incrementing = false;
 
     public function bill()
     {

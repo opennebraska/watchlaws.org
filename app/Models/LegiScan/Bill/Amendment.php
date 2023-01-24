@@ -12,4 +12,5 @@ class Amendment extends Model
     protected $table = 'ls_bill_amendment';
 
     protected $primaryKey = 'amendment_id';
+    public $incrementing = false;
 }

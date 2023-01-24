@@ -16,6 +16,7 @@ class Committee extends Model
     protected $table = 'ls_committee';
 
     protected $primaryKey = 'committee_id';
+    public $incrementing = false;
 
     public $timestamps = false;
 

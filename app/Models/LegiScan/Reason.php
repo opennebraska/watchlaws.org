@@ -12,4 +12,5 @@ class Reason extends Model
     protected $table = 'ls_reason';
 
     protected $primaryKey = 'reason_id';
+    public $incrementing = false;
 }

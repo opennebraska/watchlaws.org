@@ -12,6 +12,7 @@ class VoteDetail extends Model
     protected $table = 'ls_bill_vote_detail';
 
     protected $primaryKey = 'composite_id';
+    public $incrementing = false;
 
     public function person()
     {

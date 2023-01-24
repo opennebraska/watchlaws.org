@@ -32,6 +32,7 @@ class Bill extends Model
     protected $table = 'ls_bill';
 
     protected $primaryKey = 'bill_id';
+    public $incrementing = false;
 
     public $timestamps = false;
 

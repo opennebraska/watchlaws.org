@@ -12,4 +12,5 @@ class Monitor extends Model
     protected $table = 'ls_monitor';
 
     protected $primaryKey = 'bill_id';
+    public $incrementing = false;
 }

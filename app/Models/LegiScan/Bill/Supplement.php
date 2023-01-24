@@ -9,7 +9,8 @@ class Supplement extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'ls_bill_supplement';
 
-    protected $primaryKey = '';
+    protected $primaryKey = 'supplement_id';
+    public $incrementing = false;
 }

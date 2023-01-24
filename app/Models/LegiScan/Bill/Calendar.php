@@ -12,4 +12,5 @@ class Calendar extends Model
     protected $table = 'ls_bill_calendar';
 
     protected $primaryKey = 'composite_id';
+    public $incrementing = false;
 }

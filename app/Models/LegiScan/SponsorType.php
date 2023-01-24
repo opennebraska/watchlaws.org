@@ -12,6 +12,7 @@ class SponsorType extends Model
     protected $table = 'ls_sponsor_type';
 
     protected $primaryKey = 'sponsor_type_id';
+    public $incrementing = false;
 
     public function getDescriptionAttribute()
     {

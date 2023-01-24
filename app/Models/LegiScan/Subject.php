@@ -12,4 +12,5 @@ class Subject extends Model
     protected $table = 'ls_subject';
 
     protected $primaryKey = 'subject_id';
+    public $incrementing = false;
 }

@@ -12,4 +12,5 @@ class Reason extends Model
     protected $table = 'ls_bill_reason';
 
     protected $primaryKey = 'composite_id';
+    public $incrementing = false;
 }

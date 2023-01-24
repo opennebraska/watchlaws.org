@@ -12,4 +12,5 @@ class Vote extends Model
     protected $table = 'ls_vote';
 
     protected $primaryKey = 'vote_id';
+    public $incrementing = false;
 }

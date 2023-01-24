@@ -9,7 +9,8 @@ class Sast extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'ls_bill_sast';
 
-    protected $primaryKey = '';
+    protected $primaryKey = null;
+    public $incrementing = false;
 }

@@ -9,7 +9,8 @@ class Subject extends Model
 {
     use HasFactory;
 
-    protected $table = '';
+    protected $table = 'ls_bill_subject';
 
-    protected $primaryKey = '';
+    protected $primaryKey = null;
+    public $incrementing = false;
 }
