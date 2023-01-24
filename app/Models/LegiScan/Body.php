@@ -16,6 +16,7 @@ class Body extends Model
     protected $table = 'ls_body';
 
     protected $primaryKey = 'body_id';
+
     public $incrementing = false;
 
     public $timestamps = false;

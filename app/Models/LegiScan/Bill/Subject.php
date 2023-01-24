@@ -12,5 +12,6 @@ class Subject extends Model
     protected $table = 'ls_bill_subject';
 
     protected $primaryKey = null;
+
     public $incrementing = false;
 }

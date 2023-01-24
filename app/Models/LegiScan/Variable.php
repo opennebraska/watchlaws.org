@@ -12,5 +12,6 @@ class Variable extends Model
     protected $table = 'ls_variable';
 
     protected $primaryKey = 'name';
+
     public $incrementing = false;
 }

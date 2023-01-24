@@ -14,6 +14,7 @@ class Type extends Model
     protected $table = 'ls_type';
 
     protected $primaryKey = 'bill_type_id';
+
     public $incrementing = false;
 
     //endregion

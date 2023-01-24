@@ -37,6 +37,7 @@ class History extends Model
     protected $table = 'ls_bill_history';
 
     protected $primaryKey = 'composite_id';
+
     public $incrementing = false;
 
     public $timestamps = false;

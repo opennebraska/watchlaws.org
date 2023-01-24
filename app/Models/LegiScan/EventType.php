@@ -12,5 +12,6 @@ class EventType extends Model
     protected $table = 'ls_event_type';
 
     protected $primaryKey = 'event_type_id';
+
     public $incrementing = false;
 }

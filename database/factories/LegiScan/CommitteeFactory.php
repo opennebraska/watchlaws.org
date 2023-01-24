@@ -15,7 +15,7 @@ class CommitteeFactory extends Factory
     public function definition()
     {
         return [
-            'committee_id' => $this->faker->unique()->randomNumber(5),
+            'committee_id'   => $this->faker->unique()->randomNumber(5),
             'committee_name' => $this->faker->sentence,
         ];
     }

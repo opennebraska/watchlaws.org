@@ -12,6 +12,7 @@ class Party extends Model
     protected $table = 'ls_party';
 
     protected $primaryKey = 'party_id';
+
     public $incrementing = false;
 
     public function getAbbreviationAttribute()

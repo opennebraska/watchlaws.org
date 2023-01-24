@@ -12,5 +12,6 @@ class SupplementType extends Model
     protected $table = 'ls_supplement_type';
 
     protected $primaryKey = 'supplement_type_id';
+
     public $incrementing = false;
 }

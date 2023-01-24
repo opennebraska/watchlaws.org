@@ -12,6 +12,7 @@ class Vote extends Model
     protected $table = 'ls_bill_vote';
 
     protected $primaryKey = 'roll_call_id';
+
     public $incrementing = false;
 
     public function rollCallBody()

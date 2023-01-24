@@ -12,5 +12,6 @@ class MimeType extends Model
     protected $table = 'ls_mime_type';
 
     protected $primaryKey = 'mime_id';
+
     public $incrementing = false;
 }

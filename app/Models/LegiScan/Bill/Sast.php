@@ -12,5 +12,6 @@ class Sast extends Model
     protected $table = 'ls_bill_sast';
 
     protected $primaryKey = null;
+
     public $incrementing = false;
 }

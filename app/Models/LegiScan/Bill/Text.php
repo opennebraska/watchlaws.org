@@ -12,5 +12,6 @@ class Text extends Model
     protected $table = 'ls_bill_text';
 
     protected $primaryKey = 'text_id';
+
     public $incrementing = false;
 }

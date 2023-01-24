@@ -12,5 +12,6 @@ class SastType extends Model
     protected $table = 'ls_sast_type';
 
     protected $primaryKey = 'sast_id';
+
     public $incrementing = false;
 }

@@ -12,5 +12,6 @@ class TextType extends Model
     protected $table = 'ls_text_type';
 
     protected $primaryKey = 'bill_text_type_id';
+
     public $incrementing = false;
 }

@@ -12,5 +12,6 @@ class Supplement extends Model
     protected $table = 'ls_bill_supplement';
 
     protected $primaryKey = 'supplement_id';
+
     public $incrementing = false;
 }

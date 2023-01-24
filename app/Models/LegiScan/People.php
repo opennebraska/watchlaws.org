@@ -12,6 +12,7 @@ class People extends Model
     protected $table = 'ls_people';
 
     protected $primaryKey = 'people_id';
+
     public $incrementing = false;
 
     //region Relationships

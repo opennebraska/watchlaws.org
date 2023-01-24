@@ -12,5 +12,6 @@ class Ignore extends Model
     protected $table = 'ls_ignore';
 
     protected $primaryKey = 'bill_id';
+
     public $incrementing = false;
 }

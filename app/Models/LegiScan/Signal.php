@@ -12,5 +12,6 @@ class Signal extends Model
     protected $table = 'ls_signal';
 
     protected $primaryKey = null;
+
     public $incrementing = false;
 }

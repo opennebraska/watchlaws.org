@@ -14,6 +14,7 @@ class State extends Model
     protected $table = 'ls_state';
 
     protected $primaryKey = 'state_id';
+
     public $incrementing = false;
 
     public $timestamps = false;

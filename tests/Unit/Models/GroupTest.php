@@ -2,13 +2,11 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Bookmark;
 use App\Models\Group;
 use App\Models\Group\Member;
 use App\Models\Group\Workspace;
 use App\Models\LegiScan\Bill;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class GroupTest extends TestCase
@@ -79,7 +77,7 @@ class GroupTest extends TestCase
     {
         // group -> workspace
         $group = Group::factory()->create();
-        Workspace::factory()->create([
+        Workspace::factory()->count(2)->create([
             'group_id' => $group->id,
         ]);
         $workspace = Workspace::factory()->create([
@@ -87,9 +85,9 @@ class GroupTest extends TestCase
         ]);
 
         // workspace -> bookmarks -> bill
-        Bill::factory()->count(2)->create();
-        $bill     = Bill::factory()->create();  // Make sure $bill->id doesn't start with 1
-        $bookmark = $workspace->bookmarks()->create([
+        Bill::factory()->count(5)->create();
+        $bill = Bill::factory()->create();  // Make sure $bill->id doesn't start with 1
+        $workspace->bookmarks()->create([
             'bookmarkable_type' => get_class($bill),
             'bookmarkable_id'   => $bill->id,
             'direction'         => true,

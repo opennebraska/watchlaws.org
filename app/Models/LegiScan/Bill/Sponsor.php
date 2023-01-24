@@ -16,6 +16,7 @@ class Sponsor extends Model
     protected $table = 'ls_bill_sponsor';
 
     protected $primaryKey = 'composite_id';
+
     public $incrementing = false;
 
     //endregion

@@ -20,8 +20,6 @@ class HistoryTimestampTest extends TestCase
     {
         Notification::fake();
 
-        // SETUP
-
         // group -> members -> users
         $user1  = User::factory()->create();
         $user2  = User::factory()->create();
@@ -35,8 +33,8 @@ class HistoryTimestampTest extends TestCase
         ]);
         Bill::factory()->count(3)->create();
         $bill        = Bill::factory()->create();
-        $billHistory = History::factory()->create([
-            'bill_id'        => $bill->bill_id,
+        $history     = History::factory()->create([
+            'bill_id'        => $bill->id,
             'history_action' => 'Hearing February 25, 2023',
         ]);
         Bookmark::factory()->create([
@@ -46,12 +44,10 @@ class HistoryTimestampTest extends TestCase
             'bookmarkable_id'   => $bill->id,
         ]);
 
-        // TEST
-
         // Trigger created event
         HistoryTimestamp::factory()->create([
-            'bill_id'      => $billHistory->bill_id,
-            'history_step' => $billHistory->history_step,
+            'bill_id'      => $history->bill_id,
+            'history_step' => $history->history_step,
         ]);
 
         Notification::assertSentTo(

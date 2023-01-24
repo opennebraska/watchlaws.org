@@ -16,6 +16,7 @@ class Referral extends Model
     protected $table = 'ls_bill_referral';
 
     protected $primaryKey = 'composite_id';
+
     public $incrementing = false;
 
     //endregion

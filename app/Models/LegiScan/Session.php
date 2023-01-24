@@ -15,6 +15,7 @@ class Session extends Model
     protected $table = 'ls_session';
 
     protected $primaryKey = 'session_id';
+
     public $incrementing = false;
 
     public $timestamps = false;

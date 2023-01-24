@@ -12,5 +12,6 @@ class Stance extends Model
     protected $table = 'ls_stance';
 
     protected $primaryKey = 'stance';
+
     public $incrementing = false;
 }
