@@ -40,7 +40,10 @@ class BillHasProgressedTest extends TestCase
             'bookmarkable_id'   => $bill->id,
         ]);
 
-        $message = (new BillHasProgressed($history))->toMail($user1)->render()->toHtml();
+        $message = (new BillHasProgressed($history))
+                        ->toMail($user1)
+                        ->render()
+                        ->toHtml();
 
         $this->assertIsString($message);
     }
