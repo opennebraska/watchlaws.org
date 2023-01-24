@@ -14,11 +14,8 @@ class CommitteeFactory extends Factory
 
     public function definition()
     {
-        static $increment = 1;
-
         return [
-            'committee_id' => $increment++,
-            // 'committee_body_id' => null,
+            'committee_id' => $this->faker->unique()->randomNumber(5),
             'committee_name' => $this->faker->sentence,
         ];
     }

@@ -14,11 +14,9 @@ class BillFactory extends Factory
 
     public function definition()
     {
-        static $increment = 1;
-
         return [
-            'bill_id'              => $increment++,
-            'bill_number'          => 'LB' . $this->faker->randomNumber(4, true),
+            'bill_id'              => $this->faker->unique()->randomNumber(5),
+            'bill_number'          => 'LB' . $this->faker->unique()->randomNumber(4, strict:true),
             'status_date'          => $this->faker->date('Y-m-d'),
             'title'                => $this->faker->sentence(),
             'description'          => $this->faker->paragraph(),
