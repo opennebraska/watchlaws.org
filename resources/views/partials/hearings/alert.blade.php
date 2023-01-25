@@ -9,7 +9,7 @@
         </div>
     @endif
     <div class="text-sm opacity-60 text-right">
-        As of {{ $historyItem->date->format('F j, Y') }}
+        Logged {{ $historyItem->date->format('F j, Y') }}
     </div>
 
 </x-alert>
