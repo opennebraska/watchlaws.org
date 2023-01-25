@@ -16,7 +16,7 @@ class GroupTest extends TestCase
     {
         $group = Group::factory()->create();
 
-        $firstUserInGroup = User::factory()->create();
+        $firstUserInGroup  = User::factory()->create();
         $secondUserInGroup = User::factory()->create();
 
         Member::factory()->create([
@@ -45,7 +45,7 @@ class GroupTest extends TestCase
     {
         $groups = Group::factory()->count(2)->create();
 
-        $userInTwoGroups = User::factory()->create();
+        $userInTwoGroups  = User::factory()->create();
         $userInZeroGroups = User::factory()->create();
 
         $groups[0]->memberships()->create([
@@ -77,7 +77,7 @@ class GroupTest extends TestCase
     /** @test */
     public function groupsCanBeScopedToWorkspaceBookmarks()
     {
-        $group = Group::factory()->create();
+        $group     = Group::factory()->create();
         $workspace = Workspace::factory()->create([
             'group_id' => $group->id,
         ]);
