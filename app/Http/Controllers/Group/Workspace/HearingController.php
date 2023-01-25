@@ -25,9 +25,7 @@ class HearingController extends Controller
                             })
                             ->get()
                             ->sortBy(function ($history) {
-                                return $history->nebraska_hearing_date
-                                     ? $history->nebraska_hearing_date->diff(Carbon::now())->days
-                                     : null;
+                                return $history->nebraska_hearing_date?->diff(Carbon::now())->days ?? PHP_INT_MAX;
                             });
 
         return view('groups.workspaces.states.years.hearings.index')
