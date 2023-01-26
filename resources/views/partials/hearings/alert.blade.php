@@ -1,15 +1,32 @@
-<x-alert>
+@php
 
-    <div>
-        {{ $historyItem->action }}
-    </div>
-    @if ($historyItem->nebraska_hearing_date_humanized)
-        <div class="text-sm opacity-80 text-black">
-            {{ $historyItem->nebraska_hearing_date_humanized }}
-        </div>
+    $days = $historyItem->nebraska_hearing_date?->diffInDays(now()->startOfDay(), false) ?? null;
+
+@endphp
+@if (isset($days))
+    @if ($days < 0)
+
+        <x-alert.warning>
+            {{ view('partials.hearings.alert.contents')->withHistoryItem($historyItem) }}
+        </x-alert.warning>
+
+    @elseif ($days == 0)
+
+        <x-alert.danger>
+            {{ view('partials.hearings.alert.contents')->withHistoryItem($historyItem) }}
+        </x-alert.danger>
+
+    @else
+
+        <x-alert.gray>
+            {{ view('partials.hearings.alert.contents')->withHistoryItem($historyItem) }}
+        </x-alert.gray>
+
     @endif
-    <div class="text-sm opacity-60 text-right">
-        Logged {{ $historyItem->date->format('F j, Y') }}
-    </div>
+@else
 
-</x-alert>
+    <x-alert.info>
+        {{ view('partials.hearings.alert.contents')->withHistoryItem($historyItem) }}
+    </x-alert.info>
+
+@endif

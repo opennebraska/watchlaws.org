@@ -178,7 +178,11 @@
                     <x-table.row>
                         <x-table.cell colspan="2">
 
-                            Hearings not found
+                            @if ($group->chosenState()->abbreviation == 'NE')
+                                Hearings not found
+                            @else
+                                <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org</i>
+                            @endif
 
                         </x-table.cell>
                     </x-table.row>
