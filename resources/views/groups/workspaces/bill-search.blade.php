@@ -13,7 +13,13 @@
             {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
         </div>
 
-        <h3 class="font-semibold mb-2">Bill Search</h3>
+        <div class="flex items-baseline">
+            <h3 class="font-semibold mb-2">Bill Search</h3>
+            <nav class="ml-3">
+                <a href="{{ route('groups.workspaces.show', [$group, $workspace]) }}" class="underline text-gray-600">bookmarks</a>
+            </nav>
+        </div>
+
 
         @livewire('bill-table', ['scope'=>$workspace, 'group'=>$group])
 

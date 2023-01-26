@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Group\BookmarkController;
+use App\Http\Controllers\Group\HearingController as GroupHearingController;
 use App\Http\Controllers\Group\MemberController;
 use App\Http\Controllers\Group\NavigateStateController;
 use App\Http\Controllers\Group\NavigateYearController;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('{group}', [GroupController::class, 'show'])->name('show');
         Route::get('{group}/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
         Route::get('{group}/members', [MemberController::class, 'index'])->name('members.index');
+        Route::get('{group}/hearings', [GroupHearingController::class, 'index'])->name('hearings.index');
 
         // Saves year & state to session variable
         Route::put('{group}/navigate-year', [NavigateYearController::class, 'update'])->name('navigate.year.update');
@@ -48,7 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('{group}/workspaces')->name('workspaces.')->group(function () {
             Route::get('{workspace}', [WorkspaceController::class, 'show'])->name('show');
             Route::get('{workspace}/search', [BillSearchController::class, 'show'])->name('bill-search.show');
-            Route::get('{workspace}/states/{state}/years/{year}/hearings', [HearingController::class, 'index'])->name('states.years.hearings.index');
+            Route::get('{workspace}/hearings', [HearingController::class, 'index'])->name('hearings.index');
 
             // Topic sections
             Route::get('{workspace}/topic-sections', [TopicSectionController::class, 'index'])->name('topic-sections.index');

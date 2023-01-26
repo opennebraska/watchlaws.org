@@ -32,7 +32,7 @@
         </div>
 
         <div class="mt-10">
-            <a href="{{ route('groups.bookmarks.index', $group) }}" class="hover:underline text-gray-500">Browse all bookmarks</a>
+            <a href="{{ route('groups.bookmarks.index', $group) }}" class="underline text-gray-500">Browse all bookmarks</a>
         </div>
 
     </x-container>

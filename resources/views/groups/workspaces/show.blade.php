@@ -18,7 +18,7 @@
             {{-- Hearings --}}
             @if ($group->chosenState()?->abbreviation == 'NE')
                 <div class="mb-1">
-                    <a href="{{ route('groups.workspaces.states.years.hearings.index', [$group, $workspace, $group->chosenState(), $group->chosenYear()]) }}" class="underline">Hearings ({{ $group->chosenYear() }}, {{ $group->chosenState()->name }})</a>
+                    <a href="{{ route('groups.workspaces.hearings.index', [$group, $workspace]) }}" class="underline">Hearings ({{ $group->chosenYear() }}, {{ $group->chosenState()->name }})</a>
                 </div>
             @endif
 

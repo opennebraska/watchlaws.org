@@ -5,7 +5,7 @@
 
         {{ view('groups.partials.header')->withGroup($group) }}
 
-        <div class="text-xl mb-2">Bookmarks</div>
+        <div class="text-xl mb-2">All Bookmarks</div>
 
         <div class="mb-4">
 
@@ -15,7 +15,7 @@
         </div>
 
         <div class="mb-1 font-light text-sm">
-            All bookmarks for {{ $group->chosenYear() }} ({{ $group->chosenState() ? $group->chosenState()->name : 'ALL STATES' }})
+            All bookmarks for {{ $group->chosenYear() }} ({{ $group->chosenState()?->name ?? 'ALL STATES' }})
         </div>
 
         {{ view('groups.partials.bookmarks.table')->withGroup($group) }}
