@@ -56,12 +56,12 @@ class GroupTest extends TestCase
         ]);
 
         $groupsForUserInTwoGroups = Group::query()
-                                        ->hasMember($userInTwoGroups)
-                                        ->get();
+            ->hasMember($userInTwoGroups)
+            ->get();
 
         $groupsForUserInZeroGroups = Group::query()
-                                        ->hasMember($userInZeroGroups)
-                                        ->get();
+            ->hasMember($userInZeroGroups)
+            ->get();
 
         $this->assertEquals(
             [$groups[0]->id, $groups[1]->id],
@@ -91,8 +91,8 @@ class GroupTest extends TestCase
         ]);
 
         $groupsWithBookmarkedBill = Group::query()
-                                        ->hasBookmarked($bill)
-                                        ->get();
+            ->hasBookmarked($bill)
+            ->get();
 
         $this->assertEquals(
             [$group->id],
