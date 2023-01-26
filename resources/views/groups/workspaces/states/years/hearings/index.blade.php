@@ -3,22 +3,11 @@
 @push('body')
     <x-container>
 
-        <div class="mb-4">
+        {{ view('groups.partials.header')->withGroup($group) }}
 
-            {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
-
+        <div class="mb-6">
+            {{ view('groups.workspaces.partials.header')->withGroup($group)->withWorkspace($workspace) }}
         </div>
-
-        {{-- Navigation --}}
-        <nav class="mb-5">
-            <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
-            > <a href="{{ route('groups.workspaces.show', [$group, $workspace]) }}" class="underline">{{ $workspace->name }}</a>
-            > {{ $state->name }}
-            > {{ $year }}
-            > Hearings
-        </nav>
-
-        <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
 
         <h2 class="mb-3">Hearings for {{ $state->name }} in {{ $year }}</h2>
 

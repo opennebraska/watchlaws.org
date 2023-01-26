@@ -5,6 +5,7 @@ namespace App\Models\Group;
 use App\Models\Bookmark;
 use App\Models\Group;
 use App\Models\Group\Workspace\Topic;
+use App\Models\Group\Workspace\Topic\Section;
 use App\Models\LegiScan\Bill;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,11 @@ class Workspace extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function topicSections()
+    {
+        return $this->hasMany(Section::class);
     }
 
     public function topics()

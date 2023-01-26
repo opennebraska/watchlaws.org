@@ -3,13 +3,7 @@
 @push('body')
     <x-container>
 
-        {{-- Navigation --}}
-        <nav class="mb-5">
-            <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
-            > Members
-        </nav>
-
-        <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
+        {{ view('groups.partials.header')->withGroup($group) }}
 
         {{-- Display members --}}
         <h2 class="text-xl mb-5">Members</h2>
