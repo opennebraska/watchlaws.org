@@ -54,6 +54,15 @@ class Bookmark extends Model
         });
     }
 
+    public function scopePerGroup(Builder $query, Group $group)
+    {
+        $query->whereHasMorph('scope', Workspace::class, function (Builder $query) use ($group) {
+            $query->whereHas('group', function ($query) use ($group) {
+                $query->where('id', $group->id);
+            });
+        });
+    }
+
     public function scopeWhereDirection(Builder $query, $direction)
     {
         return $query->where('direction', $direction);

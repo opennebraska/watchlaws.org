@@ -27,10 +27,14 @@ class BillHasProgressed extends Notification
         $action = $this->history->action;
         $title  = $this->history->bill->title;
 
-        $groups = Group::query()
-            ->hasMember($user)
-            ->hasBookmarked($this->history->bill)
-            ->get();
+        // dd($this->history->bill->number);
+
+        $groups = collect();
+        foreach ($user->groups as $group) {
+            if ($this->history->bill->bookmarks()->perGroup($group)->count()) {
+                $groups->push($group);
+            }
+        }
 
         return (new MailMessage)
             ->subject($number . ' progress, ' . $action . ' - ' . $title)
