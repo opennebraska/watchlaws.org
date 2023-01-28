@@ -66,19 +66,19 @@ class Workspace extends Model
     public function findBookmarks()
     {
         return Bookmark::query()
-                    ->perWorkspace($this)
-                    ->whereDirection(true)
-                    ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
-                        $query->when($this->group->chosenState(), function ($query, $state) {
-                            $query->whereState($state);
-                        })
+            ->perWorkspace($this)
+            ->whereDirection(true)
+            ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
+                $query->when($this->group->chosenState(), function ($query, $state) {
+                    $query->whereState($state);
+                })
 
-                        ->when($this->group->chosenYear(), function ($query, $year) {
-                            $query->whereYear($year);
-                        });
-                    })
-                    ->orderByDesc('created_at')
-                    ->get();
+                ->when($this->group->chosenYear(), function ($query, $year) {
+                    $query->whereYear($year);
+                });
+            })
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     //endregion

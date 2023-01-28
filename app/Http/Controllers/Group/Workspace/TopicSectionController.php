@@ -13,7 +13,7 @@ class TopicSectionController extends Controller
     public function index(Group $group, Workspace $workspace)
     {
         return view('groups.workspaces.topic-sections.index')
-                ->withGroup($group)
-                ->withWorkspace($workspace);
+            ->withGroup($group)
+            ->withWorkspace($workspace);
     }
 }

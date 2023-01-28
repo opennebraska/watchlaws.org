@@ -191,7 +191,7 @@ class Bill extends Model
     {
         $query->whereHas('session', function (Builder $query) use ($year) {
             return $query->where('year_start', $year)
-                            ->orWhere('year_end', $year);
+                ->orWhere('year_end', $year);
         });
     }
 

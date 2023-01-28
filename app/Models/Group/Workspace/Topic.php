@@ -64,24 +64,24 @@ class Topic extends Model
     {
         return Bookmark::query()
 
-                    // Bills subquery
-                    ->whereHasMorph('bookmarkable', Bill::class, function (Builder $query) {
-                        // Filtered by topic
-                        $query->whereTopic($this)
+            // Bills subquery
+            ->whereHasMorph('bookmarkable', Bill::class, function (Builder $query) {
+                // Filtered by topic
+                $query->whereTopic($this)
 
-                        // Optionally filtered by state
-                        ->when($this->workspace->group->chosenState(), function ($query, $state) {
-                            $query->whereState($state);
-                        })
+                // Optionally filtered by state
+                ->when($this->workspace->group->chosenState(), function ($query, $state) {
+                    $query->whereState($state);
+                })
 
-                        // Optionally filtered by year
-                        ->when($this->workspace->group->chosenYear(), function ($query, $year) {
-                            $query->whereYear($year);
-                        });
-                    })
-                    ->whereDirection(true)
-                    ->orderByDesc('created_at')
-                    ->get();
+                // Optionally filtered by year
+                ->when($this->workspace->group->chosenYear(), function ($query, $year) {
+                    $query->whereYear($year);
+                });
+            })
+            ->whereDirection(true)
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     //endregion
