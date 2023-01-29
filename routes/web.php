@@ -7,6 +7,7 @@ use App\Http\Controllers\Group\MemberController;
 use App\Http\Controllers\Group\NavigateStateController;
 use App\Http\Controllers\Group\NavigateYearController;
 use App\Http\Controllers\Group\Workspace\BillSearchController;
+use App\Http\Controllers\Group\Workspace\BookmarkController as WorkspaceBookmarkController;
 use App\Http\Controllers\Group\Workspace\HearingController;
 use App\Http\Controllers\Group\Workspace\TopicController;
 use App\Http\Controllers\Group\Workspace\TopicSectionController;
@@ -47,10 +48,12 @@ Route::middleware('auth')->group(function () {
         Route::put('{group}/navigate-state', [NavigateStateController::class, 'update'])->name('navigate.state.update');
 
         // Workspaces
+        Route::get('{group}/workspaces', [WorkspaceController::class, 'index'])->name('workspaces.index');
         Route::prefix('{group}/workspaces')->name('workspaces.')->group(function () {
             Route::get('{workspace}', [WorkspaceController::class, 'show'])->name('show');
             Route::get('{workspace}/search', [BillSearchController::class, 'show'])->name('bill-search.show');
             Route::get('{workspace}/hearings', [HearingController::class, 'index'])->name('hearings.index');
+            Route::get('{workspace}/bookmarks', [WorkspaceBookmarkController::class, 'index'])->name('bookmarks.index');
 
             // Topic sections
             Route::get('{workspace}/topic-sections', [TopicSectionController::class, 'index'])->name('topic-sections.index');
