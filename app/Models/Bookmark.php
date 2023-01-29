@@ -47,19 +47,17 @@ class Bookmark extends Model
 
     //region Scopes
 
+    public function scopePerGroup(Builder $query, Group $group)
+    {
+        $query->whereHasMorph('scope', Workspace::class, function (Builder $query) use ($group) {
+            $query->where('group_id', $group->id);
+        });
+    }
+
     public function scopePerWorkspace(Builder $query, Workspace $workspace)
     {
         $query->whereHasMorph('scope', Workspace::class, function (Builder $query) use ($workspace) {
             $query->where('id', $workspace->id);
-        });
-    }
-
-    public function scopePerGroup(Builder $query, Group $group)
-    {
-        $query->whereHasMorph('scope', Workspace::class, function (Builder $query) use ($group) {
-            $query->whereHas('group', function ($query) use ($group) {
-                $query->where('id', $group->id);
-            });
         });
     }
 

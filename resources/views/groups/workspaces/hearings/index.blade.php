@@ -5,7 +5,7 @@
 
         {{ view('groups.partials.header')->withGroup($group) }}
 
-        <div class="mb-2">
+        <div class="mb-4">
             {{ view('groups.workspaces.partials.header')->withGroup($group)->withWorkspace($workspace) }}
         </div>
 
@@ -16,8 +16,8 @@
         <div class="flex items-baseline">
             {{-- <h3 class="font-semibold mb-2">Bill Search</h3> --}}
             <h2 class="mb-3">
-                Hearings for
-                bookmarks under <strong>{{ $workspace->name }}</strong>
+                Hearings for bookmarks under
+                <strong class="semibold">{{ $workspace->name }}</strong>
                 for {{ $group->chosenYear() }} ({{ $group->chosenState()?->name ?? 'ALL STATES' }})
             </h2>
             <nav class="ml-5">
@@ -138,12 +138,18 @@
                 @empty
 
                     <x-table.row>
-                        <x-table.cell colspan="2">
+                        <x-table.cell colspan="3">
 
                             @if ($group->chosenState()->abbreviation == 'NE')
                                 Hearings not found
                             @else
-                                <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org</i>
+
+                                <x-alert.warning>
+
+                                    <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org</i>
+
+                                </x-alert.warning>
+
                             @endif
 
                         </x-table.cell>
