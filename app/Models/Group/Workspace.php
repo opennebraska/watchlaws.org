@@ -77,6 +77,8 @@ class Workspace extends Model
                     $query->whereYear($year);
                 });
             })
+            ->with('bookmarkable.history')
+            ->orderByDesc('bookmarkable.history.history_step')
             ->orderByDesc('created_at')
             ->get();
     }

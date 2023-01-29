@@ -9,6 +9,6 @@ class GroupController extends Controller
 {
     public function show(Group $group)
     {
-        return view('groups.show')->withGroup($group);
+        return redirect()->route('groups.workspaces.index', [$group]);
     }
 }

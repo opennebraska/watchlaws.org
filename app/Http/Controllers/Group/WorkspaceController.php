@@ -8,10 +8,13 @@ use App\Models\Group\Workspace;
 
 class WorkspaceController extends Controller
 {
+    public function index(Group $group)
+    {
+        return view('groups.workspaces.index')->withGroup($group);
+    }
+
     public function show(Group $group, Workspace $workspace)
     {
-        return view('groups.workspaces.show')
-            ->withGroup($group)
-            ->withWorkspace($workspace);
+        return redirect()->route('groups.workspaces.bookmarks.index', [$group, $workspace]);
     }
 }
