@@ -5,7 +5,7 @@
 
         {{ view('groups.partials.header')->withGroup($group) }}
 
-        <div class="mb-2">
+        <div class="mb-4">
             {{ view('groups.workspaces.partials.header')->withGroup($group)->withWorkspace($workspace) }}
         </div>
 
