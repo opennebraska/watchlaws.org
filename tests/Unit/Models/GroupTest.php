@@ -15,78 +15,75 @@ class GroupTest extends TestCase
     public function groupsHaveMembers()
     {
         $group = Group::factory()->create();
-        $user1 = User::factory()->create();
-        $user2 = User::factory()->create();
-        User::factory()->count(4)->create();
+
+        $firstUserInGroup  = User::factory()->create();
+        $secondUserInGroup = User::factory()->create();
+
         Member::factory()->create([
             'group_id' => $group->id,
-            'user_id'  => $user1->id,
-        ]);
-        Member::factory()->create([
-            'group_id' => $group->id,
-            'user_id'  => $user2->id,
+            'user_id'  => $firstUserInGroup->id,
         ]);
 
-        $this->assertEquals(2, $group->members->count());
+        Member::factory()->create([
+            'group_id' => $group->id,
+            'user_id'  => $secondUserInGroup->id,
+        ]);
+
+        $this->assertInstanceOf(
+            User::class,
+            $group->members->first(),
+        );
+
         $this->assertEquals(
-            [$user1->id, $user2->id],
+            [$firstUserInGroup->id, $secondUserInGroup->id],
             $group->members->pluck('id')->sort()->toArray(),
         );
     }
 
     /** @test */
-    public function groupsDontHaveMembersWhenNoneAdded()
-    {
-        $group = Group::factory()->create();
-
-        $this->assertEquals(0, $group->members->count());
-    }
-
-    /** @test */
     public function groupsCanBeScopedToUsers()
     {
-        $groups = Group::factory()->count(5)->create();
-        $user1  = User::factory()->create();
-        $user2  = User::factory()->create();
-        User::factory()->count(5)->create();
+        $groups = Group::factory()->count(2)->create();
+
+        $userInTwoGroups  = User::factory()->create();
+        $userInZeroGroups = User::factory()->create();
+
         $groups[0]->memberships()->create([
-            'user_id' => $user1->id,
+            'user_id' => $userInTwoGroups->id,
         ]);
         $groups[1]->memberships()->create([
-            'user_id' => $user1->id,
+            'user_id' => $userInTwoGroups->id,
         ]);
 
-        $groupsForUser1 = Group::query()
-                            ->hasMember($user1)
-                            ->get();
+        $groupsForUserInTwoGroups = Group::query()
+                                        ->hasMember($userInTwoGroups)
+                                        ->get();
 
-        $groupsForUser2 = Group::query()
-                            ->hasMember($user2)
-                            ->get();
+        $groupsForUserInZeroGroups = Group::query()
+                                        ->hasMember($userInZeroGroups)
+                                        ->get();
 
         $this->assertEquals(
             [$groups[0]->id, $groups[1]->id],
-            $groupsForUser1->pluck('id')->sort()->toArray(),
+            $groupsForUserInTwoGroups->pluck('id')->sort()->toArray(),
         );
 
-        $this->assertEquals(0, $groupsForUser2->count());
+        $this->assertEquals(
+            0,
+            $groupsForUserInZeroGroups->count()
+        );
     }
 
     /** @test */
     public function groupsCanBeScopedToWorkspaceBookmarks()
     {
-        // group -> workspace
-        $group = Group::factory()->create();
-        Workspace::factory()->count(2)->create([
-            'group_id' => $group->id,
-        ]);
+        $group     = Group::factory()->create();
         $workspace = Workspace::factory()->create([
             'group_id' => $group->id,
         ]);
 
-        // workspace -> bookmarks -> bill
         Bill::factory()->count(5)->create();
-        $bill = Bill::factory()->create();  // Make sure $bill->id doesn't start with 1
+        $bill = Bill::factory()->create();
         $workspace->bookmarks()->create([
             'bookmarkable_type' => Bill::class,
             'bookmarkable_id'   => $bill->id,

@@ -7,7 +7,6 @@ use App\Models\Group;
 use App\Models\Group\Workspace;
 use App\Models\LegiScan\Bill\History;
 use App\Models\LegiScan\State;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class HearingController extends Controller
@@ -24,10 +23,8 @@ class HearingController extends Controller
                                     ->whereDirection(true);
                             })
                             ->get()
-                            ->sortBy(function ($history) {
-                                return $history->nebraska_hearing_date
-                                     ? $history->nebraska_hearing_date->diff(Carbon::now())->days
-                                     : null;
+                            ->sortByDesc(function ($history) {
+                                return $history->nebraska_hearing_date->timestamp ?? -PHP_INT_MAX;
                             });
 
         return view('groups.workspaces.states.years.hearings.index')

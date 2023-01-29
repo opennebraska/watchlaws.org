@@ -117,7 +117,7 @@
 
                     {{-- Latest --}}
                     <div>
-                        {{ $bill->history()->orderByDesc('history_date')->first()->history_date ?? '' }}
+                        {{ $bill->history()->orderByDesc('history_date')->first()->history_date->format('Y-m-d') ?? '' }}
                     </div>
 
                     {{-- Action --}}

@@ -118,7 +118,7 @@ class History extends Model
                 $dateString = $matches[0];
 
                 try {
-                    return Carbon::createFromFormat('F d, Y', $dateString);
+                    return Carbon::createFromFormat('F d, Y', $dateString, 'America/Chicago')->startOfDay();
                 } catch (InvalidFormatException $e) {
                     return null;
                 }
@@ -128,9 +128,15 @@ class History extends Model
 
     public function getNebraskaHearingDateHumanizedAttribute()
     {
-        return $this->nebraska_hearing_date
-             ? $this->nebraska_hearing_date->diffForHumans(Carbon::now('utc'), CarbonInterface::DIFF_RELATIVE_TO_NOW)
-             : null;
+        if (is_null($this->nebraska_hearing_date)) {
+            return null;
+        }
+
+        return Str::replace(
+            '1 second ago',
+            'Today',
+            $this->nebraska_hearing_date?->diffForHumans(Carbon::now('America/Chicago')->startOfDay(), CarbonInterface::DIFF_RELATIVE_TO_NOW)
+        );
     }
 
     public function getIsNebraskaHearingAttribute()
