@@ -53,16 +53,26 @@ class BillTable extends Component
     public function applyFilters($query)
     {
         return $query
-            ->when(
-                $this->search,
-                fn ($query) => $query
-                    ->where(
-                        fn ($subquery) => $subquery
-                            ->where('bill_number', 'like', '%' . $this->search . '%')
-                            ->orWhere('title', 'like', '%' . $this->search . '%')
-                            ->orWhere('description', 'like', '%' . $this->search . '%')
-                    )
-            );
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    $query
+                        ->where('bill_number', 'like', '%' . $this->search . '%')
+                        ->orWhere('title', 'like', '%' . $this->search . '%')
+                        ->orWhere('description', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('pendingCommittee', function ($query) {
+                            $query->where('committee_name', 'like', '%' . $this->search . '%');
+                        })
+                        ->orWhereHas('sponsors', function ($query) {
+                            $query
+                                ->whereHas('person', function ($query) {
+                                    $query->where('name', 'like', '%' . $this->search . '%');
+                                })
+                                ->whereHas('type', function ($query) {
+                                    $query->where('sponsor_type_desc', 'Primary Sponsor');
+                                });
+                        });
+                });
+            });
     }
 
     public function render()
