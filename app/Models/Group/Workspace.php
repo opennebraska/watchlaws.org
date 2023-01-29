@@ -69,29 +69,26 @@ class Workspace extends Model
             ->perWorkspace($this)
             ->whereDirection(true)
             ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
-                $query->when($this->group->chosenState(), function ($query, $state) {
-                    $query->whereState($state);
-                })
-
-                ->when($this->group->chosenYear(), function ($query, $year) {
-                    $query->whereYear($year);
-                });
+                $query
+                    ->when($this->group->chosenState(), function ($query, $state) {
+                        $query->whereState($state);
+                    })
+                    ->when($this->group->chosenYear(), function ($query, $year) {
+                        $query->whereYear($year);
+                    });
             })
-            ->orderByDesc('created_at')
             ->with('bookmarkable.history')
             ->get()
             ->sortBy([
-                fn ($bookmarkA, $bookmarkB) =>
-                    ($bookmarkB->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
-                    <=>
-                    ($bookmarkA->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
-                ,
-                fn ($bookmarkA, $bookmarkB) =>
-                    ($bookmarkB->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
-                    <=>
-                    ($bookmarkA->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
-                ,
+
+                fn ($bookmarkA, $bookmarkB) => ($bookmarkB->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                                           <=> ($bookmarkA->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX),
+
+                fn ($bookmarkA, $bookmarkB) => ($bookmarkB->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                                           <=> ($bookmarkA->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX),
+
                 ['created_at', 'desc'],
+
             ]);
     }
 

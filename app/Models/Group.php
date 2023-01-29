@@ -117,21 +117,30 @@ class Group extends Model
     public function findBookmarks()
     {
         return Bookmark::query()
-            ->whereHasMorph('scope', Workspace::class, function (Builder $query) {
-                $query->where('group_id', $this->id);
-            })
-            ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
-                $query->when($this->chosenState(), function ($query, $state) {
-                    $query->whereState($state);
-                })
-
-                ->when($this->chosenYear(), function ($query, $year) {
-                    $query->whereYear($year);
-                });
-            })
+            ->perGroup($this)
             ->whereDirection(true)
-            ->orderByDesc('created_at')
-            ->get();
+            ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
+                $query
+                    ->when($this->chosenState(), function ($query, $state) {
+                        $query->whereState($state);
+                    })
+                    ->when($this->chosenYear(), function ($query, $year) {
+                        $query->whereYear($year);
+                    });
+            })
+            ->with('bookmarkable.history')
+            ->get()
+            ->sortBy([
+
+                fn ($bookmarkA, $bookmarkB) => ($bookmarkB->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                                           <=> ($bookmarkA->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX),
+
+                fn ($bookmarkA, $bookmarkB) => ($bookmarkB->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                                           <=> ($bookmarkA->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX),
+
+                ['created_at', 'desc'],
+
+            ]);
     }
 
     //endregion
