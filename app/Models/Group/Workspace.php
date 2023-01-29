@@ -78,7 +78,21 @@ class Workspace extends Model
                 });
             })
             ->orderByDesc('created_at')
-            ->get();
+            ->with('bookmarkable.history')
+            ->get()
+            ->sortBy([
+                fn ($bookmarkA, $bookmarkB) =>
+                    ($bookmarkB->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                    <=>
+                    ($bookmarkA->bookmarkable->history->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                ,
+                fn ($bookmarkA, $bookmarkB) =>
+                    ($bookmarkB->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                    <=>
+                    ($bookmarkA->bookmarkable->history()->where('history_action', 'like', 'Notice of hearing for %')->get()->sortByDesc('history_step')->first()->history_date->timestamp ?? -PHP_INT_MAX)
+                ,
+                ['created_at', 'desc'],
+            ]);
     }
 
     //endregion
