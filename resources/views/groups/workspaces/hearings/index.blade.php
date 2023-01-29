@@ -3,36 +3,38 @@
 @push('body')
     <x-container>
 
-        <div class="mb-4">
+        {{ view('groups.partials.header')->withGroup($group) }}
 
-            {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
-
+        <div class="mb-2">
+            {{ view('groups.workspaces.partials.header')->withGroup($group)->withWorkspace($workspace) }}
         </div>
 
-        {{-- Navigation --}}
-        <nav class="mb-5">
-            <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
-            > <a href="{{ route('groups.workspaces.show', [$group, $workspace]) }}" class="underline">{{ $workspace->name }}</a>
-            > {{ $state->name }}
-            > {{ $year }}
-            > Hearings
-        </nav>
+        <div class="mb-8">
+            {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
+        </div>
 
-        <h1 class="mb-3 font-bold text-lg">{{ $group->name }}</h1>
-
-        <h2 class="mb-3">Hearings for {{ $state->name }} in {{ $year }}</h2>
+        <div class="flex items-baseline">
+            {{-- <h3 class="font-semibold mb-2">Bill Search</h3> --}}
+            <h2 class="mb-3">
+                Hearings for
+                bookmarks under <strong>{{ $workspace->name }}</strong>
+                for {{ $group->chosenYear() }} ({{ $group->chosenState()?->name ?? 'ALL STATES' }})
+            </h2>
+            <nav class="ml-5">
+                <a href="{{ route('groups.hearings.index', [$group]) }}" class="underline text-gray-600">see hearings for all workspaces</a>
+            </nav>
+        </div>
 
         <x-table>
             @slot('header')
-                <x-table.header>
-
+                <x-table.header class="text-left text-sm">
                     Hearing
-
                 </x-table.header>
-                <x-table.header>
-
+                <x-table.header class="text-left text-sm">
                     Bill
-
+                </x-table.header>
+                <x-table.header class="text-left text-sm">
+                    Topics
                 </x-table.header>
             @endslot
             @slot('body')
@@ -115,6 +117,22 @@
 
                             </div>
                         </x-table.cell>
+                        <x-table.cell class="whitespace-nowrap text-sm">
+
+                            @foreach ($bill->topics()->perWorkspace($workspace)->get() as $topic)
+                                <div class="mb-2 last:mb-0">
+
+                                    <div class="truncate max-w-xs">
+                                        {{ $topic->name }}
+                                    </div>
+                                    <div class="text-xs text-slate-400 truncate max-w-xs">
+                                        {{ $topic->section->name }}
+                                    </div>
+
+                                </div>
+                            @endforeach
+
+                        </x-table.cell>
                     </x-table.row>
 
                 @empty
@@ -122,7 +140,11 @@
                     <x-table.row>
                         <x-table.cell colspan="2">
 
-                            Hearings not found
+                            @if ($group->chosenState()->abbreviation == 'NE')
+                                Hearings not found
+                            @else
+                                <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org</i>
+                            @endif
 
                         </x-table.cell>
                     </x-table.row>

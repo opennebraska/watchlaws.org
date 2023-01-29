@@ -2,7 +2,7 @@
 
     <div class="mb-2">
 
-        <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2" placeholder="Search..." />
+        <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2 w-80" placeholder="Search..." />
 
         @if ($this->hasFilters())
 

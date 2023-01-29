@@ -10,7 +10,7 @@
             Status
         </x-table.header>
         <x-table.header class="text-left text-sm">
-            Topic
+            Topics
         </x-table.header>
     @endslot
     @slot('body')

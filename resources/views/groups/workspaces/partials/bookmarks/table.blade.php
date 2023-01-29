@@ -10,7 +10,7 @@
             Status
         </x-table.header>
         <x-table.header class="text-left text-sm">
-            Topic
+            Topics
         </x-table.header>
     @endslot
     @slot('body')
@@ -137,9 +137,7 @@
                         <div class="mb-2 last:mb-0">
 
                             <div class="truncate max-w-xs">
-                                <a href="{{ route('groups.workspaces.topics.bill-search.show', [$workspace->group, $workspace, $topic, 'q'=>$bill->number]) }}"
-                                    class="underline"
-                                    >{{ $topic->name }}</a>
+                                {{ $topic->name }}
                             </div>
                             <div class="text-xs text-slate-400 truncate max-w-xs">
                                 {{ $topic->section->name }}

@@ -10,7 +10,10 @@
             Status
         </x-table.header>
         <x-table.header class="text-left text-sm">
-            Topic
+            Topics
+        </x-table.header>
+        <x-table.header class="text-left text-sm">
+            Workspaces
         </x-table.header>
     @endslot
     @slot('body')
@@ -147,6 +150,30 @@
                             </div>
 
                         </div>
+                    @endforeach
+
+                </x-table.cell>
+                <x-table.cell>
+
+                    @php
+
+                        $workspaces = collect();
+                        foreach($group->workspaces as $workspace)
+                        {
+                            if ($workspace->bookmarks()->where([['bookmarkable_type', get_class($bill)], ['bookmarkable_id', $bill->id]])->count())
+                            {
+                                $workspaces->push($workspace);
+                            }
+                        }
+
+                    @endphp
+
+                    @foreach ($workspaces as $workspace)
+
+                        <div class="mb-2 last:mb-0 text-xs">
+                            {{ $workspace->name }}
+                        </div>
+
                     @endforeach
 
                 </x-table.cell>

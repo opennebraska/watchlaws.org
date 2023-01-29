@@ -117,21 +117,21 @@ class Group extends Model
     public function findBookmarks()
     {
         return Bookmark::query()
-                    ->whereHasMorph('scope', Workspace::class, function (Builder $query) {
-                        $query->where('group_id', $this->id);
-                    })
-                    ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
-                        $query->when($this->chosenState(), function ($query, $state) {
-                            $query->whereState($state);
-                        })
+            ->whereHasMorph('scope', Workspace::class, function (Builder $query) {
+                $query->where('group_id', $this->id);
+            })
+            ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
+                $query->when($this->chosenState(), function ($query, $state) {
+                    $query->whereState($state);
+                })
 
-                        ->when($this->chosenYear(), function ($query, $year) {
-                            $query->whereYear($year);
-                        });
-                    })
-                    ->whereDirection(true)
-                    ->orderByDesc('created_at')
-                    ->get();
+                ->when($this->chosenYear(), function ($query, $year) {
+                    $query->whereYear($year);
+                });
+            })
+            ->whereDirection(true)
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     //endregion

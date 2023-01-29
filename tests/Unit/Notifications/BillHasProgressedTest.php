@@ -41,9 +41,9 @@ class BillHasProgressedTest extends TestCase
         ]);
 
         $message = (new BillHasProgressed($history))
-                        ->toMail($user1)
-                        ->render()
-                        ->toHtml();
+            ->toMail($user1)
+            ->render()
+            ->toHtml();
 
         $this->assertIsString($message);
     }

@@ -3,51 +3,39 @@
 @push('body')
     <x-container>
 
-        <div class="mb-4">
+        {{ view('groups.partials.header')->withGroup($group) }}
 
-            {{-- Saved navigation choices --}}
+        <div class="mb-2">
+            {{ view('groups.workspaces.partials.header')->withGroup($group)->withWorkspace($workspace) }}
+        </div>
+
+        <div class="mb-8">
             {{ view('groups.partials.saved-navigation-choices')->withGroup($group) }}
-
         </div>
 
-        {{-- Navigation --}}
-        <div class="mb-5">
-            <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
-            > {{ $workspace->name }}
-        </div>
+        <div class="mb-8">
 
-        <h1 class="mb-5 font-bold text-lg">{{ $workspace->name }}</h1>
-
-        {{-- State --}}
-        <div class="mb-6">
-
-            <h2 class="mb-0.5 font-semibold">For {{ $group->chosenState()->name }} in {{ $group->chosenYear() }}</h2>
-
-            <a href="{{ route('groups.workspaces.states.years.hearings.index', [$group, $workspace, $group->chosenState(), $group->chosenYear()]) }}" class="underline">Hearings</a>
-
-        </div>
-
-        {{-- Topics --}}
-        <h2 class="mb-0.5 font-semibold">Topics</h2>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-1">
-            @foreach ($workspace->topics as $topic)
-
-                <div>
-                    <a href="{{ route('groups.workspaces.topics.show', [$group, $workspace, $topic]) }}"
-                        class="underline"
-                        >{{ $topic->name }}</a>
+            {{-- Hearings --}}
+            @if ($group->chosenState()?->abbreviation == 'NE')
+                <div class="mb-1">
+                    <a href="{{ route('groups.workspaces.hearings.index', [$group, $workspace]) }}" class="underline">Hearings ({{ $group->chosenYear() }}, {{ $group->chosenState()->name }})</a>
                 </div>
+            @endif
 
-            @endforeach
         </div>
 
-        <div class="flex mt-12 mb-4 border-t-4 border-gray-300 pt-3">
-            <h3 class="font-semibold ">
-                Bookmarks under
-                <span class="bg-gray-200 px-1">{{ $workspace->name }}</span>
-                for {{ $group->chosenYear() }} ({{ $group->chosenState() ? $group->chosenState()->name : 'ALL STATES' }})
-            </h3>
+        <div class="flex items-baseline">
+            <h3 class="font-semibold mb-2">Bookmarks</h3>
+            <nav class="ml-3">
+                <a href="{{ route('groups.workspaces.bill-search.show', [$group, $workspace]) }}" class="underline text-gray-600">search</a>
+            </nav>
+        </div>
+
+        <div class="mb-1 font-light text-sm">
+            Bookmarks under
+            <strong class="font-semibold">{{ $workspace->name }}</strong>
+            {{-- <span class="bg-gray-200 px-1 py-1">{{ $workspace->name }}</span> --}}
+            for {{ $group->chosenYear() }} ({{ $group->chosenState() ? $group->chosenState()->name : 'ALL STATES' }})
         </div>
 
         {{ view('groups.workspaces.partials.bookmarks.table')->withWorkspace($workspace) }}

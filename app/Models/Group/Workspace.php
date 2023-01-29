@@ -5,6 +5,7 @@ namespace App\Models\Group;
 use App\Models\Bookmark;
 use App\Models\Group;
 use App\Models\Group\Workspace\Topic;
+use App\Models\Group\Workspace\Topic\Section;
 use App\Models\LegiScan\Bill;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +35,11 @@ class Workspace extends Model
         return $this->belongsTo(Group::class);
     }
 
+    public function topicSections()
+    {
+        return $this->hasMany(Section::class);
+    }
+
     public function topics()
     {
         return $this->hasMany(Topic::class);
@@ -60,19 +66,19 @@ class Workspace extends Model
     public function findBookmarks()
     {
         return Bookmark::query()
-                    ->perWorkspace($this)
-                    ->whereDirection(true)
-                    ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
-                        $query->when($this->group->chosenState(), function ($query, $state) {
-                            $query->whereState($state);
-                        })
+            ->perWorkspace($this)
+            ->whereDirection(true)
+            ->whereHasMorph('bookmarkable', Bill::class, function ($query) {
+                $query->when($this->group->chosenState(), function ($query, $state) {
+                    $query->whereState($state);
+                })
 
-                        ->when($this->group->chosenYear(), function ($query, $year) {
-                            $query->whereYear($year);
-                        });
-                    })
-                    ->orderByDesc('created_at')
-                    ->get();
+                ->when($this->group->chosenYear(), function ($query, $year) {
+                    $query->whereYear($year);
+                });
+            })
+            ->orderByDesc('created_at')
+            ->get();
     }
 
     //endregion

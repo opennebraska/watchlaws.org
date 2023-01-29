@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Group\Workspace\Topic;
+namespace App\Http\Controllers\Group\Workspace;
 
 use App\Http\Controllers\Controller;
 use App\Models\Group;
@@ -11,9 +11,8 @@ class BillSearchController extends Controller
 {
     public function show(Group $group, Workspace $workspace, Topic $topic)
     {
-        return view('groups.workspaces.topics.bill-search')
+        return view('groups.workspaces.bill-search')
             ->withGroup($group)
-            ->withWorkspace($workspace)
-            ->withTopic($topic);
+            ->withWorkspace($workspace);
     }
 }
