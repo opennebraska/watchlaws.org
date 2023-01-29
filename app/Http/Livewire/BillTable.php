@@ -44,11 +44,13 @@ class BillTable extends Component
     {
         return Bill::query()
             ->when($this->group->chosenState(), function ($query) {
-                $query->where('state_id', $this->group->chosenState()->id);
+                $query
+                    ->where('state_id', $this->group->chosenState()->id);
             })
             ->whereHas('session', function ($query) {
-                return $query->where('year_start', $this->group->chosenYear())
-                           ->orWhere('year_end', $this->group->chosenYear());
+                $query
+                    ->where('year_start', $this->group->chosenYear())
+                    ->orWhere('year_end', $this->group->chosenYear());
             })
             ->orderByDesc('created');
     }

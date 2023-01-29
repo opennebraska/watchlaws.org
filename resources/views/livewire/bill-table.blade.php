@@ -177,14 +177,29 @@
                         </div>
 
                     </x-table.cell>
-                    <x-table.cell>
+                    <x-table.cell class="whitespace-nowrap">
 
-                        TOPICS
+                        @forelse ($bill->topics()->perWorkspace($scope)->get() as $topic)
+                            <div class="mb-2 last:mb-0">
+
+                                <div class="truncate max-w-xs">
+                                    {{ $topic->name }}
+                                </div>
+                                <div class="text-xs text-slate-400 truncate max-w-xs">
+                                    {{ $topic->section->name }}
+                                </div>
+
+                            </div>
+                        @empty
+
+                            <div class="text-gray-400 text-sm">(none for this workspace)</div>
+
+                        @endforelse
 
                         <button
                             type="button"
-                            class="text-sm hover:underline bg-gray-200 hover:bg-gray-300 px-2 rounded-sm"
                             wire:click="toggleManageTopicsForBill({{ $bill->id }})"
+                            class="mt-3 text-sm underline"
                             >Manage</button>
 
                     </x-table.cell>
@@ -193,7 +208,7 @@
                     <x-table.row class="bg-slate-200">
                         <x-table.cell colspan="2">
                         </x-table.cell>
-                        <x-table.cell colspan="3" class="pt-4 pb-0">
+                        <x-table.cell colspan="3" class="pt-1 pb-0">
 
                             <form>
 
@@ -211,7 +226,7 @@
                                                     @foreach ($section->topics as $topic)
 
                                                         <label class="block">
-                                                            <input type="checkbox" />
+                                                            <input type="checkbox" {!! $bill->topics->find($topic->id) ? 'checked="checked"' : '' !!} />
                                                             {{ $topic->name }}
                                                         </label>
 
@@ -228,7 +243,7 @@
 
                         </x-table.cell>
                     </x-table.row>
-                    <x-table.row class=" bg-slate-200">
+                    <x-table.row class="bg-slate-200">
                         <x-table.cell colspan="5">
 
                             <div class="pt-4 pb-2 border-t border-gray-400 text-sm text-center">
@@ -238,6 +253,7 @@
                                     >Assign</button>
                                 <button
                                     type="button"
+                                    wire:click="toggleManageTopicsForBill({{ $bill->id }})"
                                     class="bg-gray-200 border hover:bg-gray-300 border-gray-500 text-gray-900 px-3 py-1 font-semibold rounded-md"
                                     >Cancel</button>
                             </div>
