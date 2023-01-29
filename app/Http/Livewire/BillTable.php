@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Helpers\BookmarkToggle;
 use App\Models\LegiScan\Bill;
 use App\Traits\Livewire\WithPerPagePagination;
+use Exception;
 use Livewire\Component;
 
 class BillTable extends Component
@@ -14,7 +15,7 @@ class BillTable extends Component
     //region Properties
 
     protected $queryString = [
-        'search' => ['initial' => null, 'as' => 'q'],
+        'search' => ['initial' => null, 'as' => 'q', 'bill-number' => 'bn'],
     ];
 
     public $group;
@@ -22,6 +23,8 @@ class BillTable extends Component
     public $scope;
 
     public $search = null;
+
+    public $manageTopicsForBill = null;
 
     //endregion
 
@@ -146,6 +149,15 @@ class BillTable extends Component
         }
 
         return $toggle->clear($bill, $this->scope);
+    }
+
+    public function toggleManageTopicsForBill($billId)
+    {
+        $isNullOrAssignedAnotherBill = is_null($this->manageTopicsForBill) || $this->manageTopicsForBill !== $billId;
+
+        $this->manageTopicsForBill = $isNullOrAssignedAnotherBill
+                                   ? $billId
+                                   : null;
     }
 
     //endregion

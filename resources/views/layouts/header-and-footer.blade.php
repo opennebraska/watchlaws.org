@@ -4,6 +4,8 @@
     {{-- <link rel="stylesheet" href="https://rsms.me/inter/inter.css"> --}}
     {{-- <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> --}}
     <link href="/third-party/themify-icons/themify-icons.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @stack('header_css')
 

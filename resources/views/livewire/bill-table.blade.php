@@ -26,6 +26,9 @@
             <x-table.header class="text-left text-sm">
                 Status
             </x-table.header>
+            <x-table.header class="text-left text-sm">
+                Topics
+            </x-table.header>
         @endslot
         @slot('body')
             @forelse ($bills as $bill)
@@ -38,10 +41,11 @@
                     $isHidden = ($bookmark->direction ?? null) === false;
 
                 @endphp
-                <x-table.row class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}">
+                <x-table.row
+                    class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}">
+
                     <x-table.cell class="whitespace-nowrap text-center">
 
-                        {{-- State seal --}}
                         @if (\File::exists(public_path('/media/us_states/seals/'.$bill->state->abbreviation.'.svg')))
                             <img src="/media/us_states/seals/{{ $bill->state->abbreviation }}.svg" alt="" class="h-12 max-w-none inline-block" />
                         @endif
@@ -173,8 +177,74 @@
                         </div>
 
                     </x-table.cell>
-                </x-table.row>
+                    <x-table.cell>
 
+                        TOPICS
+
+                        <button
+                            type="button"
+                            class="text-sm hover:underline bg-gray-200 hover:bg-gray-300 px-2 rounded-sm"
+                            wire:click="toggleManageTopicsForBill({{ $bill->id }})"
+                            >Manage</button>
+
+                    </x-table.cell>
+                </x-table.row>
+                @if ($manageTopicsForBill === $bill->id)
+                    <x-table.row class="bg-slate-200">
+                        <x-table.cell colspan="2">
+                        </x-table.cell>
+                        <x-table.cell colspan="3" class="pt-4 pb-0">
+
+                            <form>
+
+                                <h4 class="mb-2 text-sm font-light text-gray-800">
+                                    Assign Topics
+                                </h4>
+
+                                <div class="sm:columns-2 lg:columns-3 xl:columns-4 text-sm">
+                                    @foreach ($scope->topicSections as $section)
+
+                                        <div>
+                                            <div class="inline-block mb-2">
+                                                <div class="font-medium mb-2">{{ $section->name }}</div>
+                                                <div class="">
+                                                    @foreach ($section->topics as $topic)
+
+                                                        <label class="block">
+                                                            <input type="checkbox" />
+                                                            {{ $topic->name }}
+                                                        </label>
+
+                                                    @endforeach
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    @endforeach
+                                </div>
+
+                            </form>
+
+                        </x-table.cell>
+                    </x-table.row>
+                    <x-table.row class=" bg-slate-200">
+                        <x-table.cell colspan="5">
+
+                            <div class="pt-4 pb-2 border-t border-gray-400 text-sm text-center">
+                                <button
+                                    type="button"
+                                    class="bg-green-200 border hover:bg-green-300 border-green-500 text-green-900 hover:text-black px-3 py-1 font-semibold rounded-md"
+                                    >Assign</button>
+                                <button
+                                    type="button"
+                                    class="bg-gray-200 border hover:bg-gray-300 border-gray-500 text-gray-900 px-3 py-1 font-semibold rounded-md"
+                                    >Cancel</button>
+                            </div>
+
+                        </x-table.cell>
+                    </x-table.row>
+                @endif
             @empty
 
                 <x-table.cell colspan="6" class="h-14 px-4 border-b">
