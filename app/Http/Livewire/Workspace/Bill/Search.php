@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Workspace\Bill;
 
 use App\Helpers\BookmarkToggle;
 use App\Models\LegiScan\Bill;
 use App\Traits\Livewire\WithPerPagePagination;
-use Exception;
 use Livewire\Component;
 
-class BillTable extends Component
+class Search extends Component
 {
     use WithPerPagePagination;
 
@@ -24,7 +23,12 @@ class BillTable extends Component
 
     public $search = null;
 
-    public $manageTopicsForBill = null;
+    public $topicAssignmentFormForBillId = null;
+
+    protected $listeners = [
+        'assignedTopicsUpdated'   => 'hideTopicAssignmentForm',
+        'assignedTopicsCancelled' => 'hideTopicAssignmentForm',
+    ];
 
     //endregion
 
@@ -88,9 +92,8 @@ class BillTable extends Component
             )
         );
 
-        return view('livewire.bill-table')
+        return view('livewire.workspace.bill.search')
             ->withBills($bills)
-            ->withBillCount($this->query()->count())
             ->withScope($this->scope);
     }
 
@@ -153,13 +156,14 @@ class BillTable extends Component
         return $toggle->clear($bill, $this->scope);
     }
 
-    public function toggleManageTopicsForBill($billId)
+    public function hideTopicAssignmentForm()
     {
-        $isNullOrAssignedAnotherBill = is_null($this->manageTopicsForBill) || $this->manageTopicsForBill !== $billId;
+        $this->topicAssignmentFormForBillId = null;
+    }
 
-        $this->manageTopicsForBill = $isNullOrAssignedAnotherBill
-                                   ? $billId
-                                   : null;
+    public function showTopicAssignmentFormForBill(Bill $bill)
+    {
+        $this->topicAssignmentFormForBillId = $bill->id;
     }
 
     //endregion

@@ -2,6 +2,7 @@
 
 namespace App\Models\LegiScan\Bill;
 
+use App\Models\LegiScan\Progress as LegiScanProgress;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,7 @@ class Progress extends Model
 
     public function event()
     {
-        return $this->belongsTo(Progress::class);
+        return $this->belongsTo(LegiScanProgress::class);
     }
 
     public function getDescriptionAttribute()

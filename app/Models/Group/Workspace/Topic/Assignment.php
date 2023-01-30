@@ -2,6 +2,7 @@
 
 namespace App\Models\Group\Workspace\Topic;
 
+use App\Models\Group\Workspace\Topic;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,11 @@ class Assignment extends Model
         'topicable_type',
         'topicable_id',
     ];
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
 
     public function topicable()
     {

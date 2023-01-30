@@ -5,14 +5,12 @@
         <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2 w-80" placeholder="Search..." />
 
         @if ($this->hasFilters())
-
             <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">reset</a>
-
         @endif
 
     </div>
 
-    <x-table class="table-auto">
+    <x-table class="table-auto" wire:loading.class="bg-gray-200 opacity-60">
         @slot('header')
             <x-table.header>
 
@@ -42,7 +40,8 @@
 
                 @endphp
                 <x-table.row
-                    class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}">
+                    class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}"
+                    >
 
                     <x-table.cell class="whitespace-nowrap text-center">
 
@@ -154,6 +153,19 @@
 
                         </div>
 
+                        @php
+                            $billHistory = $bill->history()->whereIsNebraskaHearing()->get();
+                        @endphp
+                        @if ($billHistory->isNotEmpty())
+
+                            @foreach ($billHistory as $historyItem)
+
+                                {{ view('partials.hearings.alert')->withHistoryItem($historyItem) }}
+
+                            @endforeach
+
+                        @endif
+
                     </x-table.cell>
                     <x-table.cell class="whitespace-nowrap">
 
@@ -171,7 +183,7 @@
 
                             {{-- Status --}}
                             <div>
-                                {{ $bill->status->progress_desc ?? '' }}
+                                {{ $bill->status->description ?? '' }}
                             </div>
 
                         </div>
@@ -198,69 +210,22 @@
 
                         <button
                             type="button"
-                            wire:click="toggleManageTopicsForBill({{ $bill->id }})"
-                            class="mt-3 text-sm underline"
-                            >Manage</button>
+                            wire:click="showTopicAssignmentFormForBill({{ $bill }})"
+                            class="mt-3 text-sm text-gray-700 hover:text-black underline"
+                            >Assign Topics</button>
 
                     </x-table.cell>
                 </x-table.row>
-                @if ($manageTopicsForBill === $bill->id)
+                @if ($topicAssignmentFormForBillId == $bill->id)
                     <x-table.row class="bg-slate-200">
-                        <x-table.cell colspan="2">
-                        </x-table.cell>
-                        <x-table.cell colspan="3" class="pt-1 pb-0">
+                        <x-table.cell colspan="5" class="pt-1 px-8 pb-0">
 
-                            <form>
-
-                                <h4 class="mb-2 text-sm font-light text-gray-800">
-                                    Assign Topics
-                                </h4>
-
-                                <div class="sm:columns-2 lg:columns-3 xl:columns-4 text-sm">
-                                    @foreach ($scope->topicSections as $section)
-
-                                        <div>
-                                            <div class="inline-block mb-2">
-                                                <div class="font-medium mb-2">{{ $section->name }}</div>
-                                                <div class="">
-                                                    @foreach ($section->topics as $topic)
-
-                                                        <label class="block">
-                                                            <input type="checkbox" {!! $bill->topics->find($topic->id) ? 'checked="checked"' : '' !!} />
-                                                            {{ $topic->name }}
-                                                        </label>
-
-                                                    @endforeach
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    @endforeach
-                                </div>
-
-                            </form>
-
-                        </x-table.cell>
-                    </x-table.row>
-                    <x-table.row class="bg-slate-200">
-                        <x-table.cell colspan="5">
-
-                            <div class="pt-4 pb-2 border-t border-gray-400 text-sm text-center">
-                                <button
-                                    type="button"
-                                    class="bg-green-200 border hover:bg-green-300 border-green-500 text-green-900 hover:text-black px-3 py-1 font-semibold rounded-md"
-                                    >Assign</button>
-                                <button
-                                    type="button"
-                                    wire:click="toggleManageTopicsForBill({{ $bill->id }})"
-                                    class="bg-gray-200 border hover:bg-gray-300 border-gray-500 text-gray-900 px-3 py-1 font-semibold rounded-md"
-                                    >Cancel</button>
-                            </div>
+                            @livewire('workspace.bill.assign-topics', ['workspace' => $scope, 'bill' => $bill], key($bill->id))
 
                         </x-table.cell>
                     </x-table.row>
                 @endif
+
             @empty
 
                 <x-table.cell colspan="6" class="h-14 px-4 border-b">
