@@ -16,7 +16,12 @@
         <div class="flex items-baseline">
             <h3 class="font-semibold mb-2">Bookmarks</h3>
             <nav class="ml-3">
-                <a href="{{ route('groups.workspaces.bill-search.show', [$group, $workspace]) }}" class="underline text-gray-600">search</a>
+
+                <a
+                    href="{{ route('groups.workspaces.bill-search.show', [$group, $workspace]) }}"
+                    class="px-4 py-1 rounded-md bg-green-600 hover:bg-green-700 text-green-100 hover:text-white"
+                    >Bill Search</a>
+
             </nav>
         </div>
 

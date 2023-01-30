@@ -214,6 +214,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
 
         'SessionYear' => App\Facades\SessionYear::class,
+        'Debugbar'    => Barryvdh\Debugbar\Facades\Debugbar::class,
 
     ])->toArray(),
 

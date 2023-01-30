@@ -16,12 +16,17 @@
         <div class="flex items-baseline">
             <h3 class="font-semibold mb-2">Bill Search</h3>
             <nav class="ml-3">
-                <a href="{{ route('groups.workspaces.show', [$group, $workspace]) }}" class="underline text-gray-600">bookmarks</a>
+
+                <a
+                    href="{{ route('groups.workspaces.show', [$group, $workspace]) }}"
+                    class="px-4 py-1 rounded-md border border-1 bg-gray-200 hover:bg-gray-300 border-gray-300"
+                    >Back to bookmarks</a>
+
             </nav>
         </div>
 
 
-        @livewire('bill-table', ['scope'=>$workspace, 'group'=>$group])
+        @livewire('workspace.bill.search', ['scope'=>$workspace, 'group'=>$group])
 
     </x-container>
 @endpush

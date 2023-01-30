@@ -5,14 +5,12 @@
         <input type="text" wire:model="search" class="border border-gray-300 px-2 py-1 mr-2 w-80" placeholder="Search..." />
 
         @if ($this->hasFilters())
-
             <a wire:click.prevent="resetFilters" href="#" class="hover:underline text-gray-400">reset</a>
-
         @endif
 
     </div>
 
-    <x-table class="table-auto">
+    <x-table class="table-auto" wire:loading.class="bg-gray-200 opacity-60">
         @slot('header')
             <x-table.header>
 
@@ -26,6 +24,9 @@
             <x-table.header class="text-left text-sm">
                 Status
             </x-table.header>
+            <x-table.header class="text-left text-sm">
+                Topics
+            </x-table.header>
         @endslot
         @slot('body')
             @forelse ($bills as $bill)
@@ -38,10 +39,12 @@
                     $isHidden = ($bookmark->direction ?? null) === false;
 
                 @endphp
-                <x-table.row class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}">
+                <x-table.row
+                    class="border-b {{ $isBookmarked ? 'bg-green-100' : '' }} {{ $isHidden ? 'bg-gray-200' : '' }}"
+                    >
+
                     <x-table.cell class="whitespace-nowrap text-center">
 
-                        {{-- State seal --}}
                         @if (\File::exists(public_path('/media/us_states/seals/'.$bill->state->abbreviation.'.svg')))
                             <img src="/media/us_states/seals/{{ $bill->state->abbreviation }}.svg" alt="" class="h-12 max-w-none inline-block" />
                         @endif
@@ -150,6 +153,19 @@
 
                         </div>
 
+                        @php
+                            $billHistory = $bill->history()->whereIsNebraskaHearing()->get();
+                        @endphp
+                        @if ($billHistory->isNotEmpty())
+
+                            @foreach ($billHistory as $historyItem)
+
+                                {{ view('partials.hearings.alert')->withHistoryItem($historyItem) }}
+
+                            @endforeach
+
+                        @endif
+
                     </x-table.cell>
                     <x-table.cell class="whitespace-nowrap">
 
@@ -167,13 +183,48 @@
 
                             {{-- Status --}}
                             <div>
-                                {{ $bill->status->progress_desc ?? '' }}
+                                {{ $bill->status->description ?? '' }}
                             </div>
 
                         </div>
 
                     </x-table.cell>
+                    <x-table.cell class="whitespace-nowrap">
+
+                        @forelse ($bill->topics()->perWorkspace($scope)->get() as $topic)
+                            <div class="mb-2 last:mb-0">
+
+                                <div class="truncate max-w-xs">
+                                    {{ $topic->name }}
+                                </div>
+                                <div class="text-xs text-slate-400 truncate max-w-xs">
+                                    {{ $topic->section->name }}
+                                </div>
+
+                            </div>
+                        @empty
+
+                            <div class="text-gray-400 text-sm">(none for this workspace)</div>
+
+                        @endforelse
+
+                        <button
+                            type="button"
+                            wire:click="showTopicAssignmentFormForBill({{ $bill }})"
+                            class="mt-3 text-sm text-gray-700 hover:text-black underline"
+                            >Assign Topics</button>
+
+                    </x-table.cell>
                 </x-table.row>
+                @if ($topicAssignmentFormForBillId == $bill->id)
+                    <x-table.row class="bg-slate-200">
+                        <x-table.cell colspan="5" class="pt-1 px-8 pb-0">
+
+                            @livewire('workspace.bill.assign-topics', ['workspace' => $scope, 'bill' => $bill], key($bill->id))
+
+                        </x-table.cell>
+                    </x-table.row>
+                @endif
 
             @empty
 

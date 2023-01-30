@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Workspace\Bill;
 
 use App\Helpers\BookmarkToggle;
 use App\Models\LegiScan\Bill;
 use App\Traits\Livewire\WithPerPagePagination;
 use Livewire\Component;
 
-class BillTable extends Component
+class Search extends Component
 {
     use WithPerPagePagination;
 
     //region Properties
 
     protected $queryString = [
-        'search' => ['initial' => null, 'as' => 'q'],
+        'search' => ['initial' => null, 'as' => 'q', 'bill-number' => 'bn'],
     ];
 
     public $group;
@@ -22,6 +22,13 @@ class BillTable extends Component
     public $scope;
 
     public $search = null;
+
+    public $topicAssignmentFormForBillId = null;
+
+    protected $listeners = [
+        'assignedTopicsUpdated'   => 'hideTopicAssignmentForm',
+        'assignedTopicsCancelled' => 'hideTopicAssignmentForm',
+    ];
 
     //endregion
 
@@ -41,11 +48,13 @@ class BillTable extends Component
     {
         return Bill::query()
             ->when($this->group->chosenState(), function ($query) {
-                $query->where('state_id', $this->group->chosenState()->id);
+                $query
+                    ->where('state_id', $this->group->chosenState()->id);
             })
             ->whereHas('session', function ($query) {
-                return $query->where('year_start', $this->group->chosenYear())
-                           ->orWhere('year_end', $this->group->chosenYear());
+                $query
+                    ->where('year_start', $this->group->chosenYear())
+                    ->orWhere('year_end', $this->group->chosenYear());
             })
             ->orderByDesc('created');
     }
@@ -83,9 +92,8 @@ class BillTable extends Component
             )
         );
 
-        return view('livewire.bill-table')
+        return view('livewire.workspace.bill.search')
             ->withBills($bills)
-            ->withBillCount($this->query()->count())
             ->withScope($this->scope);
     }
 
@@ -146,6 +154,16 @@ class BillTable extends Component
         }
 
         return $toggle->clear($bill, $this->scope);
+    }
+
+    public function hideTopicAssignmentForm()
+    {
+        $this->topicAssignmentFormForBillId = null;
+    }
+
+    public function showTopicAssignmentFormForBill(Bill $bill)
+    {
+        $this->topicAssignmentFormForBillId = $bill->id;
     }
 
     //endregion

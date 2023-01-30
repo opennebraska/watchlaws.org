@@ -3,12 +3,13 @@
 namespace App\Models\LegiScan;
 
 use App\Models\Bookmark;
+use App\Models\Group\Workspace;
 use App\Models\Group\Workspace\Topic;
 use App\Models\Group\Workspace\Topic\Assignment;
 use App\Models\LegiScan\Bill\Amendment;
 use App\Models\LegiScan\Bill\Calendar;
 use App\Models\LegiScan\Bill\History;
-use App\Models\LegiScan\Bill\Progress;
+use App\Models\LegiScan\Bill\Progress as BillProgress;
 use App\Models\LegiScan\Bill\Reason;
 use App\Models\LegiScan\Bill\Referral;
 use App\Models\LegiScan\Bill\Sast;
@@ -121,7 +122,7 @@ class Bill extends Model
 
     public function progress()
     {
-        return $this->hasMany(Progress::class, 'bill_id');
+        return $this->hasMany(BillProgress::class, 'bill_id');
     }
 
     public function reasons()
@@ -217,6 +218,22 @@ class Bill extends Model
     public function getNumberAttribute()
     {
         return $this->bill_number;
+    }
+
+    //endregion
+
+    //region Public methods
+
+    public function updateAssignedTopics($topics, Workspace $workspace)
+    {
+        $this
+            ->topics()
+            ->where('workspace_id', $workspace->id)
+            ->detach();
+
+        $this
+            ->topics()
+            ->attach($topics);
     }
 
     //endregion
