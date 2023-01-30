@@ -8,17 +8,14 @@
         @foreach ($workspace->topicSections as $section)
 
             <div>
-                <div class="inline-block mb-2 last:mb-0">
-                    <div class="font-medium mb-2">{{ $section->name }}</div>
-                    <div class="">
+                <div class="inline-block mb-2">
+                    <div class="font-medium mb-1">{{ $section->name }}</div>
+                    <div>
                         @foreach ($section->topics as $topic)
 
                             <label class="block">
-
                                 <input wire:model.defer="topicsAssigned" value="{{ $topic->id }}" type="checkbox" />
-
                                 {{ $topic->name }}
-
                             </label>
 
                         @endforeach
