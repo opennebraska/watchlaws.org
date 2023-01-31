@@ -31,8 +31,8 @@ class LegiScanDaemon extends Command
         $this->importLegiScanData()
             ->translateStates()
             ->translateBodies()
-            ->translateCommittees()
-            ->upsertBillHistoryTimestamps();
+            ->translateCommittees();
+            // ->upsertBillHistoryTimestamps();
 
         $this->info('');
         $this->info(
@@ -139,37 +139,37 @@ class LegiScanDaemon extends Command
         return $this;
     }
 
-    public function upsertBillHistoryTimestamps(): static
-    {
-        $this->info('Upating Legislative Bill History Timestamps');
+    // public function upsertBillHistoryTimestamps(): static
+    // {
+    //     $this->info('Upating Legislative Bill History Timestamps');
 
-        $billHistory = History::all();
+    //     $billHistory = History::all();
 
-        $progress = $this->output->createProgressBar(count($billHistory));
+    //     $progress = $this->output->createProgressBar(count($billHistory));
 
-        $progress->start();
+    //     $progress->start();
 
-        foreach ($billHistory as $billHistoryItem) {
-            HistoryTimestamp::updateOrCreate(
-                [
-                    'bill_id'      => $billHistory->bill_id,
-                    'history_step' => $billHistory->history_step,
-                ],
-                [
-                    'bill_id'      => $billHistory->bill_id,
-                    'history_step' => $billHistory->history_step,
-                ],
-            );
+    //     foreach ($billHistory as $record) {
+    //         HistoryTimestamp::updateOrCreate(
+    //             [
+    //                 'bill_id'      => $record->bill_id,
+    //                 'history_step' => $record->history_step,
+    //             ],
+    //             [
+    //                 'bill_id'      => $record->bill_id,
+    //                 'history_step' => $record->history_step,
+    //             ],
+    //         );
 
-            $progress->advance();
-        }
+    //         $progress->advance();
+    //     }
 
-        $progress->finish();
+    //     $progress->finish();
 
-        $this->info("\n" . $this->separator);
+    //     $this->info("\n" . $this->separator);
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     protected function importLegiScanData(): static
     {
