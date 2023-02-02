@@ -31,12 +31,7 @@ class HistoryTimestampTest extends TestCase
         $workspace = Workspace::factory()->create([
             'group_id' => $group->id,
         ]);
-        Bill::factory()->count(3)->create();
-        $bill        = Bill::factory()->create();
-        $history     = History::factory()->create([
-            'bill_id'        => $bill->id,
-            'history_action' => 'Hearing February 25, 2023',
-        ]);
+        $bill = Bill::factory()->create();
         Bookmark::factory()->create([
             'scope_type'        => Workspace::class,
             'scope_id'          => $workspace->id,
@@ -44,15 +39,98 @@ class HistoryTimestampTest extends TestCase
             'bookmarkable_id'   => $bill->id,
         ]);
 
-        // Trigger created event
+        $step = 1;
+
+        // Test
+
+        $historyPastNotificationWindow = History::factory()->create([
+            'bill_id'        => $bill->id,
+            'history_step'   => $step++,
+            'history_date'   => now()->startOfDay()->subDays(10),
+            'history_action' => 'Hearing February 25, 2023',
+        ]);
+
         HistoryTimestamp::factory()->create([
-            'bill_id'      => $history->bill_id,
-            'history_step' => $history->history_step,
+            'bill_id'      => $historyPastNotificationWindow->bill_id,
+            'history_step' => $historyPastNotificationWindow->history_step,
+        ]);
+
+        Notification::assertNothingSent();
+
+        // Test
+
+        $historyWithinNotificationWindow = History::factory()->create([
+            'bill_id'        => $bill->id,
+            'history_step'   => $step++,
+            'history_date'   => now(),
+            'history_action' => 'Hearing February 25, 2023',
+        ]);
+
+        HistoryTimestamp::factory()->create([
+            'bill_id'      => $historyWithinNotificationWindow->bill_id,
+            'history_step' => $historyWithinNotificationWindow->history_step,
         ]);
 
         Notification::assertSentTo(
             [$user1, $user2],
             BillHasProgressed::class,
         );
+
+        // // Test
+
+        // $historyOnSameDay = History::factory()->create([
+        //     'bill_id'        => $bill->id,
+        //     'history_step'   => 1,
+        //     'history_date'   => now()->startOfDay()->subDays(5),
+        //     'history_action' => 'Hearing February 25, 2023',
+        // ]);
+
+        // HistoryTimestamp::factory()->create([
+        //     'bill_id'      => $historyOnSameDay->bill_id,
+        //     'history_step' => $historyOnSameDay->history_step,
+        // ]);
+
+        // Notification::assertSentTo(
+        //     [$user1, $user2],
+        //     BillHasProgressed::class,
+        // );
+
+        // // Test
+
+        // $historyInFutureWithinOneWeek = History::factory()->create([
+        //     'bill_id'        => $bill->id,
+        //     'history_step'   => 1,
+        //     'history_date'   => now()->startOfDay()->subDays(5),
+        //     'history_action' => 'Hearing February 25, 2023',
+        // ]);
+
+        // HistoryTimestamp::factory()->create([
+        //     'bill_id'      => $historyInFutureWithinOneWeek->bill_id,
+        //     'history_step' => $historyInFutureWithinOneWeek->history_step,
+        // ]);
+
+        // Notification::assertSentTo(
+        //     [$user1, $user2],
+        //     BillHasProgressed::class,
+        // );
+
+        // // Test
+
+        // $historyInFuturePastOneWeek = History::factory()->create([
+        //     'bill_id'        => $bill->id,
+        //     'history_step'   => 1,
+        //     'history_date'   => now()->startOfDay()->subDays(5),
+        //     'history_action' => 'Hearing February 25, 2023',
+        // ]);
+
+        // HistoryTimestamp::factory()->create([
+        //     'bill_id'      => $historyInFuturePastOneWeek->bill_id,
+        //     'history_step' => $historyInFuturePastOneWeek->history_step,
+        // ]);
+
+        // Notification::assertSentTo(
+        //     [$user1, $user2],
+        //     BillHasProgressed::class,
+        // );
     }
 }

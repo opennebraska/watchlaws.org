@@ -3,6 +3,7 @@
 namespace App\Models\LegiScan\Bill;
 
 use App\Notifications\BillHasProgressed;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
@@ -13,13 +14,14 @@ class HistoryTimestamp extends Model
 
     protected $table = 'bill_history_timestamps';
 
+    protected $fillable = [
+        'bill_id',
+        'history_step',
+    ];
+
     protected static function booted()
     {
         static::created(function (HistoryTimestamp $historyTimestamp) {
-            HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->historyItem);
-        });
-
-        static::updated(function (HistoryTimestamp $historyTimestamp) {
             HistoryTimestamp::notifyUsersWhenBillHasProgressed($historyTimestamp->historyItem);
         });
     }
@@ -31,13 +33,17 @@ class HistoryTimestamp extends Model
 
     private static function notifyUsersWhenBillHasProgressed(History $historyItem)
     {
-        if ($historyItem->is_nebraska_hearing) {
-            $users = collect();
-            $historyItem->bill->bookmarks->each(function ($bookmark) use (&$users) {
-                $users = $users->concat($bookmark->scope->group->members);
-            });
+        if (dump($historyItem->date->shiftTimeZone('America/Chicago')->diffInDays(now('America/Chicago')->startOfDay(), absolute:false)) <= 7)
+        {
+            if ($historyItem->is_nebraska_hearing)
+            {
+                $users = collect();
+                $historyItem->bill->bookmarks->each(function ($bookmark) use (&$users) {
+                    $users = $users->concat($bookmark->scope->group->members);
+                });
 
-            Notification::send($users->unique(), new BillHasProgressed($historyItem));
+                Notification::send($users->unique(), new BillHasProgressed($historyItem));
+            }
         }
     }
 }
