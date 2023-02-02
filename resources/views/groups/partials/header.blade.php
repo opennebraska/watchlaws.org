@@ -1,7 +1,7 @@
 
 <div class="flex items-baseline mb-2">
     <h1 class="font-bold text-lg mr-3">
-        <a href="{{ route('groups.show', $group) }}" class="underline">{{ $group->name }}</a>
+        {{ $group->name }}
     </h1>
     <nav>
         <a href="{{ route('groups.workspaces.index', $group) }}" class="hover:underline text-gray-500 ml-1">workspaces</a>
