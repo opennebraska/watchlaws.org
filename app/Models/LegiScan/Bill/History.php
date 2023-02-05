@@ -2,6 +2,8 @@
 
 namespace App\Models\LegiScan\Bill;
 
+use App\Models\Group;
+use App\Models\Group\Workspace;
 use App\Models\LegiScan\Bill;
 use App\Models\LegiScan\State;
 use App\Traits\Models\HasLegiScanShim;
@@ -84,6 +86,15 @@ class History extends Model
                 $query->where('state_abbr', 'NE');
             })
             ->where('history_action', 'like', '%hearing%');
+    }
+
+    public function scopePerGroup(Builder $query, Group $group)
+    {
+        $query->whereHas('bill.bookmarks', function($query) use($group){
+            $query->whereHasMorph('scope', Workspace::class, function (Builder $query) use ($group) {
+                $query->where('group_id', $group->id);
+            });
+        });
     }
 
     //endregion

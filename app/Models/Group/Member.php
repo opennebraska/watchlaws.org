@@ -28,23 +28,4 @@ class Member extends Model
     }
 
     //endregion
-
-    //region Attributes
-
-    public function getIsGroupOwnerAttribute()
-    {
-        if ($this->group->owner_id == $this->user->id) {
-            return true;
-        }
-
-        for ($parent = $this->group->parent; $parent; $parent = $parent->parent) {
-            if ($parent->group->owner_id == $this->user->id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //endregion
 }

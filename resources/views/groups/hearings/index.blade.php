@@ -112,7 +112,7 @@
                                 <a href="{{ $bill->state_url }}" class="underline"
                                     ><span class="text-gray-400">{{ $bill->number }}</span></a>
 
-                                <span class="text-gray-500">{{ $bill->body->short_name }} {{ $bill->type->name }}</span>
+                                <span class="text-gray-500">{{ $bill->body->short_name ?? '' }} {{ $bill->type->name ?? '' }}</span>
 
                                 @if ($bill->pending_committee->name ?? false)
                                     <span class="ml-1 pl-2 pr-2.5 py-0.5 bg-gray-200 text-gray-500">{{ $bill->pendingCommittee->name ?? '' }}</span>
@@ -178,10 +178,22 @@
                     <x-table.row>
                         <x-table.cell colspan="2">
 
-                            @if ($group->chosenState()->abbreviation == 'NE')
-                                Hearings not found
+                            @if (!$group->chosenState())
+
+                                <i>Currently, hearings are only available for <strong>Nebraska</strong> on WatchLaws.org.</i>
+
+                            @elseif ($group->chosenState()->abbreviation == 'NE')
+
+                                Hearings not found.
+
                             @else
-                                <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org</i>
+
+                                <x-alert.warning>
+
+                                    <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org.</i>
+
+                                </x-alert.warning>
+
                             @endif
 
                         </x-table.cell>
