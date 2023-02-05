@@ -12,6 +12,7 @@ class HearingController extends Controller
     public function index(Group $group)
     {
         $historyItems = History::query()
+            ->perGroup($group)
             ->when($group->chosenState(), function (Builder $query) use ($group) {
                 $query->whereState($group->chosenState());
             })

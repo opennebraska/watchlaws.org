@@ -140,13 +140,19 @@
                     <x-table.row>
                         <x-table.cell colspan="3">
 
-                            @if ($group->chosenState()->abbreviation == 'NE')
-                                Hearings not found
+                            @if (!$group->chosenState())
+
+                                <i>Currently, hearings are only available for <strong>Nebraska</strong> on WatchLaws.org.</i>
+
+                            @elseif ($group->chosenState()->abbreviation == 'NE')
+
+                                Hearings not found.
+
                             @else
 
                                 <x-alert.warning>
 
-                                    <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org</i>
+                                    <i>Hearings for {{ $group->chosenState()->name }} are not available on WatchLaws.org.</i>
 
                                 </x-alert.warning>
 

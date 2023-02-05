@@ -19,6 +19,7 @@ class Topic extends Model
 
     protected $fillable = [
         'workspace_id',
+        'section_id',
         'name',
         'state_abbr',
         'description',

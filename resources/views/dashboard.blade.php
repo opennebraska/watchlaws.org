@@ -9,7 +9,7 @@
         <h2 class="mb-1 font-semibold">Groups</h2>
 
         <div>
-            @foreach ($user->groups as $group)
+            @foreach ($user->groups()->orderBy('name')->get() as $group)
 
                 <div class="mb-1">
                     <a href="{{ route('groups.show', $group) }}"
